@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "732185548513",
+    "firebase_url": "https://ucmq-prestaciones.firebaseio.com",
+    "project_id": "ucmq-prestaciones",
+    "storage_bucket": "ucmq-prestaciones.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732185548513:android:923d7e886826a6cb",
+        "android_client_info": {
+          "package_name": "com.unidadcoronaria.prestaciones"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732185548513-7bjnftp329pjd8ckur0ei0q3avj2ernp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unidadcoronaria.prestaciones",
+            "certificate_hash": "4ACC0A32FC07EC27128BC6B1CA0F0BFE9BABD989"
+          }
+        },
+        {
+          "client_id": "732185548513-t5kag5ivea4aihvdhrf5dv3u72cef9j9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732185548513-t5kag5ivea4aihvdhrf5dv3u72cef9j9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
