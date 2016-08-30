@@ -4,12 +4,11 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
-import com.globallogic.recepcionvirtual.R;
+import com.unidadcoronaria.prestaciones.R;
 
 
 /**
- * Created by Facundo Mengoni on 5/18/2015.
- * GlobalLogic | facundo.mengoni@globallogic.com
+ * Created by Agustin.Bala
  */
 public class NotificationHelper {
     private static int mNotificationId = 1;

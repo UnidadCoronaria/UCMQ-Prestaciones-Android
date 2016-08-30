@@ -3,23 +3,25 @@ package com.unidadcoronaria.prestaciones.app.presenter;
 import android.content.Context;
 import android.util.Log;
 
-import com.globallogic.recepcionvirtual.domain.usecase.ObtainGuestUseCase;
+import com.unidadcoronaria.domain.usecase.GetMedicalServiceListUseCase;
+
 
 /**
- * Created by agustina.zimbello on 19/08/2016.
+ * @author Agustin.Bala
+ * @since 0.0.1
  */
 public class ListPresenter {
-    private ObtainGuestUseCase obtainGuestUseCase;
+
+    private GetMedicalServiceListUseCase mGetMedicalServiceListUseCase;
     private Context context;
 
     public ListPresenter(Context context) {
-        obtainGuestUseCase = new ObtainGuestUseCase();
+        mGetMedicalServiceListUseCase = new GetMedicalServiceListUseCase();
         this.context = context;
     }
 
-    public void getGuest() {
-        obtainGuestUseCase.execute(context);
-        Log.d("onResume", "on resume");
+    public void getList() {
+        mGetMedicalServiceListUseCase.execute(context);
     }
 
 

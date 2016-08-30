@@ -2,9 +2,9 @@ package com.unidadcoronaria.prestaciones.app.presenter;
 
 import android.support.annotation.CallSuper;
 
-import com.globallogic.recepcionvirtual.app.View;
-import com.globallogic.recepcionvirtual.domain.model.GeneralUseCaseError;
-import com.globallogic.recepcionvirtual.util.BusProvider;
+import com.unidadcoronaria.domain.BusProvider;
+import com.unidadcoronaria.domain.usecase.GeneralUseCaseError;
+import com.unidadcoronaria.prestaciones.app.View;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

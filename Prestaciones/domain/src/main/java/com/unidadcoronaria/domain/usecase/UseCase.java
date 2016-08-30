@@ -3,8 +3,7 @@ package com.unidadcoronaria.domain.usecase;
 
 import android.content.Context;
 
-import com.globallogic.recepcionvirtual.domain.BusProvider;
-import com.globallogic.recepcionvirtual.domain.model.GeneralUseCaseError;
+import com.unidadcoronaria.domain.BusProvider;
 
 /**
  * @author Agustin.Bala
