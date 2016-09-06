@@ -9,15 +9,16 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
+import com.unidadcoronaria.prestaciones.data.entity.ResourceEntity;
+import com.unidadcoronaria.prestaciones.data.network.callback.ResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
+import com.unidadcoronaria.prestaciones.data.network.rest.MedicalServiceService;
+import com.unidadcoronaria.prestaciones.data.network.rest.ResourceService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -86,31 +87,14 @@ public class ApiClient {
 
     //region Public Implementation
 
-    public void get(final SuccessFailureCallBack<MedicalServiceEntity> callBack) {
-       /* retrofit.create(UserService.class).login(username, password, latitude, longitude, country_code).enqueue(new ResultEntityCallback<SessionEntity>(callBack, new Transformer<SessionEntity, User>() {
-            @Override
-            public User transform(SessionEntity entity) {
-                return new User.Builder(entity).build();
-            }
-        }));*/
+    public void getResource(final SuccessFailureCallBack<ResourceEntity> callback, String IMEI) {
+        retrofit.create(ResourceService.class).get(IMEI).enqueue(new ResultEntityCallback<ResourceEntity>(callback));
     }
 
 
-    public void getList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callBack) {
-      /*  retrofit.create(MatchService.class).getGameTypes().enqueue(new ResultEntityCallback<GameTypeListEntity>(callBack, new Transformer<GameTypeListEntity, List<GameType>>() {
-            @Override
-            public List<GameType> transform(GameTypeListEntity gameTypeListEntity) {
-                List<GameType> gameTypeList = new ArrayList<>();
-                for (GameTypeListEntity.GameTypeEntity gameTypeEntity : gameTypeListEntity.getEntities()) {
-                    gameTypeList.add(new GameType.Builder(gameTypeEntity).build());
-                }
-                return gameTypeList;
-            }
-        }));*/
+    public void getMedicalServiceList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callback, String IMEI) {
+        retrofit.create(MedicalServiceService.class).getList(IMEI).enqueue(new ResultEntityCallback<MedicalServiceEntity>(callback));
     }
 
-    public long getTimeZoneOffset() {
-        return TimeZone.getDefault().getRawOffset() / (60 * 60 * 1000);
-    }
     //endregion
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author Agustin.Bala
- * @since 3.0.0
+ * @since 0.0.1
  */
 public class GetMedicalServiceListUseCase extends UseCase<List<MedicalService>> {
     @Override

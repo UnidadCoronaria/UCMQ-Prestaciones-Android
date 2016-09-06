@@ -11,14 +11,12 @@ import retrofit.Retrofit;
 public class BaseCallback<E> implements Callback<E> {
 
     //region Properties
-    protected final Transformer mapper;
     protected SuccessFailureCallBack callBack;
     //endregion
 
     //region Constructor
-    public BaseCallback(SuccessFailureCallBack callBack, Transformer mapper) {
+    public BaseCallback(SuccessFailureCallBack callBack) {
         this.callBack = callBack;
-        this.mapper = mapper;
     }
     //endregion
 
@@ -43,7 +41,7 @@ public class BaseCallback<E> implements Callback<E> {
     //region Protected Implementation
     @SuppressWarnings("unchecked")
     protected void validateResponse(Response<E> response) {
-        callBack.onSuccess(mapper.transform(response.body()));
+        callBack.onSuccess(response.body());
     }
     //endregion
 }

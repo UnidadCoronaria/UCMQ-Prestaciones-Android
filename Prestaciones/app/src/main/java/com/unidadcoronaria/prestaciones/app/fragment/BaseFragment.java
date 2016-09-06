@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.unidadcoronaria.prestaciones.app.presenter.BasePresenter;
+
 import butterknife.ButterKnife;
 
 /**
@@ -24,11 +26,6 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //ButterKnife.unbind((Fragment)this);
-    }
     //endregion
 
 

@@ -3,6 +3,7 @@ package com.unidadcoronaria.prestaciones.app.activity;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
+    @Nullable
     Toolbar vToolbar;
 
     //region Lifecycle implementation
@@ -32,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayout());
         ButterKnife.bind(this);
         configureToolbar(savedInstanceState);
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && getFragment() != null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_base_fragment, getFragment()).commit();
         }

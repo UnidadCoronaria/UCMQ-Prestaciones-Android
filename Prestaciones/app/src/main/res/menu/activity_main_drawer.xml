@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:checked="true"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/main_drawer_medical_services" />
+        <item
+            android:id="@+id/nav_routes"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/main_drawer_start_watch" />
+        <item
+            android:id="@+id/nav_delivery_notes"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/main_drawer_messages" />
+    </group>
+</menu>

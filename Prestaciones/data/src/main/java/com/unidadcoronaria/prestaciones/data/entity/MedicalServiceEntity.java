@@ -1,58 +1,129 @@
 package com.unidadcoronaria.prestaciones.data.entity;
 
-public class MedicalServiceEntity extends BaseEntity {
+import java.util.Date;
 
-    private Long id;
-    private String name;
-    private Long time;
-    private String mode;
-    private Boolean attended;
+public class MedicalServiceEntity {
 
-    public MedicalServiceEntity(Long id, String name, Long time, String mode, Boolean attended) {
-        this.id = id;
-        this.name = name;
-        this.time = time;
-        this.mode = mode;
-        this.attended = attended;
-    }
 
-    public Long getId() {
-        return id;
-    }
+	private Integer medicalServiceId;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private Integer number;
 
-    public String getName() {
-        return name;
-    }
+	private Date date;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	private String telephone;
 
-    public Long getTime() {
-        return time;
-    }
+	private MedicalServiceAddressEntity medicalServiceAddress;
 
-    public void setTime(Long time) {
-        this.time = time;
-    }
+	private String name;
 
-    public String getMode() {
-        return mode;
-    }
+	private String sex;
 
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
+	private Integer age;
 
-    public Boolean getAttended() {
-        return attended;
-    }
+	private char copayment;
 
-    public void setAttended(Boolean attended) {
-        this.attended = attended;
-    }
+	private char copaymentPaid;
+
+	private String status;
+
+	public Integer getMedicalServiceId() {
+		return medicalServiceId;
+	}
+
+	public void setMedicalServiceId(Integer medicalServiceId) {
+		this.medicalServiceId = medicalServiceId;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public MedicalServiceAddressEntity getMedicalServiceAddress() {
+		return medicalServiceAddress;
+	}
+
+	public void setMedicalServiceAddress(MedicalServiceAddressEntity medicalServiceAddress) {
+		this.medicalServiceAddress = medicalServiceAddress;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public char getCopayment() {
+		return copayment;
+	}
+
+	public void setCopayment(char copayment) {
+		this.copayment = copayment;
+	}
+
+	public char getCopaymentPaid() {
+		return copaymentPaid;
+	}
+
+	public void setCopaymentPaid(char copaymentPaid) {
+		this.copaymentPaid = copaymentPaid;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public MedicalServiceEntity() {
+		super();
+	}
+
+	public MedicalServiceEntity(Integer medicalServiceId) {
+		super();
+		this.medicalServiceId = medicalServiceId;
+	}
+	
+	
 }
+

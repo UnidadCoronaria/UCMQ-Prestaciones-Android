@@ -1,13 +1,10 @@
 package com.unidadcoronaria.prestaciones.data.network.rest;
 
-import com.unidadcoronaria.prestaciones.data.network.response.MedicalServiceResponseEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
 
 import retrofit.Call;
 import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Query;
 
 /**
  * @author Agustin.Bala
@@ -15,11 +12,7 @@ import retrofit.http.Query;
  */
 public interface MedicalServiceService {
 
-    @GET("match")
-    Call<MedicalServiceResponseEntity> get(@Query("latitude") double latitude, @Query("longitude") double longitude);
-
-    @FormUrlEncoded
-    @POST("match")
-    Call<MedicalServiceResponseEntity> post(@Field("imei") int imei);
+    @GET("medicalService")
+    Call<MedicalServiceEntity> getList(@Field("imei") String imei);
 
 }

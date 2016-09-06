@@ -6,4 +6,8 @@
 
     <color name="progress_bar_background">#cacaca</color>
     <color name="progress_bar_fill">#3a608d</color>
+
+    <color name="item_background">#d3d3d3</color>
+    <color name="item_text">#888888</color>
+
 </resources>

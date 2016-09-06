@@ -5,4 +5,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="loading">Cargando...</string>
+
+    <!-- Drawer -->
+    <string name="main_drawer_medical_services">Prestaciones</string>
+    <string name="main_drawer_messages">Mensajes</string>
+    <string name="main_drawer_start_watch">Iniciar Guardia</string>
 </resources>
