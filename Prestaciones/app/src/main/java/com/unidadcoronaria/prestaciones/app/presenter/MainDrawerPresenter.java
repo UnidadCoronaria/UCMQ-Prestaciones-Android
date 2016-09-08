@@ -1,5 +1,6 @@
 package com.unidadcoronaria.prestaciones.app.presenter;
 
+import com.unidadcoronaria.domain.model.Resource;
 import com.unidadcoronaria.domain.usecase.GetResourceUseCase;
 import com.unidadcoronaria.prestaciones.app.MainDrawerView;
 
@@ -16,7 +17,8 @@ public class MainDrawerPresenter extends BasePresenter<MainDrawerView> {
     }
 
     public void getData(){
-        new GetResourceUseCase().execute(view.getActivity());
+        //new GetResourceUseCase().execute(view.getActivity());
+        view.onResourceRetrieved(new Resource());
     }
 
     @Subscribe

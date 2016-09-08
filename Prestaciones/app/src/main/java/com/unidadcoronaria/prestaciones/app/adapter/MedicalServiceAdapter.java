@@ -56,6 +56,12 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
         final MedicalService medicalService = mList.get(position);
         holder.vAddress.setText(medicalService.getMedicalServiceAddress().getStreet());
         holder.vSymptom.setText(medicalService.getName());
+        holder.vContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onMedicalServiceClick(medicalService);
+            }
+        });
     }
 
     @Override
@@ -80,9 +86,7 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
         @BindView(R.id.list_item_address)
         protected TextView vAddress;
 
-        @BindView(R.id.list_item_image)
-        protected ImageView vImage;
-
+    
         @BindView(R.id.list_item_symptom)
         protected TextView vSymptom;
 

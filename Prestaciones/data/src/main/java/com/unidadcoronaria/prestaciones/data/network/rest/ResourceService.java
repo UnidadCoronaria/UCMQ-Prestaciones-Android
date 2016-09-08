@@ -15,7 +15,7 @@ import retrofit.http.POST;
 public interface ResourceService {
 
     @GET("resource")
-    Call<ResourceEntity> get(@Field("imei") String imei);
+    Call<ResourceEntity> get();
 
     @FormUrlEncoded
     @POST("resource")

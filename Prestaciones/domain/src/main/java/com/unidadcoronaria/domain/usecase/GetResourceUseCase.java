@@ -19,7 +19,7 @@ public class GetResourceUseCase extends UseCase<Resource> {
 
     @Override
     public void execute(Context aContext) {
-       /* ApiClient.getInstance().getResource(new SuccessFailureCallBack<ResourceEntity>() {
+        ApiClient.getInstance().getResource(new SuccessFailureCallBack<ResourceEntity>() {
             @Override
             public void onSuccess(ResourceEntity object) {
                 BusProvider.getDefaultBus().post(new SuccessResponse(transformer.transform(object)));
@@ -29,8 +29,7 @@ public class GetResourceUseCase extends UseCase<Resource> {
             public void onFailure(String message) {
                 GetResourceUseCase.super.onFailure(message);
             }
-        } ,"");*/
-        BusProvider.getDefaultBus().post(new SuccessResponse(transformer.transform(new ResourceEntity())));
+        });
     }
 
     //region Inner Classes

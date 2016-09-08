@@ -14,7 +14,5 @@ public interface View {
 
     void hideLoading();
 
-    void finish();
-
     Activity getActivity();
 }

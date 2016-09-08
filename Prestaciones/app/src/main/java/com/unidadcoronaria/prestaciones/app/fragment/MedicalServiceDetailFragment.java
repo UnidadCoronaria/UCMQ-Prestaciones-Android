@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * @author Agustin.Bala
  * @since  0.0.1
  */
-public class SplashFragment extends BaseFragment implements SplashView{
+public class MedicalServiceDetailFragment extends BaseFragment implements SplashView{
 
 
     //region Variables
@@ -30,7 +30,7 @@ public class SplashFragment extends BaseFragment implements SplashView{
 
     //region Constructors implementations
     public static BaseFragment newInstance() {
-        return new SplashFragment();
+        return new MedicalServiceDetailFragment();
     }
     //endregion
 

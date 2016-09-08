@@ -1,10 +1,9 @@
 package com.unidadcoronaria.prestaciones.app.presenter;
 
 import android.os.CountDownTimer;
-import android.support.v4.app.Fragment;
 
 import com.unidadcoronaria.prestaciones.app.SplashView;
-import com.unidadcoronaria.prestaciones.app.activity.ListMedicalServiceActivity;
+import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceListActivity;
 
 /**
  * @author Agustin.Bala
@@ -33,7 +32,7 @@ public class SplashPresenter extends BasePresenter<SplashView>{
             @Override
             public void onFinish() {
                 total = 0;
-                view.getActivity().startActivity(ListMedicalServiceActivity.getStartIntent(view.getActivity()));
+                view.getActivity().startActivity(MedicalServiceListActivity.getStartIntent(view.getActivity()));
                 view.getActivity().finish();
             }
         }.start();

@@ -10,50 +10,36 @@ import android.support.v4.view.ViewPager;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.adapter.ListMedicalServiceTabAdapter;
 import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
+import com.unidadcoronaria.prestaciones.app.fragment.MedicalServiceDetailFragment;
 
-public class ListMedicalServiceActivity extends BaseDrawerActivity {
+public class MedicalServiceDetailActivity extends BaseDrawerActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ListMedicalServiceTabAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPagerAdapter = new ListMedicalServiceTabAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                tabLayout.setupWithViewPager(viewPager);
-            }
-        });
     }
 
     @Override
-    protected @LayoutRes int getLayout() {
-        return R.layout.activity_list_medical_service;
+    protected int getLayout() {
+        return R.layout.activity_base;
     }
 
     @Override
     protected BaseFragment getFragment() {
-        // Not implemented
-        return null;
+        return MedicalServiceDetailFragment.newInstance();
     }
-
 
     @Override
     protected int getHeaderView() {
-        return R.layout.activity_main_drawer_header;
+        return 0;
     }
 
     @Override
     protected int getDrawerMenu() {
-        return R.menu.activity_main_drawer;
+        return 0;
     }
+
 
     @Override
     public void onResume() {
@@ -61,7 +47,7 @@ public class ListMedicalServiceActivity extends BaseDrawerActivity {
     }
 
     public static Intent getStartIntent(Context context){
-        return new Intent(context, ListMedicalServiceActivity.class);
+        return new Intent(context, MedicalServiceDetailActivity.class);
     }
 
     protected boolean showDisplayHomeAsUpEnabled() {

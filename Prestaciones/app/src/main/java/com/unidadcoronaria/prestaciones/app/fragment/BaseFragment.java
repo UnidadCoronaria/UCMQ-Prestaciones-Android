@@ -1,13 +1,16 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.presenter.BasePresenter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -15,6 +18,10 @@ import butterknife.ButterKnife;
  * @since 0.0.1
  */
 public abstract class BaseFragment extends Fragment {
+
+    @BindView(R.id.rl_progress)
+    @Nullable
+    View vProgress;
 
     //region Fragment Implementation
     @Override

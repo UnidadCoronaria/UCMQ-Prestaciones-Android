@@ -100,8 +100,8 @@ public abstract class BaseDrawerActivity extends BaseActivity implements Navigat
 
     protected void setupHeader(View header) {
         vHeader = header;
-        //vResourceName = (TextView) header.findViewById(R.id.activity_main_drawer_header_name);
-        //vResourcePerson = (TextView) header.findViewById(R.id.activity_main_drawer_header_mail);
+        vResourceName = (TextView) header.findViewById(R.id.activity_main_drawer_header_resource_name);
+        vResourcePerson = (TextView) header.findViewById(R.id.activity_main_drawer_header_resource_person);
     }
 
     //endregion

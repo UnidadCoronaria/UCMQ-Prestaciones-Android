@@ -12,7 +12,10 @@ import retrofit.http.GET;
  */
 public interface MedicalServiceService {
 
-    @GET("medicalService")
-    Call<MedicalServiceEntity> getList(@Field("imei") String imei);
+    @GET("medicalService/pending")
+    Call<MedicalServiceEntity> getPendingList();
+
+    @GET("medicalService/attended")
+    Call<MedicalServiceEntity> getAttendedList();
 
 }

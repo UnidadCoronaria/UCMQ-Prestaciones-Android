@@ -21,8 +21,10 @@
         </activity>
 
         <activity
-            android:name=".app.activity.ListMedicalServiceActivity" android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".app.activity.MedicalServiceListActivity" android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+            android:name=".app.activity.MedicalServiceDetailActivity" android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"

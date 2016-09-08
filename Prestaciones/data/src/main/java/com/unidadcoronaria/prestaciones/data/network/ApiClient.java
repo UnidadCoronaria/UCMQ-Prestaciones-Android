@@ -87,13 +87,17 @@ public class ApiClient {
 
     //region Public Implementation
 
-    public void getResource(final SuccessFailureCallBack<ResourceEntity> callback, String IMEI) {
-        retrofit.create(ResourceService.class).get(IMEI).enqueue(new ResultEntityCallback<ResourceEntity>(callback));
+    public void getResource(final SuccessFailureCallBack<ResourceEntity> callback) {
+        retrofit.create(ResourceService.class).get().enqueue(new ResultEntityCallback<ResourceEntity>(callback));
     }
 
 
-    public void getMedicalServiceList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callback, String IMEI) {
-        retrofit.create(MedicalServiceService.class).getList(IMEI).enqueue(new ResultEntityCallback<MedicalServiceEntity>(callback));
+    public void getMedicalServiceAttendedList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callback) {
+        retrofit.create(MedicalServiceService.class).getAttendedList().enqueue(new ResultEntityCallback<MedicalServiceEntity>(callback));
+    }
+
+    public void getMedicalServicePendingList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callback) {
+        retrofit.create(MedicalServiceService.class).getPendingList().enqueue(new ResultEntityCallback<MedicalServiceEntity>(callback));
     }
 
     //endregion
