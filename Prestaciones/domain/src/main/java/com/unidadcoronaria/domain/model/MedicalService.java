@@ -1,8 +1,9 @@
 package com.unidadcoronaria.domain.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MedicalService {
+public class MedicalService implements Serializable {
 	
 
 	private Integer medicalServiceId;
@@ -26,6 +27,22 @@ public class MedicalService {
 	private char copaymentPaid;
 	
 	private String status;
+
+	private String observations;
+
+	private String symptom;
+
+	public MedicalService() {
+	}
+
+	public MedicalService(MedicalServiceAddress medicalServiceAddress, String name, String sex, Integer age, String observations, String symptom) {
+		this.medicalServiceAddress = medicalServiceAddress;
+		this.name = name;
+		this.sex = sex;
+		this.age = age;
+		this.observations = observations;
+		this.symptom = symptom;
+	}
 
 	public Integer getMedicalServiceId() {
 		return medicalServiceId;
@@ -114,16 +131,21 @@ public class MedicalService {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	public MedicalService() {
-		super();
+
+	public String getObservations() {
+		return observations;
 	}
 
-	public MedicalService(Integer medicalServiceId) {
-		super();
-		this.medicalServiceId = medicalServiceId;
+	public void setObservations(String observations) {
+		this.observations = observations;
 	}
-	
-	
+
+	public String getSymptom() {
+		return symptom;
+	}
+
+	public void setSymptom(String symptom) {
+		this.symptom = symptom;
+	}
 }
 

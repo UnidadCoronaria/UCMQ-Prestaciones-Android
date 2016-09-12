@@ -10,4 +10,11 @@
     <string name="main_drawer_medical_services">Prestaciones</string>
     <string name="main_drawer_messages">Mensajes</string>
     <string name="main_drawer_start_watch">Iniciar Guardia</string>
+
+    <!-- Medical Service Detail -->
+    <string name="medical_service_detail_info">%1$s, %2$s años</string>
+    <string name="notice">Aviso</string>
+    <string name="need_gps_permission_message">Debe otorgar permisos de localicación para ver la distancia al domicilio de la prestación.</string>
+    <string name="button_close">CERRAR</string>
+    <string name="button_in_address">EN DOMICILIO</string>
 </resources>

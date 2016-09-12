@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.unidadcoronaria.domain.model.Resource;
@@ -133,6 +134,17 @@ public abstract class BaseDrawerActivity extends BaseActivity implements Navigat
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_medical_services:
+                presenter.openMedicalServices();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

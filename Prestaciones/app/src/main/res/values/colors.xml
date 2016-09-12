@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ef7165</color>
-    <color name="colorPrimaryDark">#e94c3d</color>
-    <color name="colorAccent">#3a608d</color>
+    <color name="colorPrimary">#e94c3d</color>
+    <color name="colorPrimaryDark">@android:color/black</color>
+    <color name="colorAccent">@android:color/black</color>
 
     <color name="progress_bar_background">#cacaca</color>
     <color name="progress_bar_fill">#3a608d</color>
 
+    <color name="button_background">#3a608d</color>
+
     <color name="item_background">#f6f6f6</color>
+    <color name="item_background_pressed">#c6c4c4</color>
     <color name="item_text">#888888</color>
 
 </resources>

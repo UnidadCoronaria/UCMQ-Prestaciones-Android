@@ -3,6 +3,7 @@ package com.unidadcoronaria.prestaciones.app.presenter;
 import com.unidadcoronaria.domain.model.Resource;
 import com.unidadcoronaria.domain.usecase.GetResourceUseCase;
 import com.unidadcoronaria.prestaciones.app.MainDrawerView;
+import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceListActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -24,6 +25,11 @@ public class MainDrawerPresenter extends BasePresenter<MainDrawerView> {
     @Subscribe
     public void onResourceRetrieved(GetResourceUseCase.SuccessResponse response) {
         view.onResourceRetrieved(response.getResource());
+    }
+
+    public void openMedicalServices(){
+        view.getActivity().startActivity(MedicalServiceListActivity.getStartIntent(view.getActivity()));
+        view.getActivity().finish();
     }
 
 }

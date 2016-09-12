@@ -10,7 +10,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:padding="20dp"
-        android:background="@color/item_background"
+        android:background="@drawable/item_medical_service_selector"
+        android:addStatesFromChildren="true"
         android:layout_height="wrap_content">
 
         <TextView

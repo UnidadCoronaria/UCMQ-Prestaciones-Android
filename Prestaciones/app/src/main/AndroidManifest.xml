@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unidadcoronaria.prestaciones">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,10 +28,17 @@
         <activity
             android:name=".app.activity.MedicalServiceDetailActivity" android:theme="@style/AppTheme.NoActionBar"/>
 
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7ce6b3e82c1debf66fc206edef2253fa3cd6fb16" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCacBQt1puLPKJTWRhYFpl9KT167xg148E"/>
     </application>
+
+
 
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

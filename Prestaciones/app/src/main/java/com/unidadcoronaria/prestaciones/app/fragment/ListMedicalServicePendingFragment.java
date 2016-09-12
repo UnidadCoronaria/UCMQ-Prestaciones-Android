@@ -1,5 +1,6 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,9 +14,11 @@ import com.unidadcoronaria.domain.model.MedicalService;
 import com.unidadcoronaria.domain.model.MedicalServiceAddress;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
+import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceDetailActivity;
 import com.unidadcoronaria.prestaciones.app.adapter.MedicalServiceAdapter;
 import com.unidadcoronaria.prestaciones.app.presenter.ListMedicalServicePendingPresenter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +85,11 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
 
     @Override
     public void onMedicalServiceClick(MedicalService medicalService) {
-        Toast.makeText(getActivity(), "Seleccionaste "+medicalService.getMedicalServiceAddress().getStreet(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this.getActivity(), MedicalServiceDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("medicalService", medicalService);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

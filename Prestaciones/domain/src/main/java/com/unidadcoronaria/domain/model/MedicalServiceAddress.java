@@ -1,6 +1,8 @@
 package com.unidadcoronaria.domain.model;
 
-public class MedicalServiceAddress {
+import java.io.Serializable;
+
+public class MedicalServiceAddress implements Serializable{
 	
 	private Integer medicalServiceAddressId;
 	private String street;

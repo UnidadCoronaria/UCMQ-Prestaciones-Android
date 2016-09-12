@@ -56,6 +56,18 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
         final MedicalService medicalService = mList.get(position);
         holder.vAddress.setText(medicalService.getMedicalServiceAddress().getStreet());
         holder.vSymptom.setText(medicalService.getName());
+        holder.vAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onMedicalServiceClick(medicalService);
+            }
+        });
+        holder.vSymptom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onMedicalServiceClick(medicalService);
+            }
+        });
         holder.vContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
