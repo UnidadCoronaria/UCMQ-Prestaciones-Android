@@ -2,6 +2,8 @@ package com.unidadcoronaria.prestaciones.data.network.rest;
 
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
 
+import java.util.List;
+
 import retrofit.Call;
 import retrofit.http.Field;
 import retrofit.http.GET;
@@ -13,9 +15,9 @@ import retrofit.http.GET;
 public interface MedicalServiceService {
 
     @GET("medicalService/pending")
-    Call<MedicalServiceEntity> getPendingList();
+    Call<List<MedicalServiceEntity>> getPendingList();
 
     @GET("medicalService/attended")
-    Call<MedicalServiceEntity> getAttendedList();
+    Call<List<MedicalServiceEntity>> getAttendedList();
 
 }

@@ -3,6 +3,7 @@ package com.unidadcoronaria.domain.model;
 import java.io.Serializable;
 import java.util.Date;
 
+//TODO Implements Parcelable
 public class MedicalService implements Serializable {
 	
 

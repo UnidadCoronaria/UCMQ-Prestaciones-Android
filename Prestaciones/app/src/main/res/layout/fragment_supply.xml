@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    >
+
+    <RelativeLayout
+        android:id="@+id/fragment_supply_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/fragment_supply_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/item_text"
+            android:layout_alignParentTop="true"
+            android:gravity="left"
+            android:textSize="18dp"
+            android:text="@string/supply"
+            android:layout_marginBottom="20dp"/>
+
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/fragment_supply_autocomplete"
+            android:layout_below="@+id/fragment_supply_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/item_text"
+            android:gravity="left"
+            android:textSize="18dp"
+            android:layout_marginBottom="20dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/fragment_supply_autocomplete"
+            android:layout_above="@+id/fragment_supply_button_container"
+            android:id="@+id/fragment_supply_list"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <LinearLayout
+            android:id="@+id/fragment_supply_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/fragment_supply_accept_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape"
+                android:padding="10dp"
+                android:text="@string/button_accept"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/fragment_supply_cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape"
+                android:padding="10dp"
+                android:text="@string/button_close"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include layout="@layout/view_progress" />
+
+</LinearLayout>

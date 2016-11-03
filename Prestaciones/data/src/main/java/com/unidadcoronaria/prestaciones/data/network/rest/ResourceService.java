@@ -7,6 +7,7 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Query;
 
 /**
  * @author Agustin.Bala
@@ -16,9 +17,5 @@ public interface ResourceService {
 
     @GET("resource")
     Call<ResourceEntity> get();
-
-    @FormUrlEncoded
-    @POST("resource")
-    Call<ResourceEntity> post(@Field("imei") String imei);
 
 }

@@ -31,15 +31,7 @@ public class ListMedicalServicePendingPresenter extends BasePresenter<ListMedica
 
     public void getList() {
         view.showLoading();
-        //mGetMedicalServicePendingListUseCase.execute(context);
-        MedicalServiceAddress msa1 = new MedicalServiceAddress();
-        msa1.setStreet("Avellaneda 151 - Solano");
-        MedicalService ms1 =  new MedicalService(msa1, "Marta Sanchez","Femenino", 20,"No tiene timbre", "Dolores de cabeza");
-        MedicalServiceAddress msa2 = new MedicalServiceAddress();
-        msa2.setStreet("Sarmiento 414 - Quilmes");
-        MedicalService ms2 =  new MedicalService(msa2, "Pedro Rodrigueza", "Masculino", 51, "Cuidado con el perro que es malo y te puede morder", "Artritis, dolor de cabeza, mareos");
-        view.onListRetrieved(Arrays.asList(ms1,ms2));
-        view.hideLoading();
+        mGetMedicalServicePendingListUseCase.execute(context);
     }
 
     @Subscribe

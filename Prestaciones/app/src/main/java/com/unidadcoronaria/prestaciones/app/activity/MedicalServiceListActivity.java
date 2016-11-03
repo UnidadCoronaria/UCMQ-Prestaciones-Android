@@ -40,7 +40,6 @@ public class MedicalServiceListActivity extends BaseDrawerActivity {
 
     @Override
     protected BaseFragment getFragment() {
-        // Not implemented
         return null;
     }
 
@@ -53,11 +52,6 @@ public class MedicalServiceListActivity extends BaseDrawerActivity {
     @Override
     protected int getDrawerMenu() {
         return R.menu.activity_main_drawer;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     public static Intent getStartIntent(Context context){

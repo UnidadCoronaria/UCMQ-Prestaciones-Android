@@ -111,14 +111,23 @@ public abstract class BaseDrawerActivity extends BaseActivity implements Navigat
     protected abstract @MenuRes int getDrawerMenu();
 
     @Override
-    public void onResourceRetrieved(Resource resource) {
-        vResourceName.setText("Movil 51");
-        vResourcePerson.setText("Rolando Gomez");
+    public void onResourceRetrieved(String resourceName, String companyName) {
+        vResourceName.setText(resourceName);
+        vResourcePerson.setText(companyName);
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        return false;
+        switch (item.getItemId()) {
+            case R.id.nav_medical_services:
+                presenter.openMedicalServices();
+                return true;
+            case R.id.nav_start_watch:
+                presenter.openInitWatch();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -134,17 +143,6 @@ public abstract class BaseDrawerActivity extends BaseActivity implements Navigat
     @Override
     public void hideLoading() {
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_medical_services:
-                presenter.openMedicalServices();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override

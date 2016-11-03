@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.unidadcoronaria.domain.model.MedicalService;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.SplashView;
+import com.unidadcoronaria.prestaciones.app.activity.SupplyActivity;
 import com.unidadcoronaria.prestaciones.app.presenter.SplashPresenter;
 import com.unidadcoronaria.prestaciones.util.location.LocationService;
 
@@ -33,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -54,6 +57,8 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     TextView vSymptom;
     @BindView(R.id.fragment_medical_detail_observations)
     TextView vObservations;
+    @BindView(R.id.fragment_medical_detail_cancel_button)
+    Button vCancel;
 
     private GoogleMap mGoogleMap;
     private Marker mDefaultMarker;
@@ -71,7 +76,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
-        medicalService = (MedicalService) getActivity().getIntent().getSerializableExtra("medicalService");
+        medicalService = (MedicalService) getActivity().getIntent().getSerializableExtra(ListMedicalServicePendingFragment.MEDICAL_SERVICE_KEY);
         initView();
         return view;
     }
@@ -93,6 +98,10 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         return R.layout.fragment_detail_medical_service;
     }
 
+    @OnClick(R.id.fragment_medical_detail_cancel_button)
+    protected void onCancelClick(View view){
+        startActivity(SupplyActivity.getStartIntent(getContext()));
+    }
 
     private void initView() {
         vInfo.setText(getString(R.string.medical_service_detail_info, medicalService.getSex(), medicalService.getAge()));

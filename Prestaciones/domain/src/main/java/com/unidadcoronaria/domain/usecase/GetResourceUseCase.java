@@ -1,3 +1,4 @@
+
 package com.unidadcoronaria.domain.usecase;
 
 import android.content.Context;

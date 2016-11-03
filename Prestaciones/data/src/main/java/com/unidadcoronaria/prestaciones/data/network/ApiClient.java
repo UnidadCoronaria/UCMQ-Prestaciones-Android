@@ -10,10 +10,14 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
 import com.unidadcoronaria.prestaciones.data.entity.ResourceEntity;
+import com.unidadcoronaria.prestaciones.data.entity.SupplyEntity;
+import com.unidadcoronaria.prestaciones.data.entity.WatchEntity;
 import com.unidadcoronaria.prestaciones.data.network.callback.ResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
 import com.unidadcoronaria.prestaciones.data.network.rest.MedicalServiceService;
 import com.unidadcoronaria.prestaciones.data.network.rest.ResourceService;
+import com.unidadcoronaria.prestaciones.data.network.rest.SupplyService;
+import com.unidadcoronaria.prestaciones.data.network.rest.WatchService;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +34,7 @@ public class ApiClient {
 
     //region Properties
     private static final ApiClient INSTANCE = new ApiClient();
-    private static final String BASE_URL = "";
+    private static final String BASE_URL = "http://private-da46b-unidadcoronaria.apiary-mock.com";
     private final Retrofit retrofit;
     //endregion
 
@@ -46,21 +50,11 @@ public class ApiClient {
             @Override
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
                 try {
-                    Request request = chain.request();
-
-                    long t1 = System.nanoTime();
-                    Log.d(getClass().getSimpleName(), String.format("Sending request %s on %s%n%s", request.url(), chain.connection(), request.headers()));
-
-                    // TODO use IMEI
                     Request newRequest = chain.request().newBuilder()
                             .header("Authorization", "Bearer " + "IMEI")
                             .build();
 
                     final Response response = chain.proceed(newRequest);
-
-                    long t2 = System.nanoTime();
-                    Log.d(getClass().getSimpleName(), String.format("Received response for %s in %.1fms%n%s", response.request().url(), (t2 - t1) / 1e6d, response.headers()));
-
                     return response;
                 } catch (Exception e) {
                     if (e.getMessage() != null) {
@@ -91,14 +85,20 @@ public class ApiClient {
         retrofit.create(ResourceService.class).get().enqueue(new ResultEntityCallback<ResourceEntity>(callback));
     }
 
-
     public void getMedicalServiceAttendedList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callback) {
-        retrofit.create(MedicalServiceService.class).getAttendedList().enqueue(new ResultEntityCallback<MedicalServiceEntity>(callback));
+        retrofit.create(MedicalServiceService.class).getAttendedList().enqueue(new ResultEntityCallback<List<MedicalServiceEntity>>(callback));
     }
 
     public void getMedicalServicePendingList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callback) {
-        retrofit.create(MedicalServiceService.class).getPendingList().enqueue(new ResultEntityCallback<MedicalServiceEntity>(callback));
+        retrofit.create(MedicalServiceService.class).getPendingList().enqueue(new ResultEntityCallback<List<MedicalServiceEntity>>(callback));
     }
 
+    public void getSupply(final SuccessFailureCallBack<List<SupplyEntity>> callback) {
+        retrofit.create(SupplyService.class).get().enqueue(new ResultEntityCallback<List<SupplyEntity>>(callback));
+    }
+
+    public void initWatch(final SuccessFailureCallBack<WatchEntity> callback) {
+        retrofit.create(WatchService.class).post().enqueue(new ResultEntityCallback<WatchEntity>(callback));
+    }
     //endregion
 }

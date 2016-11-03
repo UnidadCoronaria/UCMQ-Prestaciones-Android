@@ -5,22 +5,24 @@
     android:orientation="vertical"
     >
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
+
+        />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:scrollbars="none"
         android:fillViewport="true">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/map"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_alignParentTop="true"
-                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,7 +33,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:id="@+id/fragment_medical_detail_address_container"
-                android:layout_below="@+id/map"
+                android:layout_alignParentTop="true"
                 android:layout_marginTop="15dp">
 
                 <ImageView
@@ -189,6 +191,7 @@
                     android:textColor="@android:color/white" />
 
                 <Button
+                    android:id="@+id/fragment_medical_detail_cancel_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"

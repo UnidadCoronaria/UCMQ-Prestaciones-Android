@@ -8,8 +8,11 @@ import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
 import com.unidadcoronaria.prestaciones.data.entity.ResourceEntity;
 import com.unidadcoronaria.prestaciones.data.network.callback.Transformer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,12 +40,18 @@ public class MedicalServiceTransformer implements Transformer<MedicalServiceEnti
         medicalService.setAge(object.getAge());
         medicalService.setCopayment(object.getCopayment());
         medicalService.setCopaymentPaid(object.getCopaymentPaid());
-        medicalService.setDate(object.getDate());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+        try {
+            medicalService.setDate(sdf.parse(object.getDate()));
+        } catch (ParseException e) {
+        }
         medicalService.setMedicalServiceId(object.getMedicalServiceId());
         medicalService.setNumber(object.getNumber());
         medicalService.setSex(object.getSex());
         medicalService.setStatus(object.getStatus());
         medicalService.setTelephone(object.getTelephone());
+        medicalService.setObservations(object.getObservations());
+        medicalService.setSymptom(object.getSymptom());
         return medicalService;
     }
 }

@@ -9,7 +9,7 @@ public class MedicalServiceEntity {
 
 	private Integer number;
 
-	private Date date;
+	private String date;
 
 	private String telephone;
 
@@ -27,6 +27,10 @@ public class MedicalServiceEntity {
 
 	private String status;
 
+	private String observations;
+
+	private String symptom;
+
 	public Integer getMedicalServiceId() {
 		return medicalServiceId;
 	}
@@ -43,11 +47,11 @@ public class MedicalServiceEntity {
 		this.number = number;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -123,7 +127,21 @@ public class MedicalServiceEntity {
 		super();
 		this.medicalServiceId = medicalServiceId;
 	}
-	
-	
+
+	public String getObservations() {
+		return observations;
+	}
+
+	public void setObservations(String observations) {
+		this.observations = observations;
+	}
+
+	public String getSymptom() {
+		return symptom;
+	}
+
+	public void setSymptom(String symptom) {
+		this.symptom = symptom;
+	}
 }
 

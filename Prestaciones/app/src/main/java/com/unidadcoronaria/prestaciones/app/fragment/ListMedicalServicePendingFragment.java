@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.unidadcoronaria.domain.model.MedicalService;
 import com.unidadcoronaria.domain.model.MedicalServiceAddress;
+import com.unidadcoronaria.domain.model.Supply;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
 import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceDetailActivity;
@@ -25,8 +26,12 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class ListMedicalServicePendingFragment extends BaseFragment implements MedicalServiceAdapter.Callback, ListMedicalServiceView {
+
+    static final String MEDICAL_SERVICE_KEY = "medicalService";
 
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeContainer;
@@ -87,7 +92,7 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
     public void onMedicalServiceClick(MedicalService medicalService) {
         Intent intent = new Intent(this.getActivity(), MedicalServiceDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("medicalService", medicalService);
+        bundle.putSerializable(MEDICAL_SERVICE_KEY , medicalService);
         intent.putExtras(bundle);
         startActivity(intent);
     }
