@@ -1,5 +1,9 @@
 package com.unidadcoronaria.prestaciones.data.entity;
 
+import com.unidadcoronaria.prestaciones.data.entity.directions.ResourceEntity;
+
+import java.util.List;
+
 /**
  * @author Agustin.Bala
  * @since 0.0.1
@@ -8,9 +12,8 @@ package com.unidadcoronaria.prestaciones.data.entity;
 public class WatchEntity extends BaseEntity {
 
     private ResourceEntity resource;
-    private Boolean clean;
-    private Boolean caseComplete;
-    private Boolean oxygenFull;
+    private List<WatchItemEntity> itemList;
+    private String note;
 
     public ResourceEntity getResource() {
         return resource;
@@ -20,27 +23,19 @@ public class WatchEntity extends BaseEntity {
         this.resource = resource;
     }
 
-    public Boolean getClean() {
-        return clean;
+    public List<WatchItemEntity> getItemList() {
+        return itemList;
     }
 
-    public void setClean(Boolean clean) {
-        this.clean = clean;
+    public void setItemList(List<WatchItemEntity> itemList) {
+        this.itemList = itemList;
     }
 
-    public Boolean getCaseComplete() {
-        return caseComplete;
+    public String getNote() {
+        return note;
     }
 
-    public void setCaseComplete(Boolean caseComplete) {
-        this.caseComplete = caseComplete;
-    }
-
-    public Boolean getOxygenFull() {
-        return oxygenFull;
-    }
-
-    public void setOxygenFull(Boolean oxygenFull) {
-        this.oxygenFull = oxygenFull;
+    public void setNote(String note) {
+        this.note = note;
     }
 }

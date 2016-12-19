@@ -3,11 +3,8 @@ package com.unidadcoronaria.domain.usecase;
 import android.content.Context;
 
 import com.unidadcoronaria.domain.BusProvider;
-import com.unidadcoronaria.domain.model.Resource;
 import com.unidadcoronaria.domain.model.Supply;
-import com.unidadcoronaria.domain.transformer.ResourceTransformer;
 import com.unidadcoronaria.domain.transformer.SupplyTransformer;
-import com.unidadcoronaria.prestaciones.data.entity.ResourceEntity;
 import com.unidadcoronaria.prestaciones.data.entity.SupplyEntity;
 import com.unidadcoronaria.prestaciones.data.network.ApiClient;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;

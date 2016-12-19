@@ -7,4 +7,8 @@ package com.unidadcoronaria.prestaciones.app;
 public interface SplashView extends View {
 
     void onProgressUpdate(Integer progress);
+
+    void showGooglePlayServicesError();
+
+    void showGooglePlayServicesDialog(int codeError);
 }

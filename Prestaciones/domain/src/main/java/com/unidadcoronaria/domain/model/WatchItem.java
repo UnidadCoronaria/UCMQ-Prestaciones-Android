@@ -8,12 +8,8 @@ package com.unidadcoronaria.domain.model;
 public class WatchItem extends BaseModel{
 
     private String name;
-    private Boolean state;
+    private Boolean status;
     private String note;
-
-    public WatchItem(String name) {
-        this.name = name;
-    }
 
     public String getName() {
         return name;
@@ -23,12 +19,12 @@ public class WatchItem extends BaseModel{
         this.name = name;
     }
 
-    public Boolean getState() {
-        return state;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setState(Boolean state) {
-        this.state = state;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     public String getNote() {

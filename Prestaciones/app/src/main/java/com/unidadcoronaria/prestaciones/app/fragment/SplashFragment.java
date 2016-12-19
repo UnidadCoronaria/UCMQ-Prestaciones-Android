@@ -1,11 +1,14 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.SplashView;
 import com.unidadcoronaria.prestaciones.app.presenter.SplashPresenter;
@@ -22,6 +25,8 @@ public class SplashFragment extends BaseFragment implements SplashView{
 
 
     //region Variables
+    private static final Integer REQUEST_GOOGLE_PLAY_SERVICES = 1;
+
     @BindView(R.id.progress_bar_splash)
     protected ProgressBar progressBarSplash;
 
@@ -53,6 +58,23 @@ public class SplashFragment extends BaseFragment implements SplashView{
     @Override
     public void onProgressUpdate(Integer progress) {
         progressBarSplash.setProgress(progress);
+    }
+
+    @Override
+    public void showGooglePlayServicesError() {
+        Toast.makeText(getActivity(),
+                "Se requiere Google Play Services para usar la app", Toast.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public void showGooglePlayServicesDialog(int codeError) {
+        Dialog dialog = GoogleApiAvailability.getInstance()
+                .getErrorDialog(
+                        getActivity(),
+                        codeError,
+                        REQUEST_GOOGLE_PLAY_SERVICES);
+        dialog.show();
     }
 
     @Override

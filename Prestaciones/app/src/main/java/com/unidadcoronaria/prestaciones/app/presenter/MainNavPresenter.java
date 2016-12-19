@@ -3,8 +3,10 @@ package com.unidadcoronaria.prestaciones.app.presenter;
 import com.unidadcoronaria.domain.usecase.GetResourceUseCase;
 import com.unidadcoronaria.prestaciones.App;
 import com.unidadcoronaria.prestaciones.app.MainDrawerView;
-import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceListActivity;
-import com.unidadcoronaria.prestaciones.app.activity.WatchActivity;
+import com.unidadcoronaria.prestaciones.app.activity.MainActivity;
+import com.unidadcoronaria.prestaciones.app.fragment.MedicalServiceListFragment;
+import com.unidadcoronaria.prestaciones.app.fragment.MessageFragment;
+import com.unidadcoronaria.prestaciones.app.fragment.WatchFragment;
 import com.unidadcoronaria.prestaciones.util.SharedPreferencesHelper;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -13,12 +15,12 @@ import org.greenrobot.eventbus.Subscribe;
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public class MainDrawerPresenter extends BasePresenter<MainDrawerView> {
+public class MainNavPresenter extends BasePresenter<MainDrawerView> {
 
     private static final String KEY_RESOURCE_NAME = "KEY_RESOURCE_NAME";
     private static final String KEY_RESOURCE_COMPANY_NAME = "KEY_RESOURCE_COMPANY_NAME";
 
-    public MainDrawerPresenter(MainDrawerView view) {
+    public MainNavPresenter(MainDrawerView view) {
         super(view);
     }
 
@@ -38,13 +40,14 @@ public class MainDrawerPresenter extends BasePresenter<MainDrawerView> {
     }
 
     public void openMedicalServices() {
-        view.getActivity().startActivity(MedicalServiceListActivity.getStartIntent(view.getActivity()));
-        view.getActivity().finish();
+        view.showFragment(MedicalServiceListFragment.newInstance());
     }
 
     public void openInitWatch(){
-        view.getActivity().startActivity(WatchActivity.getStartIntent(view.getActivity()));
-        view.getActivity().finish();
+        view.showFragment(WatchFragment.newInstance());
     }
 
+    public void openMessages(){
+        view.showFragment(MessageFragment.newInstance());
+    }
 }

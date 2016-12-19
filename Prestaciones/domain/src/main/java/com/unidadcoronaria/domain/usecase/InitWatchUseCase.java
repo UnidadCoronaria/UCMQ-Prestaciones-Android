@@ -18,10 +18,11 @@ import java.util.List;
 public class InitWatchUseCase extends UseCase<Watch> {
 
     private final WatchTransformer transformer = new WatchTransformer();
+    private Watch watch;
 
     @Override
     public void execute(Context aContext) {
-        ApiClient.getInstance().initWatch(new SuccessFailureCallBack<WatchEntity>() {
+        ApiClient.getInstance().initWatch(transformer.transformToEntity(this.watch), new SuccessFailureCallBack<WatchEntity>() {
             @Override
             public void onSuccess(WatchEntity watch) {
                 BusProvider.getDefaultBus().post(new SuccessResponse(transformer.transform(watch)));
@@ -32,6 +33,10 @@ public class InitWatchUseCase extends UseCase<Watch> {
                 InitWatchUseCase.super.onFailure(message);
             }
         });
+    }
+
+    public void setWatch(Watch watch){
+        this.watch = watch;
     }
 
     //region Inner Classes

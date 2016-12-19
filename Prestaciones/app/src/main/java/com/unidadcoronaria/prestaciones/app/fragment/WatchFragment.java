@@ -1,18 +1,32 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.unidadcoronaria.domain.model.Supply;
+import com.unidadcoronaria.domain.model.Watch;
 import com.unidadcoronaria.domain.model.WatchItem;
+import com.unidadcoronaria.domain.usecase.InitWatchUseCase;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.SupplyView;
 import com.unidadcoronaria.prestaciones.app.adapter.SupplyAdapter;
@@ -37,17 +51,26 @@ import butterknife.OnClick;
 public class WatchFragment extends BaseFragment implements WatchView {
 
 
+
     //region Variables
     @BindView(R.id.fragment_watch_list)
     protected RecyclerView vRecyclerView;
+    @BindView(R.id.fragment_watch_button)
+    protected FloatingActionButton vButton;
 
     private WatchAdapter mAdapter;
     private WatchPresenter presenter;
+    private Watch watch;
+    private LinearLayoutManager mLayoutManager;
+    private static WatchFragment instance;
     //endregions
 
     //region Constructors implementations
     public static BaseFragment newInstance() {
-        return new WatchFragment();
+        if(instance == null) {
+            instance = new WatchFragment();
+        }
+        return instance;
     }
     //endregion
 
@@ -57,12 +80,12 @@ public class WatchFragment extends BaseFragment implements WatchView {
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
+        vButton.hide();
         presenter = new WatchPresenter(this, getContext());
-        vRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        vRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new WatchAdapter(getActivity(),this);
         vRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-
         return view;
     }
 
@@ -76,6 +99,7 @@ public class WatchFragment extends BaseFragment implements WatchView {
         super.onResume();
         presenter.onResume();
         presenter.getList();
+        getActivity().setTitle(R.string.main_drawer_start_watch);
     }
 
     @Override
@@ -89,24 +113,82 @@ public class WatchFragment extends BaseFragment implements WatchView {
 
     }
 
+
     @Override
     public void showLoading() {
-
+        vProgress.setVisibility(View.VISIBLE);
+        vRecyclerView.setVisibility(View.GONE);
+        vButton.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
-
+        vProgress.setVisibility(View.GONE);
+        vRecyclerView.setVisibility(View.VISIBLE);
+        vButton.setVisibility(View.VISIBLE);
+        vButton.hide();
     }
 
-    @OnClick(R.id.fragment_watch_accept_button)
-    protected void onAccept(View view){
-        List<WatchItem> watchItemList = mAdapter.getList();
+
+    @Override
+    public void onWatchRetrieved(Watch watch) {
+        this.watch = watch;
+        mAdapter.add(watch.getItemList());
     }
 
-    @OnClick(R.id.fragment_watch_cancel_button)
-    protected void onCancel(View view){
+    @OnClick(R.id.fragment_watch_button)
+    public void onSaveButton(){
+        watch.setItemList(mAdapter.getList());
+        for (WatchItem item: watch.getItemList()) {
+            if(!item.getStatus()){
+                showNoteDialog();
+                return;
+            }
+        }
+        initWatch(watch);
+    }
 
+    @Override
+    public void onWatchItemsCompleted() {
+        vButton.show();
+    }
+
+    @Override
+    public void onWatchItemsIncompleted() {
+        vButton.hide();
+    }
+
+
+    private void showNoteDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.view_note, null);
+        // Set up the input
+        final EditText input = (EditText) view.findViewById(R.id.view_note_text);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        builder.setView(view);
+
+        // Set up the buttons
+        builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                watch.setNote(input.getText().toString());
+                initWatch(watch);
+            }
+        });
+        builder.setNegativeButton(getActivity().getString(R.string.button_close) , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    private void initWatch(Watch watch){
+        InitWatchUseCase initWatchUseCase = new InitWatchUseCase();
+        initWatchUseCase.setWatch(watch);
+        initWatchUseCase.execute(getActivity());
     }
 
 }

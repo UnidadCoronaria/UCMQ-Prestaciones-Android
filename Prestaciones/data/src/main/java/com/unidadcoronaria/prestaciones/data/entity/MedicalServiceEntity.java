@@ -1,6 +1,7 @@
 package com.unidadcoronaria.prestaciones.data.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class MedicalServiceEntity {
 
@@ -25,7 +26,7 @@ public class MedicalServiceEntity {
 
 	private char copaymentPaid;
 
-	private String status;
+	private Integer status;
 
 	private String observations;
 
@@ -34,6 +35,8 @@ public class MedicalServiceEntity {
 	public Integer getMedicalServiceId() {
 		return medicalServiceId;
 	}
+
+	private List<SupplyEntity> supplyList;
 
 	public void setMedicalServiceId(Integer medicalServiceId) {
 		this.medicalServiceId = medicalServiceId;
@@ -111,11 +114,11 @@ public class MedicalServiceEntity {
 		this.copaymentPaid = copaymentPaid;
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -142,6 +145,14 @@ public class MedicalServiceEntity {
 
 	public void setSymptom(String symptom) {
 		this.symptom = symptom;
+	}
+
+	public List<SupplyEntity> getSupplyList() {
+		return supplyList;
+	}
+
+	public void setSupplyList(List<SupplyEntity> supplyList) {
+		this.supplyList = supplyList;
 	}
 }
 

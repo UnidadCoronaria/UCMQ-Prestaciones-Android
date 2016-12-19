@@ -35,14 +35,17 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchItemHol
     private List<WatchItem> mList;
     private WatchView mCallback;
     private Context mContext;
+    private Integer mVisibleItems = 0;
 
     public WatchAdapter(Context context, WatchView callback){
         this.mCallback = callback;
         this.mContext = context;
         this.mList = new ArrayList<>();
-        this.mList.add(new WatchItem(mContext.getString(R.string.complete_case)));
-        this.mList.add(new WatchItem(mContext.getString(R.string.clean_ambulance)));
-        this.mList.add(new WatchItem(mContext.getString(R.string.oxygen_complete)));
+    }
+
+    public void add(List<WatchItem> list){
+        this.mList = list;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -57,15 +60,37 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchItemHol
         holder.vCheckContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setCheckState(holder.vCheck, holder.vNote);
+                setCheckState(holder.vCheck, watchItem);
             }
         });
         holder.vNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showNoteDialog(watchItem);
+             @Override
+             public void onClick(View view) {
+                 showNoteDialog(watchItem);
+             }
+           });
+    }
+
+    private void setCheckState(View view,WatchItem item){
+        if(view.getVisibility() == View.VISIBLE){
+            if(view.isSelected()){
+                view.setSelected(false);
+                view.setVisibility(View.INVISIBLE);
+                mVisibleItems--;
+                mCallback.onWatchItemsIncompleted();
+            } else {
+                item.setStatus(false);
+                view.setSelected(true);
             }
-        });
+        } else {
+            mVisibleItems++;
+            view.setVisibility(View.VISIBLE);
+            view.setSelected(false);
+            item.setStatus(true);
+            if(mVisibleItems == mList.size()){
+                mCallback.onWatchItemsCompleted();
+            }
+        }
     }
 
     private void showNoteDialog(final WatchItem watchItem){
@@ -75,6 +100,8 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchItemHol
         // Set up the input
         final EditText input = (EditText) view.findViewById(R.id.view_note_text);
         input.setText(watchItem.getNote());
+        TextView textView = (TextView) view.findViewById(R.id.view_note_title);
+        textView.setText(App.getInstance().getString(R.string.init_watch_dialog_title));
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         builder.setView(view);
 
@@ -92,22 +119,6 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchItemHol
             }
         });
         builder.show();
-    }
-
-    private void setCheckState(View view, View noteView){
-        if(view.getVisibility() == View.VISIBLE){
-            if(view.isSelected()){
-                view.setSelected(false);
-                noteView.setVisibility(View.INVISIBLE);
-                view.setVisibility(View.INVISIBLE);
-            } else {
-                view.setSelected(true);
-                noteView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            view.setVisibility(View.VISIBLE);
-            view.setSelected(false);
-        }
     }
 
     @Override
@@ -130,10 +141,10 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchItemHol
         protected View vCheck;
         @BindView(R.id.item_watch_check_container)
         protected View vCheckContainer;
-        @BindView(R.id.item_watch_note)
-        protected View vNote;
         @BindView(R.id.item_watch_label)
         protected TextView vLabel;
+        @BindView(R.id.item_watch_note)
+        protected View vNote;
 
         //endregion
 

@@ -6,6 +6,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="default_line_indicator_stroke_width">8dp</dimen>
-    <dimen name="title_size">18sp</dimen>
-    <dimen name="subtitle_size">16sp</dimen>
+    <dimen name="large_title_size">18sp</dimen>
+    <dimen name="title_size">16sp</dimen>
+    <dimen name="subtitle_size">14sp</dimen>
 </resources>

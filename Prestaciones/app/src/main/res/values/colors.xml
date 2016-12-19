@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FA7063</color>
+    <color name="colorPrimary">#f55748</color>
     <color name="colorPrimaryDark">#e94c3d</color>
     <color name="colorAccent">#3a608d</color>
 
@@ -11,6 +11,7 @@
 
     <color name="item_background">#f6f6f6</color>
     <color name="item_background_pressed">#c6c4c4</color>
-    <color name="item_text">#888888</color>
+    <color name="item_text">@android:color/black</color>
+    <color name="sub_item_text">@android:color/darker_gray</color>
 
 </resources>

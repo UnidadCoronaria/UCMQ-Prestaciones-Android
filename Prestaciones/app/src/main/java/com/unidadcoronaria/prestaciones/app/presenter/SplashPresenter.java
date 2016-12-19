@@ -2,8 +2,11 @@ package com.unidadcoronaria.prestaciones.app.presenter;
 
 import android.os.CountDownTimer;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.unidadcoronaria.prestaciones.App;
 import com.unidadcoronaria.prestaciones.app.SplashView;
-import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceListActivity;
+import com.unidadcoronaria.prestaciones.app.activity.MainActivity;
 
 /**
  * @author Agustin.Bala
@@ -22,19 +25,37 @@ public class SplashPresenter extends BasePresenter<SplashView>{
     }
 
     public void initSplash(){
-        view.onProgressUpdate(total);
-        new CountDownTimer(SPLASH_DURATION, 20) {
-            public void onTick(long millisUntilFinished) {
-                total += 2;
-                view.onProgressUpdate(total);
-            }
+        if(isGooglePlayServicesAvailable()) {
+            view.onProgressUpdate(total);
+            new CountDownTimer(SPLASH_DURATION, 20) {
+                public void onTick(long millisUntilFinished) {
+                    total += 2;
+                    view.onProgressUpdate(total);
+                }
 
-            @Override
-            public void onFinish() {
-                total = 0;
-                view.getActivity().startActivity(MedicalServiceListActivity.getStartIntent(view.getActivity()));
-                view.getActivity().finish();
-            }
-        }.start();
+                @Override
+                public void onFinish() {
+                    total = 0;
+                    view.getActivity().startActivity(MainActivity.getStartIntent(view.getActivity()));
+                    view.getActivity().finish();
+                }
+            }.start();
+        }
     }
+
+    private boolean isGooglePlayServicesAvailable() {
+        int statusCode = GoogleApiAvailability.getInstance()
+                .isGooglePlayServicesAvailable(App.getInstance());
+
+        if (GoogleApiAvailability.getInstance().isUserResolvableError(statusCode)) {
+            view.showGooglePlayServicesDialog(statusCode);
+            return false;
+        } else if (statusCode != ConnectionResult.SUCCESS) {
+            view.showGooglePlayServicesError();
+            return false;
+        }
+
+        return true;
+    }
+
 }

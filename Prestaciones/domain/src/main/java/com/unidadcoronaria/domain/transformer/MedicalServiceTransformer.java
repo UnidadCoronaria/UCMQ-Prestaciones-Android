@@ -1,25 +1,24 @@
 package com.unidadcoronaria.domain.transformer;
 
+import android.util.Log;
+
 import com.unidadcoronaria.domain.model.MedicalService;
-import com.unidadcoronaria.domain.model.MedicalServiceAddress;
-import com.unidadcoronaria.domain.model.Resource;
-import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceAddressEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
-import com.unidadcoronaria.prestaciones.data.entity.ResourceEntity;
+import com.unidadcoronaria.prestaciones.data.network.callback.EntityTransformer;
 import com.unidadcoronaria.prestaciones.data.network.callback.Transformer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public class MedicalServiceTransformer implements Transformer<MedicalServiceEntity,MedicalService> {
+public class MedicalServiceTransformer implements Transformer<MedicalServiceEntity,MedicalService> , EntityTransformer<MedicalServiceEntity, MedicalService>{
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
 
     private final MedicalServiceAddressTransformer addressTransformer = new MedicalServiceAddressTransformer();
 
@@ -40,10 +39,10 @@ public class MedicalServiceTransformer implements Transformer<MedicalServiceEnti
         medicalService.setAge(object.getAge());
         medicalService.setCopayment(object.getCopayment());
         medicalService.setCopaymentPaid(object.getCopaymentPaid());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
         try {
             medicalService.setDate(sdf.parse(object.getDate()));
         } catch (ParseException e) {
+            Log.e(getClass().getName(), "Error parsing date in transform");
         }
         medicalService.setMedicalServiceId(object.getMedicalServiceId());
         medicalService.setNumber(object.getNumber());
@@ -53,5 +52,33 @@ public class MedicalServiceTransformer implements Transformer<MedicalServiceEnti
         medicalService.setObservations(object.getObservations());
         medicalService.setSymptom(object.getSymptom());
         return medicalService;
+    }
+
+    @Override
+    public MedicalServiceEntity transformToEntity(MedicalService object) {
+        MedicalServiceEntity medicalServiceEntity = new MedicalServiceEntity();
+        medicalServiceEntity.setName(object.getName());
+        medicalServiceEntity.setMedicalServiceAddress(addressTransformer.transformToEntity(object.getMedicalServiceAddress()));
+        medicalServiceEntity.setAge(object.getAge());
+        medicalServiceEntity.setCopayment(object.getCopayment());
+        medicalServiceEntity.setCopaymentPaid(object.getCopaymentPaid());
+        medicalServiceEntity.setDate(sdf.format(object.getDate()));
+        medicalServiceEntity.setMedicalServiceId(object.getMedicalServiceId());
+        medicalServiceEntity.setNumber(object.getNumber());
+        medicalServiceEntity.setSex(object.getSex());
+        medicalServiceEntity.setStatus(object.getStatus());
+        medicalServiceEntity.setTelephone(object.getTelephone());
+        medicalServiceEntity.setObservations(object.getObservations());
+        medicalServiceEntity.setSymptom(object.getSymptom());
+        return medicalServiceEntity;
+    }
+
+    @Override
+    public List<MedicalServiceEntity> transformToEntity(List<MedicalService> object) {
+        List<MedicalServiceEntity> list = new ArrayList<>();
+        for (MedicalService entity : object ) {
+            list.add(transformToEntity(entity));
+        }
+        return list;
     }
 }

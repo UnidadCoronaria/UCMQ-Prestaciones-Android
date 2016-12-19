@@ -1,5 +1,6 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.unidadcoronaria.domain.model.MedicalService;
 import com.unidadcoronaria.domain.model.MedicalServiceAddress;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
+import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceDetailActivity;
 import com.unidadcoronaria.prestaciones.app.adapter.MedicalServiceAdapter;
 import com.unidadcoronaria.prestaciones.app.presenter.ListMedicalServiceAttendedPresenter;
 
@@ -25,6 +27,7 @@ import butterknife.BindView;
 
 public class ListMedicalServiceAttendedFragment extends BaseFragment implements MedicalServiceAdapter.Callback, ListMedicalServiceView {
 
+    public static final String MEDICAL_SERVICE_KEY = "medicalService";
 
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeContainer;
@@ -76,7 +79,11 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
 
     @Override
     public void onMedicalServiceClick(MedicalService medicalService) {
-        Toast.makeText(getActivity(), "Seleccionaste "+medicalService.getMedicalServiceAddress().getStreet(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this.getActivity(), MedicalServiceDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MEDICAL_SERVICE_KEY , medicalService);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

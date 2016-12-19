@@ -1,28 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/map"
+        android:id="@+id/fragment_medical_detail_container"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-
-        />
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/fragment_medical_detail_sheet"
+        android:clipToPadding="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ddd"
+        android:paddingTop="1dp"
+        app:behavior_peekHeight="80dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/fragment_medical_detail_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_arrow_up"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_medical_detail_buttons"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" >
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.75" />
+
+                <Button
+                    android:id="@+id/fragment_medical_detail_first_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_button"
+                    android:padding="5dp"
+                    android:paddingTop="5dp"
+                    android:layout_marginRight="50dp"
+                    android:includeFontPadding="false"
+                    android:text="RETORNANDO"
+                    android:textColor="@color/button_background" />
+
+
+                <Button
+                    android:id="@+id/fragment_medical_detail_second_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:background="@drawable/selector_button"
+                    android:text="EN DOMICILIO"
+                    android:textColor="@color/button_background" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.75" />
+
+            </LinearLayout>
+                </LinearLayout>
+            <View
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="-20dp"
+                android:background="@color/sub_item_text"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,25 +111,37 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:id="@+id/fragment_medical_detail_address_container"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="15dp">
+                >
 
                 <ImageView
                     android:id="@+id/fragment_medical_detail_address_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_location" />
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_location"
+                    android:scaleType="center" />
 
                 <TextView
                     android:id="@+id/fragment_medical_detail_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textColor="@color/item_text"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    android:gravity="left"
+                    android:transitionName="medical_service"
+                    android:textColor="#57000000"
+                    android:textSize="@dimen/subtitle_size"
+                     />
+
+                <ImageView
+                    android:id="@+id/fragment_medical_detail_observations_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_observation"
+                    />
+
 
             </LinearLayout>
 
@@ -60,18 +151,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:orientation="horizontal"
                 android:id="@+id/fragment_medical_detail_name_container"
                 android:layout_below="@+id/fragment_medical_detail_address_container"
-                android:layout_marginTop="15dp">
+                >
 
                 <ImageView
                     android:id="@+id/fragment_medical_detail_name_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="20dp"
                     android:src="@drawable/ic_person"
                     />
 
@@ -80,7 +173,8 @@
                     android:id="@+id/fragment_medical_detail_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp" />
+                    android:textColor="#57000000"
+                    android:textSize="@dimen/subtitle_size" />
 
             </LinearLayout>
 
@@ -90,18 +184,19 @@
                 android:id="@+id/fragment_medical_detail_gender_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginTop="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
+                android:gravity="center_vertical"
                 android:layout_below="@+id/fragment_medical_detail_name_container"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/fragment_medical_detail_info_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="20dp"
                     android:src="@drawable/ic_info"
                     />
 
@@ -109,7 +204,8 @@
                     android:id="@+id/fragment_medical_detail_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp" />
+                    android:textColor="#57000000"
+                    android:textSize="@dimen/subtitle_size" />
 
             </LinearLayout>
 
@@ -117,9 +213,10 @@
             <LinearLayout
                 android:id="@+id/fragment_medical_detail_sympton_container"
                 android:layout_width="match_parent"
-                android:layout_marginTop="15dp"
                 android:gravity="center_vertical"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_below="@+id/fragment_medical_detail_gender_container"
@@ -127,85 +224,25 @@
 
                 <ImageView
                     android:id="@+id/fragment_medical_detail_symptom_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="20dp"
                     android:src="@drawable/ic_symptom"
                     />
 
 
                 <TextView
                     android:id="@+id/fragment_medical_detail_symptom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/fragment_medical_detail_observations_container"
-                android:layout_width="match_parent"
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_below="@+id/fragment_medical_detail_sympton_container"
-                android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/fragment_medical_detail_observations_icon"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_observation"
-                />
-
-            <TextView
-                android:id="@+id/fragment_medical_detail_observations"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/fragment_medical_detail_button_container"
-                android:layout_below="@+id/fragment_medical_detail_observations_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
-
-                <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/button_shape"
-                    android:padding="10dp"
-                    android:text="@string/button_in_address"
-                    android:textColor="@android:color/white" />
-
-                <Button
-                    android:id="@+id/fragment_medical_detail_cancel_button"
-                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_shape"
-                    android:padding="10dp"
-                    android:text="@string/button_close"
-                    android:textColor="@android:color/white" />
+                    android:textColor="#57000000"
+                    android:textSize="@dimen/subtitle_size" />
 
             </LinearLayout>
-        </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 
-    </ScrollView>
-
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

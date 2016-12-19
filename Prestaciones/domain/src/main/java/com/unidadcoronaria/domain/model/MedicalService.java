@@ -2,6 +2,7 @@ package com.unidadcoronaria.domain.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 //TODO Implements Parcelable
 public class MedicalService implements Serializable {
@@ -27,11 +28,13 @@ public class MedicalService implements Serializable {
 	
 	private char copaymentPaid;
 	
-	private String status;
-
 	private String observations;
 
 	private String symptom;
+
+	private List<Supply> supplyList;
+
+	private Integer status;
 
 	public MedicalService() {
 	}
@@ -125,11 +128,11 @@ public class MedicalService implements Serializable {
 		this.copaymentPaid = copaymentPaid;
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -147,6 +150,14 @@ public class MedicalService implements Serializable {
 
 	public void setSymptom(String symptom) {
 		this.symptom = symptom;
+	}
+
+	public List<Supply> getSupplyList() {
+		return supplyList;
+	}
+
+	public void setSupplyList(List<Supply> supplyList) {
+		this.supplyList = supplyList;
 	}
 }
 

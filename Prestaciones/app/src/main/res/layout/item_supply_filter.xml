@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:padding="5dp"
+        android:padding="10dp"
         android:addStatesFromChildren="true"
         android:layout_height="wrap_content">
 
@@ -21,7 +21,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/item_text"
-            android:textSize="18dp" />
+            android:textSize="@dimen/title_size" />
 
 
     </RelativeLayout>

@@ -10,5 +10,4 @@ public interface Transformer<E, D> {
 
     D transform(E object);
     List<D> transform(List<E> object);
-
 }

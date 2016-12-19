@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.unidadcoronaria.domain.model.MedicalService;
 import com.unidadcoronaria.prestaciones.R;
+import com.unidadcoronaria.prestaciones.util.MedicalServiceStatusHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,7 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
         final MedicalService medicalService = mList.get(position);
         holder.vAddress.setText(medicalService.getMedicalServiceAddress().getStreet());
         holder.vSymptom.setText(medicalService.getName());
+        holder.vStatus.setText(MedicalServiceStatusHelper.getStatusName(medicalService.getStatus()));
         holder.vAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +100,9 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
         @BindView(R.id.list_item_address)
         protected TextView vAddress;
 
-    
+        @BindView(R.id.list_item_status)
+        protected TextView vStatus;
+
         @BindView(R.id.list_item_symptom)
         protected TextView vSymptom;
 

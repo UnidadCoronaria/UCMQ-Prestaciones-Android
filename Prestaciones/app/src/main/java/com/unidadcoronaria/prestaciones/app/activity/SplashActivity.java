@@ -1,6 +1,8 @@
 package com.unidadcoronaria.prestaciones.app.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.crashlytics.android.Crashlytics;
 import com.unidadcoronaria.prestaciones.BuildConfig;
@@ -29,13 +31,13 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_base;
+        return R.layout.activity_splash;
     }
 
-    @Override
     protected BaseFragment getFragment() {
         return SplashFragment.newInstance();
     }
+
 
     //endregion
 }

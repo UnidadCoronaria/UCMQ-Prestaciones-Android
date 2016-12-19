@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:id="@+id/list_item_supply_container"
+    android:layout_height="wrap_content">
+
+
+
+    <TextView
+        android:id="@+id/list_item_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_message_item"
+        android:textColor="@color/item_text"
+        android:textSize="@dimen/title_size" />
+
+</LinearLayout>

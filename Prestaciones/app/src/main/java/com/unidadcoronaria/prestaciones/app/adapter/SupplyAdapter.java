@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.unidadcoronaria.domain.model.Supply;
@@ -54,6 +53,7 @@ public class SupplyAdapter extends RecyclerView.Adapter<SupplyAdapter.SupplyView
     public void onBindViewHolder(SupplyAdapter.SupplyViewHolder holder, int position) {
         final Supply supply = mList.get(position);
         holder.vName.setText(supply.getName());
+        holder.vQuantity.setText(supply.getQuantity());
         holder.vDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,11 +87,16 @@ public class SupplyAdapter extends RecyclerView.Adapter<SupplyAdapter.SupplyView
         @BindView(R.id.list_item_supply_name)
         protected TextView vName;
 
+        @BindView(R.id.list_item_supply_quantity)
+        protected TextView vQuantity;
+
         @BindView(R.id.list_item_supply_delete)
         protected View vDelete;
 
-        @BindView(R.id.item_supply_number_picker)
-        protected NumberPicker vNumberPicker;
+
+
+        //@BindView(R.id.item_supply_number_picker)
+        //protected NumberPicker vNumberPicker;
 
         //endregion
 
@@ -99,9 +104,9 @@ public class SupplyAdapter extends RecyclerView.Adapter<SupplyAdapter.SupplyView
         public SupplyViewHolder(final View view) {
             super(view);
             ButterKnife.bind(this, view);
-            vNumberPicker.setMinValue(0);
+            /*vNumberPicker.setMinValue(0);
             vNumberPicker.setMaxValue(100);
-            vNumberPicker.setWrapSelectorWheel(false);
+            vNumberPicker.setWrapSelectorWheel(true);*/
         }
         //endregion
 

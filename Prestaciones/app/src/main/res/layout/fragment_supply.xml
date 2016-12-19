@@ -24,8 +24,8 @@
             android:textColor="@color/item_text"
             android:layout_alignParentTop="true"
             android:gravity="left"
-            android:textSize="18dp"
-            android:text="@string/supply"
+            android:textSize="@dimen/title_size"
+            android:text="@string/watch_entities"
             android:layout_marginBottom="20dp"/>
 
         <android.support.v7.widget.AppCompatAutoCompleteTextView
@@ -34,8 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/item_text"
+            android:hint="@string/search_supplies"
             android:gravity="left"
-            android:textSize="18dp"
+            android:textSize="@dimen/subtitle_size"
             android:layout_marginBottom="20dp"/>
 
         <android.support.v7.widget.RecyclerView
@@ -62,10 +63,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/button_shape"
+                android:background="@drawable/selector_button"
                 android:padding="10dp"
-                android:text="@string/button_accept"
-                android:textColor="@android:color/white" />
+                android:text="@string/button_finish"
+                android:textColor="@color/button_background" />
 
             <Button
                 android:id="@+id/fragment_supply_cancel_button"
@@ -73,10 +74,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_shape"
+                android:background="@drawable/selector_button"
                 android:padding="10dp"
-                android:text="@string/button_close"
-                android:textColor="@android:color/white" />
+                android:text="@string/button_cancel"
+                android:textColor="@color/button_background" />
 
         </LinearLayout>
 

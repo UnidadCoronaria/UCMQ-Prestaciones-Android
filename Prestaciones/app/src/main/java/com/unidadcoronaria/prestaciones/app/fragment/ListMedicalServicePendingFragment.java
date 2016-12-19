@@ -31,7 +31,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ListMedicalServicePendingFragment extends BaseFragment implements MedicalServiceAdapter.Callback, ListMedicalServiceView {
 
-    static final String MEDICAL_SERVICE_KEY = "medicalService";
+    public static final String MEDICAL_SERVICE_KEY = "medicalService";
 
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeContainer;

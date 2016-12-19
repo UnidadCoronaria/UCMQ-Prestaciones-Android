@@ -6,7 +6,7 @@ import android.content.Context;
 import com.unidadcoronaria.domain.BusProvider;
 import com.unidadcoronaria.domain.model.Resource;
 import com.unidadcoronaria.domain.transformer.ResourceTransformer;
-import com.unidadcoronaria.prestaciones.data.entity.ResourceEntity;
+import com.unidadcoronaria.prestaciones.data.entity.directions.ResourceEntity;
 import com.unidadcoronaria.prestaciones.data.network.ApiClient;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
 

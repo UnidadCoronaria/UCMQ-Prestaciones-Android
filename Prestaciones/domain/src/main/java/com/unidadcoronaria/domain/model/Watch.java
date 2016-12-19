@@ -1,5 +1,7 @@
 package com.unidadcoronaria.domain.model;
 
+import java.util.List;
+
 /**
  * @author Agustin.Bala
  * @since 0.0.1
@@ -8,9 +10,8 @@ package com.unidadcoronaria.domain.model;
 public class Watch extends BaseModel {
 
     private Resource resource;
-    private Boolean clean;
-    private Boolean caseComplete;
-    private Boolean oxygenFull;
+    private List<WatchItem> itemList;
+    private String note;
 
     public Resource getResource() {
         return resource;
@@ -20,27 +21,19 @@ public class Watch extends BaseModel {
         this.resource = resource;
     }
 
-    public Boolean getClean() {
-        return clean;
+    public List<WatchItem> getItemList() {
+        return itemList;
     }
 
-    public void setClean(Boolean clean) {
-        this.clean = clean;
+    public void setItemList(List<WatchItem> itemList) {
+        this.itemList = itemList;
     }
 
-    public Boolean getCaseComplete() {
-        return caseComplete;
+    public String getNote() {
+        return note;
     }
 
-    public void setCaseComplete(Boolean caseComplete) {
-        this.caseComplete = caseComplete;
-    }
-
-    public Boolean getOxygenFull() {
-        return oxygenFull;
-    }
-
-    public void setOxygenFull(Boolean oxygenFull) {
-        this.oxygenFull = oxygenFull;
+    public void setNote(String note) {
+        this.note = note;
     }
 }

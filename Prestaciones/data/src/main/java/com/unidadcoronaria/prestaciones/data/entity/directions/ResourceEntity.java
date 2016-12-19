@@ -1,6 +1,9 @@
-package com.unidadcoronaria.prestaciones.data.entity;
+package com.unidadcoronaria.prestaciones.data.entity.directions;
 
-public class ResourceEntity extends BaseEntity{
+import com.unidadcoronaria.prestaciones.data.entity.BaseEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MobileEntity;
+
+public class ResourceEntity extends BaseEntity {
 	
 	private Integer resourceId;
 	
