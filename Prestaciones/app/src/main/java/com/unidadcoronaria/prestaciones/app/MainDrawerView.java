@@ -8,7 +8,5 @@ import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
  */
 public interface MainDrawerView extends View {
 
-    void onResourceRetrieved(String resourceName, String companyName);
-
     void showFragment(BaseFragment fragment);
 }

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.unidadcoronaria.domain.model.MedicalService;
-import com.unidadcoronaria.domain.model.MedicalServiceAddress;
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
 import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceDetailActivity;
@@ -19,7 +19,6 @@ import com.unidadcoronaria.prestaciones.app.adapter.MedicalServiceAdapter;
 import com.unidadcoronaria.prestaciones.app.presenter.ListMedicalServiceAttendedPresenter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,7 +66,7 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
 
         vListMedicalService.setLayoutManager(new LinearLayoutManager(getActivity()));
         vListMedicalService.setHasFixedSize(true);
-        mAdapter = new MedicalServiceAdapter(this, new ArrayList<MedicalService>());
+        mAdapter = new MedicalServiceAdapter(this, new ArrayList<MedicalServiceResource>());
         vListMedicalService.setAdapter(mAdapter);
         return rootView;
     }
@@ -103,7 +102,7 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
     }
 
     @Override
-    public void onListRetrieved(List<MedicalService> list) {
+    public void onListRetrieved(List<MedicalServiceResource> list) {
         swipeContainer.setRefreshing(false);
         mAdapter.addAll(list);
     }

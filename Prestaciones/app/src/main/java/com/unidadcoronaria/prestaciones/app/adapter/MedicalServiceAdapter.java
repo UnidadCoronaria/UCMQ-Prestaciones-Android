@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.unidadcoronaria.domain.model.MedicalService;
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.util.MedicalServiceStatusHelper;
 
@@ -24,25 +25,25 @@ import butterknife.ButterKnife;
 public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAdapter.MedicalServiceViewHolder> {
 
     private Callback callback;
-    private List<MedicalService> mList = new ArrayList<>();
+    private List<MedicalServiceResource> mList = new ArrayList<>();
 
-    public MedicalServiceAdapter(Callback callback, List<MedicalService> mList) {
+    public MedicalServiceAdapter(Callback callback, List<MedicalServiceResource> mList) {
         this.callback = callback;
         this.mList = mList;
     }
 
-    public void addAll(List<MedicalService> medicalServiceList){
+    public void addAll(List<MedicalServiceResource> medicalServiceList){
         this.mList.clear();
         this.mList.addAll(medicalServiceList);
         this.notifyDataSetChanged();
     }
 
-    public void add(MedicalService medicalServiceList){
+    public void add(MedicalServiceResource medicalServiceList){
         this.mList.add(medicalServiceList);
         this.notifyDataSetChanged();
     }
 
-    public void removeElement(MedicalService medicalService){
+    public void removeElement(MedicalServiceResource medicalService){
         this.mList.remove(medicalService);
         notifyDataSetChanged();
     }
@@ -54,10 +55,12 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
 
     @Override
     public void onBindViewHolder(MedicalServiceViewHolder holder, int position) {
-        final MedicalService medicalService = mList.get(position);
-        holder.vAddress.setText(medicalService.getMedicalServiceAddress().getStreet());
+        final MedicalServiceResource medicalServiceResource = mList.get(position);
+        final MedicalService medicalService = medicalServiceResource.getMedicalService();
+        holder.vAddress.setText(medicalService.getAddressMedicalService().getStreet());
         holder.vSymptom.setText(medicalService.getName());
-        holder.vStatus.setText(MedicalServiceStatusHelper.getStatusName(medicalService.getStatus()));
+     //TODO
+        //   holder.vStatus.setText(MedicalServiceStatusHelper.getStatusName(Integer.valueOf(medicalService.getStatus())));
         holder.vAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

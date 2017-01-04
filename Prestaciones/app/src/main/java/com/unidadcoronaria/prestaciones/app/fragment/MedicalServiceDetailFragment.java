@@ -2,11 +2,8 @@ package com.unidadcoronaria.prestaciones.app.fragment;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
@@ -32,9 +29,8 @@ import com.unidadcoronaria.domain.model.directions.Point;
 import com.unidadcoronaria.domain.model.directions.Route;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.MedicalServiceDetailView;
-import com.unidadcoronaria.prestaciones.app.activity.SupplyActivity;
+import com.unidadcoronaria.prestaciones.app.activity.MedicamentActivity;
 import com.unidadcoronaria.prestaciones.app.presenter.MedicalServiceDetailPresenter;
-import com.unidadcoronaria.prestaciones.app.type.MedicalServiceStatus;
 import com.unidadcoronaria.prestaciones.util.LocationHelper;
 
 import butterknife.BindView;
@@ -156,12 +152,13 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     @OnClick(R.id.fragment_medical_detail_second_button)
     protected void onFirstClick(View view){
         //TODO Get proximo accion n1 y mandar ese estado al server
+        startActivity(MedicamentActivity.getStartIntent(getContext(), medicalService));
     }
 
     @OnClick(R.id.fragment_medical_detail_first_button)
     protected void onSecondClick(View view){
        // if(medicalService.getStatus().equals(MedicalServiceStatus.DONE)) {
-            startActivity(SupplyActivity.getStartIntent(getContext(), medicalService));
+            //startActivity(SupplyActivity.getStartIntent(getContext(), medicalService));
        // } else {
             //TODO Get proximo accion n2 y mandar ese estado al server
        // }
@@ -170,13 +167,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     private void initView() {
         vInfo.setText(getString(R.string.medical_service_detail_info, medicalService.getSex(), medicalService.getAge()));
         vName.setText(medicalService.getName());
-        vSymptom.setText(medicalService.getSymptom());
-        if(medicalService.getObservations().isEmpty()){
-            vObservations.setVisibility(View.GONE);
-        } else {
-            vObservations.setVisibility(View.VISIBLE);
-        }
-        vAddress.setText(medicalService.getMedicalServiceAddress().getStreet());
+        vAddress.setText(medicalService.getAddressMedicalService().getStreet());
     }
 
     @Override
@@ -189,9 +180,9 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
                 mGoogleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.valueOf(LocationHelper.getLatitude()), Double.valueOf(LocationHelper.getLongitude()))));
             }
-            destination = new LatLng(medicalService.getMedicalServiceAddress().getLatitude(), medicalService.getMedicalServiceAddress().getLongitude());
+            destination = new LatLng(medicalService.getAddressMedicalService().getLatitude(), medicalService.getAddressMedicalService().getLongitude());
             markerDestination = mGoogleMap.addMarker(new MarkerOptions()
-                    .title(medicalService.getMedicalServiceAddress().getStreet())
+                    .title(medicalService.getAddressMedicalService().getStreet())
                     .position(destination));
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -244,7 +235,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     public void onObservationClick(View view){
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.observations))
-                .setMessage(medicalService.getObservations())
+                //TODO .setMessage(medicalService.getObservations())
                 .setCancelable(true)
                 .setPositiveButton(R.string.button_accept, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

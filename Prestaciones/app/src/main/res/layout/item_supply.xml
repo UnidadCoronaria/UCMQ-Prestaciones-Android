@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
     android:padding="10dp"
     android:id="@+id/list_item_supply_container"
     android:layout_height="wrap_content">

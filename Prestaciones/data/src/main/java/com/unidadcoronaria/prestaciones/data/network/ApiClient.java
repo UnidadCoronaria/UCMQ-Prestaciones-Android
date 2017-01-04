@@ -8,20 +8,22 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
-import com.unidadcoronaria.prestaciones.data.entity.MessageEntity;
-import com.unidadcoronaria.prestaciones.data.entity.directions.ResourceEntity;
-import com.unidadcoronaria.prestaciones.data.entity.SupplyEntity;
-import com.unidadcoronaria.prestaciones.data.entity.WatchEntity;
+import com.unidadcoronaria.prestaciones.data.entity.GuardEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
+import com.unidadcoronaria.prestaciones.data.entity.DeviceMessageEntity;
+import com.unidadcoronaria.prestaciones.data.entity.ProviderEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MedicamentEntity;
+import com.unidadcoronaria.prestaciones.data.entity.TypeMobileObservationEntity;
 import com.unidadcoronaria.prestaciones.data.entity.directions.RouteResponseEntity;
 import com.unidadcoronaria.prestaciones.data.network.callback.ResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
 import com.unidadcoronaria.prestaciones.data.network.rest.MapService;
 import com.unidadcoronaria.prestaciones.data.network.rest.MedicalServiceService;
-import com.unidadcoronaria.prestaciones.data.network.rest.MessageService;
-import com.unidadcoronaria.prestaciones.data.network.rest.ResourceService;
-import com.unidadcoronaria.prestaciones.data.network.rest.SupplyService;
-import com.unidadcoronaria.prestaciones.data.network.rest.WatchService;
+import com.unidadcoronaria.prestaciones.data.network.rest.DeviceMessageService;
+import com.unidadcoronaria.prestaciones.data.network.rest.MobileObservationService;
+import com.unidadcoronaria.prestaciones.data.network.rest.ProviderService;
+import com.unidadcoronaria.prestaciones.data.network.rest.MedicamentService;
+import com.unidadcoronaria.prestaciones.data.network.rest.GuardService;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,6 +39,7 @@ import retrofit.Retrofit;
 public class ApiClient {
 
     //region Properties
+    public static String IMEI;
     private static final ApiClient INSTANCE = new ApiClient();
     private static final String BASE_URL = "http://private-da46b-unidadcoronaria.apiary-mock.com";
     private final Retrofit retrofit;
@@ -56,7 +59,8 @@ public class ApiClient {
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
                 try {
                     Request newRequest = chain.request().newBuilder()
-                            .header("Authorization", "Bearer " + "IMEI")
+                            //.header("Authorization", IMEI)
+                            .header("Authorization", "451236200698230")
                             .build();
 
                     final Response response = chain.proceed(newRequest);
@@ -97,44 +101,50 @@ public class ApiClient {
 
     //region Public Implementation
 
-    public void getResource(final SuccessFailureCallBack<ResourceEntity> callback) {
-        retrofit.create(ResourceService.class).get().enqueue(new ResultEntityCallback<ResourceEntity>(callback));
+    public void getProvider(final SuccessFailureCallBack<List<ProviderEntity>> callback) {
+        retrofit.create(ProviderService.class).get().enqueue(new ResultEntityCallback<List<ProviderEntity>>(callback));
     }
 
-    public void getMedicalService(Long medicalServiceId, final SuccessFailureCallBack<MedicalServiceEntity> callback) {
-        retrofit.create(MedicalServiceService.class).getById(medicalServiceId).enqueue(new ResultEntityCallback<MedicalServiceEntity>(callback));
+    public void getTypeMobileObservation(final SuccessFailureCallBack<List<TypeMobileObservationEntity>> callback) {
+        retrofit.create(MobileObservationService.class).get().enqueue(new ResultEntityCallback<List<TypeMobileObservationEntity>>(callback));
     }
 
-    public void getMedicalServiceAttendedList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callback) {
-        retrofit.create(MedicalServiceService.class).getAttendedList().enqueue(new ResultEntityCallback<List<MedicalServiceEntity>>(callback));
+    public void getMessage(final SuccessFailureCallBack<List<DeviceMessageEntity>> callback, Integer watchId) {
+        retrofit.create(DeviceMessageService.class).get(watchId).enqueue(new ResultEntityCallback<List<DeviceMessageEntity>>(callback));
     }
 
-    public void getMedicalServicePendingList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callback) {
-        retrofit.create(MedicalServiceService.class).getPendingList().enqueue(new ResultEntityCallback<List<MedicalServiceEntity>>(callback));
+    public void getMedicalServiceAttendedList(final SuccessFailureCallBack<List<MedicalServiceResourceEntity>> callback, Integer guardId) {
+        retrofit.create(MedicalServiceService.class).getAttendedList(guardId).enqueue(new ResultEntityCallback<List<MedicalServiceResourceEntity>>(callback));
     }
 
-    public void getSupply(final SuccessFailureCallBack<List<SupplyEntity>> callback) {
-        retrofit.create(SupplyService.class).get().enqueue(new ResultEntityCallback<List<SupplyEntity>>(callback));
+    public void getMedicalServicePendingList(final SuccessFailureCallBack<List<MedicalServiceResourceEntity>> callback) {
+        retrofit.create(MedicalServiceService.class).getPendingList().enqueue(new ResultEntityCallback<List<MedicalServiceResourceEntity>>(callback));
+    }
+    //region Pending check
+    public void getMedicalService(Long medicalServiceId, final SuccessFailureCallBack<MedicalServiceResourceEntity> callback) {
+        retrofit.create(MedicalServiceService.class).getById(medicalServiceId).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
 
-    public void initWatch(WatchEntity watchEntity, final SuccessFailureCallBack<WatchEntity> callback) {
-        retrofit.create(WatchService.class).post(watchEntity).enqueue(new ResultEntityCallback<WatchEntity>(callback));
+    public void getMedicament(final SuccessFailureCallBack<List<MedicamentEntity>> callback) {
+        retrofit.create(MedicamentService.class).get().enqueue(new ResultEntityCallback<List<MedicamentEntity>>(callback));
     }
 
-    public void updateMedicalService(MedicalServiceEntity medicalServiceEntity, final SuccessFailureCallBack<MedicalServiceEntity> callback) {
-        retrofit.create(MedicalServiceService.class).post(medicalServiceEntity).enqueue(new ResultEntityCallback<MedicalServiceEntity>(callback));
+    public void initGuard(GuardEntity guardEntity, final SuccessFailureCallBack<GuardEntity> callback) {
+        retrofit.create(GuardService.class).post(guardEntity).enqueue(new ResultEntityCallback<GuardEntity>(callback));
     }
 
-    public void getWatch(final SuccessFailureCallBack<WatchEntity> callback) {
-        retrofit.create(WatchService.class).get().enqueue(new ResultEntityCallback<WatchEntity>(callback));
+    public void updateMedicalService(MedicalServiceResourceEntity medicalServiceEntity, final SuccessFailureCallBack<MedicalServiceResourceEntity> callback) {
+        retrofit.create(MedicalServiceService.class).post(medicalServiceEntity).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
 
-    public void getMessage(final SuccessFailureCallBack<List<MessageEntity>> callback) {
-        retrofit.create(MessageService.class).get().enqueue(new ResultEntityCallback<List<MessageEntity>>(callback));
+    public void sendMessage(final SuccessFailureCallBack<DeviceMessageEntity> callback, DeviceMessageEntity message) {
+        retrofit.create(DeviceMessageService.class).send(message).enqueue(new ResultEntityCallback<DeviceMessageEntity>(callback));
     }
 
     public void getRoute(final SuccessFailureCallBack<RouteResponseEntity> callback, String origin, String destination) {
         retrofitGoogleDirections.create(MapService.class).getRoute(origin, destination,"AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q", "metric").enqueue(new ResultEntityCallback<RouteResponseEntity>(callback));
     }
+
+    //endregion
     //endregion
 }

@@ -25,9 +25,6 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
     @BindView(R.id.bottom_navigation)
     BottomNavigationView vNavigationView;
 
-    private String mResourceName;
-    private String mResourcePerson;
-
     private MainNavPresenter presenter;
 
     //region BaseActivity implementation
@@ -35,7 +32,6 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
         super.onCreate(savedInstanceState);
         configureNav();
         presenter = new MainNavPresenter(this);
-        presenter.getData();
     }
 
     private void configureNav() {
@@ -84,25 +80,18 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
     //region Abstract methods declarations
 
     @Override
-    public void onResourceRetrieved(String resourceName, String companyName) {
-        mResourceName = resourceName;
-        mResourcePerson = companyName;
-    }
-
-
-    @Override
     public void displayError(String message) {
-
+        // Do nothing
     }
 
     @Override
     public void showLoading() {
-
+        // Do nothing
     }
 
     @Override
     public void hideLoading() {
-
+        // Do nothing
     }
 
     @Override

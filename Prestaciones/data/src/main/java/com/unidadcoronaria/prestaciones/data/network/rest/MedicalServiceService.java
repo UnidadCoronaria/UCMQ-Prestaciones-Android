@@ -1,13 +1,11 @@
 package com.unidadcoronaria.prestaciones.data.network.rest;
 
-import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
-import com.unidadcoronaria.prestaciones.data.entity.WatchEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
 
 import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.Body;
-import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
@@ -18,16 +16,16 @@ import retrofit.http.Path;
  */
 public interface MedicalServiceService {
 
-    @GET("medicalService/pending")
-    Call<List<MedicalServiceEntity>> getPendingList();
+    @GET("medicalServiceResource/pending")
+    Call<List<MedicalServiceResourceEntity>> getPendingList();
 
-    @GET("medicalService/attended")
-    Call<List<MedicalServiceEntity>> getAttendedList();
+    @GET("medicalServiceResource/{guardId}/attended")
+    Call<List<MedicalServiceResourceEntity>> getAttendedList(@Path("guardId") Integer watchId);
 
-    @GET("medicalService/{medicalServiceId}")
-    Call<MedicalServiceEntity> getById(@Path("medicalServiceId") Long medicalServiceId);
+    @GET("medicalServiceResource/{medicalServiceResourceId}")
+    Call<MedicalServiceResourceEntity> getById(@Path("medicalServiceResourceId") Long medicalServiceId);
 
-    @POST("medicalService")
-    Call<MedicalServiceEntity> post(@Body MedicalServiceEntity medicalServiceEntity);
+    @POST("medicalServiceResource")
+    Call<MedicalServiceResourceEntity> post(@Body MedicalServiceResourceEntity medicalServiceEntity);
 
 }

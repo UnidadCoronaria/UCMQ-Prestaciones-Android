@@ -1,14 +1,10 @@
 package com.unidadcoronaria.domain.transformer;
 
-import android.util.Log;
-
 import com.unidadcoronaria.domain.model.MedicalService;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
 import com.unidadcoronaria.prestaciones.data.network.callback.EntityTransformer;
 import com.unidadcoronaria.prestaciones.data.network.callback.Transformer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +14,7 @@ import java.util.List;
  */
 public class MedicalServiceTransformer implements Transformer<MedicalServiceEntity,MedicalService> , EntityTransformer<MedicalServiceEntity, MedicalService>{
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
-
-    private final MedicalServiceAddressTransformer addressTransformer = new MedicalServiceAddressTransformer();
+    private final AddressMedicalServiceTransformer addressTransformer = new AddressMedicalServiceTransformer();
 
     @Override
     public List<MedicalService> transform(List<MedicalServiceEntity> object) {
@@ -34,43 +28,37 @@ public class MedicalServiceTransformer implements Transformer<MedicalServiceEnti
     @Override
     public MedicalService transform(MedicalServiceEntity object) {
         MedicalService medicalService = new MedicalService();
+        medicalService.setMedicalServiceId(object.getMedicalServiceId());
+        medicalService.setNumber(object.getNumber());
+        medicalService.setDate(object.getDate());
+        medicalService.setTelephone(object.getTelephone());
+        medicalService.setAddressMedicalService(addressTransformer.transform(object.getAddressMedicalService()));
         medicalService.setName(object.getName());
-        medicalService.setMedicalServiceAddress(addressTransformer.transform(object.getMedicalServiceAddress()));
+        medicalService.setSex(object.getSex());
         medicalService.setAge(object.getAge());
         medicalService.setCopayment(object.getCopayment());
         medicalService.setCopaymentPaid(object.getCopaymentPaid());
-        try {
-            medicalService.setDate(sdf.parse(object.getDate()));
-        } catch (ParseException e) {
-            Log.e(getClass().getName(), "Error parsing date in transform");
-        }
-        medicalService.setMedicalServiceId(object.getMedicalServiceId());
-        medicalService.setNumber(object.getNumber());
-        medicalService.setSex(object.getSex());
         medicalService.setStatus(object.getStatus());
-        medicalService.setTelephone(object.getTelephone());
-        medicalService.setObservations(object.getObservations());
-        medicalService.setSymptom(object.getSymptom());
+        medicalService.setCabinId(object.getCabinId());
         return medicalService;
     }
 
     @Override
     public MedicalServiceEntity transformToEntity(MedicalService object) {
-        MedicalServiceEntity medicalServiceEntity = new MedicalServiceEntity();
-        medicalServiceEntity.setName(object.getName());
-        medicalServiceEntity.setMedicalServiceAddress(addressTransformer.transformToEntity(object.getMedicalServiceAddress()));
-        medicalServiceEntity.setAge(object.getAge());
-        medicalServiceEntity.setCopayment(object.getCopayment());
-        medicalServiceEntity.setCopaymentPaid(object.getCopaymentPaid());
-        medicalServiceEntity.setDate(sdf.format(object.getDate()));
-        medicalServiceEntity.setMedicalServiceId(object.getMedicalServiceId());
-        medicalServiceEntity.setNumber(object.getNumber());
-        medicalServiceEntity.setSex(object.getSex());
-        medicalServiceEntity.setStatus(object.getStatus());
-        medicalServiceEntity.setTelephone(object.getTelephone());
-        medicalServiceEntity.setObservations(object.getObservations());
-        medicalServiceEntity.setSymptom(object.getSymptom());
-        return medicalServiceEntity;
+        MedicalServiceEntity medicalService = new MedicalServiceEntity();
+        medicalService.setMedicalServiceId(object.getMedicalServiceId());
+        medicalService.setNumber(object.getNumber());
+        medicalService.setDate(object.getDate());
+        medicalService.setTelephone(object.getTelephone());
+        medicalService.setAddressMedicalService(addressTransformer.transformToEntity(object.getAddressMedicalService()));
+        medicalService.setName(object.getName());
+        medicalService.setSex(object.getSex());
+        medicalService.setAge(object.getAge());
+        medicalService.setCopayment(object.getCopayment());
+        medicalService.setCopaymentPaid(object.getCopaymentPaid());
+        medicalService.setStatus(object.getStatus());
+        medicalService.setCabinId(object.getCabinId());
+        return medicalService;
     }
 
     @Override

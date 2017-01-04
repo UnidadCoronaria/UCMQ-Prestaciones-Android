@@ -1,12 +1,18 @@
 package com.unidadcoronaria.prestaciones;
 
-import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDexApplication;
+import android.telephony.TelephonyManager;
+
+import com.unidadcoronaria.prestaciones.data.network.ApiClient;
+import com.unidadcoronaria.prestaciones.util.SharedPreferencesHelper;
 
 /**
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public class App extends Application {
+public class App extends MultiDexApplication {
+
 
     private static App INSTANCE;
     //region Public Static Implementation
@@ -20,6 +26,12 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
+       // saveIMEI();
+    }
+
+    private void saveIMEI() {
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        ApiClient.IMEI = telephonyManager.getDeviceId().toString();
     }
 
 }

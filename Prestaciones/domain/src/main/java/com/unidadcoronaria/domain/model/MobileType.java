@@ -1,11 +1,9 @@
 package com.unidadcoronaria.domain.model;
 
-public class MobileType {
+public class MobileType extends BaseModel{
 	
 	private Integer mobileTypeId;
-	
 	private String name;
-	
 	private String alias;
 
 	public Integer getMobileTypeId() {

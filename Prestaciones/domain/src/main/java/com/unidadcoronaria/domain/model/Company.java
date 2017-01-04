@@ -1,11 +1,9 @@
 package com.unidadcoronaria.domain.model;
 
-public class Company {
+public class Company extends BaseModel {
 	
 	private Integer companyId;
-	
 	private String name;
-	
 	private String fantasyName;
 
 	public Integer getCompanyId() {
@@ -31,7 +29,5 @@ public class Company {
 	public void setFantasyName(String fantasyName) {
 		this.fantasyName = fantasyName;
 	}
-
-	
 
 }

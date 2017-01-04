@@ -2,51 +2,23 @@ package com.unidadcoronaria.domain.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 //TODO Implements Parcelable
-public class MedicalService implements Serializable {
-	
+public class MedicalService extends BaseModel implements Serializable  {
+
 
 	private Integer medicalServiceId;
-	
 	private Integer number;
-	
 	private Date date;
-	
 	private String telephone;
-	
-	private MedicalServiceAddress medicalServiceAddress;
-	
+	private AddressMedicalService addressMedicalService;
 	private String name;
-	
 	private String sex;
-	
 	private Integer age;
-	
 	private char copayment;
-	
 	private char copaymentPaid;
-	
-	private String observations;
-
-	private String symptom;
-
-	private List<Supply> supplyList;
-
-	private Integer status;
-
-	public MedicalService() {
-	}
-
-	public MedicalService(MedicalServiceAddress medicalServiceAddress, String name, String sex, Integer age, String observations, String symptom) {
-		this.medicalServiceAddress = medicalServiceAddress;
-		this.name = name;
-		this.sex = sex;
-		this.age = age;
-		this.observations = observations;
-		this.symptom = symptom;
-	}
+	private String status;
+	private Integer cabinId;
 
 	public Integer getMedicalServiceId() {
 		return medicalServiceId;
@@ -80,12 +52,12 @@ public class MedicalService implements Serializable {
 		this.telephone = telephone;
 	}
 
-	public MedicalServiceAddress getMedicalServiceAddress() {
-		return medicalServiceAddress;
+	public AddressMedicalService getAddressMedicalService() {
+		return addressMedicalService;
 	}
 
-	public void setMedicalServiceAddress(MedicalServiceAddress medicalServiceAddress) {
-		this.medicalServiceAddress = medicalServiceAddress;
+	public void setAddressMedicalService(AddressMedicalService addressMedicalService) {
+		this.addressMedicalService = addressMedicalService;
 	}
 
 	public String getName() {
@@ -128,36 +100,20 @@ public class MedicalService implements Serializable {
 		this.copaymentPaid = copaymentPaid;
 	}
 
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public String getObservations() {
-		return observations;
+	public Integer getCabinId() {
+		return cabinId;
 	}
 
-	public void setObservations(String observations) {
-		this.observations = observations;
-	}
-
-	public String getSymptom() {
-		return symptom;
-	}
-
-	public void setSymptom(String symptom) {
-		this.symptom = symptom;
-	}
-
-	public List<Supply> getSupplyList() {
-		return supplyList;
-	}
-
-	public void setSupplyList(List<Supply> supplyList) {
-		this.supplyList = supplyList;
+	public void setCabinId(Integer cabinId) {
+		this.cabinId = cabinId;
 	}
 }
 

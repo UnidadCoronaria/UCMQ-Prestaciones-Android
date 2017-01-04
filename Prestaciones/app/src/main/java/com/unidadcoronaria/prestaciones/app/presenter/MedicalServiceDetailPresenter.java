@@ -4,10 +4,8 @@ import android.content.Context;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.unidadcoronaria.domain.model.MedicalService;
-import com.unidadcoronaria.domain.usecase.GetMessageUseCase;
 import com.unidadcoronaria.domain.usecase.GetRouteUseCase;
 import com.unidadcoronaria.prestaciones.app.MedicalServiceDetailView;
-import com.unidadcoronaria.prestaciones.app.MessageView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -28,7 +26,7 @@ public class MedicalServiceDetailPresenter extends BasePresenter<MedicalServiceD
 
     public void getRoute(LatLng origin, MedicalService medicalService){
         mGetRouteUseCase.setData(String.valueOf(origin.latitude)+","+String.valueOf(origin.longitude),
-                String.valueOf(medicalService.getMedicalServiceAddress().getLatitude())+","+String.valueOf(medicalService.getMedicalServiceAddress().getLongitude()) );
+                String.valueOf(medicalService.getAddressMedicalService().getLatitude())+","+String.valueOf(medicalService.getAddressMedicalService().getLongitude()) );
         mGetRouteUseCase.execute(mContext);
     }
 

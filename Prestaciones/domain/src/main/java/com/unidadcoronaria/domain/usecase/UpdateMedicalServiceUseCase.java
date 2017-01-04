@@ -3,12 +3,9 @@ package com.unidadcoronaria.domain.usecase;
 import android.content.Context;
 
 import com.unidadcoronaria.domain.BusProvider;
-import com.unidadcoronaria.domain.model.MedicalService;
-import com.unidadcoronaria.domain.model.Watch;
-import com.unidadcoronaria.domain.transformer.MedicalServiceTransformer;
-import com.unidadcoronaria.domain.transformer.WatchTransformer;
-import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
-import com.unidadcoronaria.prestaciones.data.entity.WatchEntity;
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
+import com.unidadcoronaria.domain.transformer.MedicalServiceResourceTransformer;
+import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
 import com.unidadcoronaria.prestaciones.data.network.ApiClient;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
 
@@ -16,16 +13,16 @@ import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCall
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public class UpdateMedicalServiceUseCase extends UseCase<MedicalService> {
+public class UpdateMedicalServiceUseCase extends UseCase<MedicalServiceResource> {
 
-    private final MedicalServiceTransformer transformer = new MedicalServiceTransformer();
-    private MedicalService medicalService;
+    private final MedicalServiceResourceTransformer transformer = new MedicalServiceResourceTransformer();
+    private MedicalServiceResource medicalService;
 
     @Override
     public void execute(Context aContext) {
-        ApiClient.getInstance().updateMedicalService(transformer.transformToEntity(this.medicalService), new SuccessFailureCallBack<MedicalServiceEntity>() {
+        ApiClient.getInstance().updateMedicalService(transformer.transformToEntity(this.medicalService), new SuccessFailureCallBack<MedicalServiceResourceEntity>() {
             @Override
-            public void onSuccess(MedicalServiceEntity medicalServiceEntity) {
+            public void onSuccess(MedicalServiceResourceEntity medicalServiceEntity) {
                 BusProvider.getDefaultBus().post(new SuccessResponse(transformer.transform(medicalServiceEntity)));
             }
 
@@ -36,20 +33,20 @@ public class UpdateMedicalServiceUseCase extends UseCase<MedicalService> {
         });
     }
 
-    public void setMedicalService(MedicalService medicalService){
+    public void setMedicalService(MedicalServiceResource medicalService){
         this.medicalService = medicalService;
     }
 
     //region Inner Classes
     public static class SuccessResponse {
 
-        private MedicalService medicalService;
+        private MedicalServiceResource medicalService;
 
-        public SuccessResponse(MedicalService medicalService) {
+        public SuccessResponse(MedicalServiceResource medicalService) {
             this.medicalService = medicalService;
         }
 
-        public MedicalService getMedicalService() {
+        public MedicalServiceResource getMedicalService() {
             return medicalService;
         }
     }

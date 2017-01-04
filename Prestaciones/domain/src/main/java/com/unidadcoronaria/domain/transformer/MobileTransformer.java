@@ -23,9 +23,13 @@ public class MobileTransformer implements Transformer<MobileEntity, Mobile>,Enti
         mobile.setMobileId(object.getMobileId());
         mobile.setActive(object.getActive());
         mobile.setAlias(object.getAlias());
-        mobile.setCompany(companyTransformer.transform(object.getCompany()));
         mobile.setName(object.getName());
-        mobile.setMobileType(mobileTypeTransformer.transform(object.getMobileType()));
+        if(object.getCompany() != null) {
+            mobile.setCompany(companyTransformer.transform(object.getCompany()));
+        }
+        if(object.getMobileType() != null) {
+            mobile.setMobileType(mobileTypeTransformer.transform(object.getMobileType()));
+        }
         return mobile ;
     }
 
@@ -44,9 +48,13 @@ public class MobileTransformer implements Transformer<MobileEntity, Mobile>,Enti
         mobile.setMobileId(object.getMobileId());
         mobile.setActive(object.getActive());
         mobile.setAlias(object.getAlias());
-        mobile.setCompany(companyTransformer.transformToEntity(object.getCompany()));
         mobile.setName(object.getName());
-        mobile.setMobileType(mobileTypeTransformer.transformToEntity(object.getMobileType()));
+        if(object.getCompany() != null) {
+            mobile.setCompany(companyTransformer.transformToEntity(object.getCompany()));
+        }
+        if(object.getMobileType() != null) {
+            mobile.setMobileType(mobileTypeTransformer.transformToEntity(object.getMobileType()));
+        }
         return mobile ;
     }
 

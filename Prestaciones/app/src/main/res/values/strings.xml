@@ -41,6 +41,7 @@
 
     <!-- Messages -->
     <string name="messages">Mensajes</string>
+    <string name="message_sent">El mensaje se envio correctamente</string>
 
     <!-- Medical Service Status -->
     <string name="medical_service_status_assigned">Asignado</string>
@@ -55,4 +56,8 @@
     <string name="medical_service_status_in_destiny">En Destino</string>
     <string name="medical_service_status_to_origin">A Origen</string>
     <string name="medical_service_status_in_origin">En Origen</string>
+
+
+    <!-- Change User -->
+    <string name="change_user_title">Cambiar usuario</string>
 </resources>

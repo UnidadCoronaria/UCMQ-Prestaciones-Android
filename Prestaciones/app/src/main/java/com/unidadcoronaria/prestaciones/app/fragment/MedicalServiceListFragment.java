@@ -58,4 +58,6 @@ public class MedicalServiceListFragment extends BaseFragment {
     protected int makeContentViewResourceId() {
         return R.layout.fragment_list_medical_service;
     }
+
+
 }

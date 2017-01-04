@@ -1,6 +1,6 @@
 package com.unidadcoronaria.prestaciones.app;
 
-import com.unidadcoronaria.domain.model.MedicalService;
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface ListMedicalServiceView extends View {
 
-    void onListRetrieved(List<MedicalService> list);
+    void onListRetrieved(List<MedicalServiceResource> list);
 }

@@ -1,15 +1,11 @@
 package com.unidadcoronaria.domain.model;
 
-public class Diagnostic {
-	
+public class Diagnostic extends BaseModel{
+
 	private Integer diagnosticId;
-	
 	private String name;
-	
 	private String description;
-	
 	private char active;
-	
 	private String number;
 
 	public Integer getDiagnosticId() {
@@ -51,14 +47,9 @@ public class Diagnostic {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
 
 }

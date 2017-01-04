@@ -1,16 +1,13 @@
 package com.unidadcoronaria.domain.model;
 
-public class Medicament {
-	
+public class Medicament extends BaseModel{
+
 	private Integer medicamentId;
-	
 	private String name;
-	
 	private String number;
-	
 	private char active;
-	
 	private String type;
+
 
 	public Integer getMedicamentId() {
 		return medicamentId;

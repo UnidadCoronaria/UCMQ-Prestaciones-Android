@@ -74,7 +74,7 @@
                     android:paddingTop="5dp"
                     android:layout_marginRight="50dp"
                     android:includeFontPadding="false"
-                    android:text="RETORNANDO"
+                    android:text="EN DOMICILIO"
                     android:textColor="@color/button_background" />
 
 
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:background="@drawable/selector_button"
-                    android:text="EN DOMICILIO"
+                    android:text="CERRAR"
                     android:textColor="@color/button_background" />
 
                 <View

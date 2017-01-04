@@ -5,8 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Created by Facundo Mengoni on 5/18/2015.
- * GlobalLogic | facundo.mengoni@globallogic.com
+ * Created by Agustin.Bala
  */
 public class SharedPreferencesHelper {
     private static final int DEFAULT_INT = Integer.MIN_VALUE;

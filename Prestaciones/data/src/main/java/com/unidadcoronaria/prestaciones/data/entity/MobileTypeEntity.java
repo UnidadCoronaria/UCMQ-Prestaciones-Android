@@ -1,11 +1,9 @@
 package com.unidadcoronaria.prestaciones.data.entity;
 
-public class MobileTypeEntity extends BaseEntity{
-	
+public class MobileTypeEntity extends BaseEntity {
+
 	private Integer mobileTypeId;
-	
 	private String name;
-	
 	private String alias;
 
 	public Integer getMobileTypeId() {
@@ -32,6 +30,6 @@ public class MobileTypeEntity extends BaseEntity{
 		this.alias = alias;
 	}
 
-	
+
 
 }

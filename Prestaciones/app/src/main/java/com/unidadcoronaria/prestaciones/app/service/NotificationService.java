@@ -6,7 +6,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.unidadcoronaria.domain.BusProvider;
 import com.unidadcoronaria.domain.usecase.GetMedicalServiceUseCase;
-import com.unidadcoronaria.domain.usecase.GetMessageUseCase;
 import com.unidadcoronaria.prestaciones.App;
 import com.unidadcoronaria.prestaciones.util.NotificationHelper;
 
@@ -65,7 +64,7 @@ public class NotificationService extends FirebaseMessagingService {
     @Subscribe
     public void onMedicalServiceRetrieved(GetMedicalServiceUseCase.SuccessResponse response){
         if(response.getMedicalService() != null) {
-            NotificationHelper.showNotification(App.getInstance(), remoteMessage.getNotification().getBody(), response.getMedicalService());
+            NotificationHelper.showNotification(App.getInstance(), remoteMessage.getNotification().getBody(), response.getMedicalService().getMedicalService());
         }
         getBus().unregister(this);
     }

@@ -1,18 +1,14 @@
 package com.unidadcoronaria.prestaciones.app.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.unidadcoronaria.domain.model.MedicalService;
-import com.unidadcoronaria.domain.model.MedicalServiceAddress;
 import com.unidadcoronaria.domain.usecase.GetMedicalServiceAttendedListUseCase;
-import com.unidadcoronaria.domain.usecase.GetMedicalServicePendingListUseCase;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
+import com.unidadcoronaria.prestaciones.app.activity.OnUserChange;
+import com.unidadcoronaria.prestaciones.util.SessionHelper;
 
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -32,6 +28,7 @@ public class ListMedicalServiceAttendedPresenter extends BasePresenter<ListMedic
 
     public void getList() {
         view.showLoading();
+        mGetMedicalServiceAttendedListUseCase.setData(Integer.valueOf(SessionHelper.getGuardId()));
         mGetMedicalServiceAttendedListUseCase.execute(context);
     }
 
@@ -40,5 +37,12 @@ public class ListMedicalServiceAttendedPresenter extends BasePresenter<ListMedic
         view.onListRetrieved(response.getList());
         view.hideLoading();
     }
+
+    @Subscribe
+    public void onUserChange(OnUserChange response){
+        Log.i("Attended Presenter", "On user change");
+        getList();
+    }
+
 
 }

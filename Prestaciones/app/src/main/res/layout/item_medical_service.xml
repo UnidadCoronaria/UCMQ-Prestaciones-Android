@@ -4,7 +4,7 @@
     android:paddingTop="15dp"
     android:id="@+id/list_item_container"
     android:orientation="vertical"
-    android:background="@drawable/ripple_medical_service_item"
+    android:background="@drawable/selector_item_medical_service"
     android:layout_height="100dp">
 
     <RelativeLayout

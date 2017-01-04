@@ -1,6 +1,6 @@
 package com.unidadcoronaria.prestaciones.app;
 
-import com.unidadcoronaria.domain.model.Message;
+import com.unidadcoronaria.domain.model.DeviceMessage;
 
 import java.util.List;
 
@@ -10,5 +10,7 @@ import java.util.List;
 
 public interface MessageView extends View {
 
-    void onMessageListReceived(List<Message> messageList);
+    void onMessageListReceived(List<DeviceMessage> messageList);
+
+    void onMessageSendReceived(DeviceMessage message);
 }

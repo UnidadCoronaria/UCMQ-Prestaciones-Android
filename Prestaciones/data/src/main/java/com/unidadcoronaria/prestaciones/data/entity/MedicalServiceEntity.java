@@ -1,42 +1,26 @@
 package com.unidadcoronaria.prestaciones.data.entity;
 
 import java.util.Date;
-import java.util.List;
 
 public class MedicalServiceEntity {
 
 
 	private Integer medicalServiceId;
-
 	private Integer number;
-
-	private String date;
-
+	private Date date;
 	private String telephone;
-
-	private MedicalServiceAddressEntity medicalServiceAddress;
-
+	private AddressMedicalServiceEntity addressMedicalService;
 	private String name;
-
 	private String sex;
-
 	private Integer age;
-
 	private char copayment;
-
 	private char copaymentPaid;
-
-	private Integer status;
-
-	private String observations;
-
-	private String symptom;
+	private String status;
+	private Integer cabinId;
 
 	public Integer getMedicalServiceId() {
 		return medicalServiceId;
 	}
-
-	private List<SupplyEntity> supplyList;
 
 	public void setMedicalServiceId(Integer medicalServiceId) {
 		this.medicalServiceId = medicalServiceId;
@@ -50,11 +34,11 @@ public class MedicalServiceEntity {
 		this.number = number;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -66,12 +50,12 @@ public class MedicalServiceEntity {
 		this.telephone = telephone;
 	}
 
-	public MedicalServiceAddressEntity getMedicalServiceAddress() {
-		return medicalServiceAddress;
+	public AddressMedicalServiceEntity getAddressMedicalService() {
+		return addressMedicalService;
 	}
 
-	public void setMedicalServiceAddress(MedicalServiceAddressEntity medicalServiceAddress) {
-		this.medicalServiceAddress = medicalServiceAddress;
+	public void setAddressMedicalService(AddressMedicalServiceEntity addressMedicalService) {
+		this.addressMedicalService = addressMedicalService;
 	}
 
 	public String getName() {
@@ -114,45 +98,20 @@ public class MedicalServiceEntity {
 		this.copaymentPaid = copaymentPaid;
 	}
 
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public MedicalServiceEntity() {
-		super();
+	public Integer getCabinId() {
+		return cabinId;
 	}
 
-	public MedicalServiceEntity(Integer medicalServiceId) {
-		super();
-		this.medicalServiceId = medicalServiceId;
-	}
-
-	public String getObservations() {
-		return observations;
-	}
-
-	public void setObservations(String observations) {
-		this.observations = observations;
-	}
-
-	public String getSymptom() {
-		return symptom;
-	}
-
-	public void setSymptom(String symptom) {
-		this.symptom = symptom;
-	}
-
-	public List<SupplyEntity> getSupplyList() {
-		return supplyList;
-	}
-
-	public void setSupplyList(List<SupplyEntity> supplyList) {
-		this.supplyList = supplyList;
+	public void setCabinId(Integer cabinId) {
+		this.cabinId = cabinId;
 	}
 }
 

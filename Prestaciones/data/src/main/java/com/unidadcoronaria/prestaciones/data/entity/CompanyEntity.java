@@ -3,9 +3,7 @@ package com.unidadcoronaria.prestaciones.data.entity;
 public class CompanyEntity extends BaseEntity{
 	
 	private Integer companyId;
-	
 	private String name;
-	
 	private String fantasyName;
 
 	public Integer getCompanyId() {

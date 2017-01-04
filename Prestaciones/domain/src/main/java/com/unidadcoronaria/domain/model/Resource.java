@@ -1,12 +1,11 @@
 package com.unidadcoronaria.domain.model;
 
-public class Resource {
-	
+public class Resource extends BaseModel{
+
 	private Integer resourceId;
-	
-	private Mobile mobile;
-	
+	private MobileType mobile;
 	private char outOfService;
+	private Device device;
 
 	public Integer getResourceId() {
 		return resourceId;
@@ -16,11 +15,11 @@ public class Resource {
 		this.resourceId = resourceId;
 	}
 
-	public Mobile getMobile() {
+	public MobileType getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(Mobile mobile) {
+	public void setMobile(MobileType mobile) {
 		this.mobile = mobile;
 	}
 
@@ -32,10 +31,11 @@ public class Resource {
 		this.outOfService = outOfService;
 	}
 
-	
+	public Device getDevice() {
+		return device;
+	}
 
-	
-	
-	
-
+	public void setDevice(Device device) {
+		this.device = device;
+	}
 }
