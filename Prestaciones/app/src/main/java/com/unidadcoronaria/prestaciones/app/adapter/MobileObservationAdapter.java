@@ -77,16 +77,14 @@ public class MobileObservationAdapter extends RecyclerView.Adapter<MobileObserva
                 mVisibleItems--;
                 mCallback.onWatchMobileObservationItemsIncompleted();
             } else {
-                //TODO nuevo elemento con status
-                //item.setStatus(false);
+                item.setCurrentState(false);
                 view.setSelected(true);
             }
         } else {
             mVisibleItems++;
             view.setVisibility(View.VISIBLE);
             view.setSelected(false);
-            //TODO nuevo elemento con status
-            //item.setStatus(true);
+            item.setCurrentState(true);
             if(mVisibleItems == mList.size()){
                 mCallback.onMobileObservationItemsCompleted();
             }
@@ -99,8 +97,7 @@ public class MobileObservationAdapter extends RecyclerView.Adapter<MobileObserva
         View view = layoutInflater.inflate(R.layout.view_note, null);
         // Set up the input
         final EditText input = (EditText) view.findViewById(R.id.view_note_text);
-        //TODO Create object to send mobileObservation
-        //input.setText(mobileObservation.getObservation());
+        input.setText(mobileObservation.getCurrentObservation());
         TextView textView = (TextView) view.findViewById(R.id.view_note_title);
         textView.setText(App.getInstance().getString(R.string.init_watch_dialog_title));
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
@@ -110,7 +107,7 @@ public class MobileObservationAdapter extends RecyclerView.Adapter<MobileObserva
         builder.setPositiveButton( mContext.getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //mobileObservation.setObservation(input.getText().toString());
+                mobileObservation.setCurrentObservation(input.getText().toString());
             }
         });
         builder.setNegativeButton(mContext.getString(R.string.button_close) , new DialogInterface.OnClickListener() {
@@ -121,6 +118,7 @@ public class MobileObservationAdapter extends RecyclerView.Adapter<MobileObserva
         });
         builder.show();
     }
+
 
     @Override
     public int getItemCount() {

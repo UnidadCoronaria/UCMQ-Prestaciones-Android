@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.unidadcoronaria.domain.usecase.GetMedicalServicePendingListUseCase;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
-import com.unidadcoronaria.prestaciones.app.activity.OnUserChange;
+import com.unidadcoronaria.prestaciones.app.activity.event.OnUserChange;
 
 import org.greenrobot.eventbus.Subscribe;
 

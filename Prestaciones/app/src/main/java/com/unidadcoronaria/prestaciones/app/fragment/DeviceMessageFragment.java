@@ -30,7 +30,7 @@ import butterknife.OnClick;
  * Created by AGUSTIN.BALA on 11/10/2016.
  */
 
-public class DeviceMessageFragment extends BaseFragment implements MessageView, DeviceMessageAdapter.Callback {
+public class DeviceMessageFragment extends BaseFragment implements MessageView {
 
     @BindView(R.id.fragment_message_list)
     protected RecyclerView mMessageList;
@@ -40,6 +40,9 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView, 
 
     @BindView(R.id.fragment_message_text)
     protected EditText vText;
+
+    @BindView(R.id.fragment_message_container)
+    protected View vContainer;
 
     private DeviceMessageAdapter adapter;
     private DeviceMessagePresenter presenter;
@@ -63,7 +66,7 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView, 
         ButterKnife.bind(this, view);
         presenter = new DeviceMessagePresenter(this, getContext());
         mMessageList.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new DeviceMessageAdapter(this, new ArrayList<DeviceMessage>());
+        adapter = new DeviceMessageAdapter(new ArrayList<DeviceMessage>());
         mMessageList.setAdapter(adapter);
         presenter.getList();
         return view;
@@ -89,7 +92,15 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView, 
 
     @Override
     public void displayError(String message) {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(getString(R.string.message_sent_error)).setPositiveButton(getString(R.string.button_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //do nothing
+            }
+        });
+        builder.create().show();
+        vSendButton.setClickable(true);
     }
 
     @Override
@@ -98,6 +109,7 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView, 
         mMessageList.setVisibility(View.GONE);
         vText.setVisibility(View.GONE);
         vSendButton.setVisibility(View.GONE);
+        vContainer.setVisibility(View.GONE);
     }
 
     @Override
@@ -106,6 +118,7 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView, 
         mMessageList.setVisibility(View.VISIBLE);
         vText.setVisibility(View.VISIBLE);
         vSendButton.setVisibility(View.VISIBLE);
+        vContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -137,12 +150,14 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView, 
                 //do nothing
             }
         });
-       //  builder.create().show();
+         builder.create().show();
     }
 
     @OnClick(R.id.fragment_message_send)
     public void onSendClick(View view){
-        vSendButton.setClickable(false);
-        presenter.sendMessage(vText.getText().toString());
+        if(vText.getText() != null && !vText.getText().toString().isEmpty()) {
+            vSendButton.setClickable(false);
+            presenter.sendMessage(vText.getText().toString());
+        }
     }
 }

@@ -30,11 +30,8 @@ public class MedicalServiceDetailActivity extends BaseActivity {
         return new Intent(context, MedicalServiceDetailActivity.class);
     }
 
-    protected boolean showDisplayHomeAsUpEnabled() {
-        return true;
-    }
-
-    protected boolean showHomeButtonEnable() {
+    @Override
+    protected Boolean locationEnabled() {
         return true;
     }
 }

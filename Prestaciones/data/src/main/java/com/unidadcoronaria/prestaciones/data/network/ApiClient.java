@@ -8,9 +8,12 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.unidadcoronaria.prestaciones.data.dto.DeviceMessageDTO;
+import com.unidadcoronaria.prestaciones.data.dto.MobileObservationDTO;
 import com.unidadcoronaria.prestaciones.data.entity.GuardEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
 import com.unidadcoronaria.prestaciones.data.entity.DeviceMessageEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MobileObservationEntity;
 import com.unidadcoronaria.prestaciones.data.entity.ProviderEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MedicamentEntity;
 import com.unidadcoronaria.prestaciones.data.entity.TypeMobileObservationEntity;
@@ -26,6 +29,7 @@ import com.unidadcoronaria.prestaciones.data.network.rest.MedicamentService;
 import com.unidadcoronaria.prestaciones.data.network.rest.GuardService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -120,6 +124,25 @@ public class ApiClient {
     public void getMedicalServicePendingList(final SuccessFailureCallBack<List<MedicalServiceResourceEntity>> callback) {
         retrofit.create(MedicalServiceService.class).getPendingList().enqueue(new ResultEntityCallback<List<MedicalServiceResourceEntity>>(callback));
     }
+
+    public void initGuard(List<MobileObservationEntity> mobileObservationEntities, Integer guardId, final SuccessFailureCallBack<Void> callback) {
+        List<MobileObservationDTO> dtoList = new ArrayList<>();
+        for (MobileObservationEntity entity : mobileObservationEntities) {
+            MobileObservationDTO dto = new MobileObservationDTO();
+            dto.setObservation(entity.getObservation());
+            dto.setTypeMobileObservationId(entity.getTypeMobileObservation().getTypeMobileObservationId());
+            dtoList.add(dto);
+        }
+        retrofit.create(GuardService.class).post(guardId,dtoList).enqueue(new ResultEntityCallback<Void>(callback));
+    }
+
+    public void sendMessage(final SuccessFailureCallBack<DeviceMessageEntity> callback, Integer guardId, DeviceMessageEntity message) {
+        DeviceMessageDTO dto = new DeviceMessageDTO();
+        dto.setMessage(message.getMessage());
+        retrofit.create(DeviceMessageService.class).send(guardId, dto).enqueue(new ResultEntityCallback<DeviceMessageEntity>(callback));
+    }
+
+
     //region Pending check
     public void getMedicalService(Long medicalServiceId, final SuccessFailureCallBack<MedicalServiceResourceEntity> callback) {
         retrofit.create(MedicalServiceService.class).getById(medicalServiceId).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
@@ -129,17 +152,12 @@ public class ApiClient {
         retrofit.create(MedicamentService.class).get().enqueue(new ResultEntityCallback<List<MedicamentEntity>>(callback));
     }
 
-    public void initGuard(GuardEntity guardEntity, final SuccessFailureCallBack<GuardEntity> callback) {
-        retrofit.create(GuardService.class).post(guardEntity).enqueue(new ResultEntityCallback<GuardEntity>(callback));
-    }
+
 
     public void updateMedicalService(MedicalServiceResourceEntity medicalServiceEntity, final SuccessFailureCallBack<MedicalServiceResourceEntity> callback) {
         retrofit.create(MedicalServiceService.class).post(medicalServiceEntity).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
 
-    public void sendMessage(final SuccessFailureCallBack<DeviceMessageEntity> callback, DeviceMessageEntity message) {
-        retrofit.create(DeviceMessageService.class).send(message).enqueue(new ResultEntityCallback<DeviceMessageEntity>(callback));
-    }
 
     public void getRoute(final SuccessFailureCallBack<RouteResponseEntity> callback, String origin, String destination) {
         retrofitGoogleDirections.create(MapService.class).getRoute(origin, destination,"AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q", "metric").enqueue(new ResultEntityCallback<RouteResponseEntity>(callback));

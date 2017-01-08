@@ -1,14 +1,13 @@
 package com.unidadcoronaria.prestaciones.app.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.crashlytics.android.Crashlytics;
 import com.unidadcoronaria.prestaciones.BuildConfig;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
 import com.unidadcoronaria.prestaciones.app.fragment.SplashFragment;
+
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -27,6 +26,11 @@ public class SplashActivity extends BaseActivity {
             Fabric.with(this, new Crashlytics());
         }
         hideToolbar();
+    }
+
+    @Override
+    protected Boolean locationEnabled() {
+        return false;
     }
 
     @Override

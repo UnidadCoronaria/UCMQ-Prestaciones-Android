@@ -54,26 +54,34 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_base_fragment, getFragment()).commit();
         }
-        mLocationService = new LocationService(this);
-        mLocationService.onCreate();
+        if(locationEnabled()) {
+            mLocationService = new LocationService(this);
+            mLocationService.onCreate();
+        }
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        mLocationService.onResume();
+        if(locationEnabled()) {
+            mLocationService.onResume();
+        }
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        mLocationService.onPause();
+        if(locationEnabled()) {
+            mLocationService.onPause();
+        }
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        mLocationService.onDestroy();
+        if(locationEnabled()) {
+            mLocationService.onDestroy();
+        }
     }
     //endregion
 
@@ -106,11 +114,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     }
     //endregion
 
+    protected abstract Boolean locationEnabled();
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == LocationService.PERMISSION_ACCESS_LOCATION) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-               mLocationService.onResume();
+                if(locationEnabled()) {
+                    mLocationService.onResume();
+                }
+
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
@@ -124,7 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     }
 
     public void showNeedLocationPermissionMessage() {
-        new AlertDialog.Builder(this)
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.notice))
                 .setMessage(getString(R.string.need_gps_permission_message))
                 .setCancelable(false)

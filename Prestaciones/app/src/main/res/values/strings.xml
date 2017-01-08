@@ -42,6 +42,7 @@
     <!-- Messages -->
     <string name="messages">Mensajes</string>
     <string name="message_sent">El mensaje se envio correctamente</string>
+    <string name="message_sent_error">El mensaje no pudo ser enviado. Intentelo nuevamente.</string>
 
     <!-- Medical Service Status -->
     <string name="medical_service_status_assigned">Asignado</string>

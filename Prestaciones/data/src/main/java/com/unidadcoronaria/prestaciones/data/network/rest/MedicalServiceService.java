@@ -20,7 +20,7 @@ public interface MedicalServiceService {
     Call<List<MedicalServiceResourceEntity>> getPendingList();
 
     @GET("medicalServiceResource/{guardId}/attended")
-    Call<List<MedicalServiceResourceEntity>> getAttendedList(@Path("guardId") Integer watchId);
+    Call<List<MedicalServiceResourceEntity>> getAttendedList(@Path("guardId") Integer guardId);
 
     @GET("medicalServiceResource/{medicalServiceResourceId}")
     Call<MedicalServiceResourceEntity> getById(@Path("medicalServiceResourceId") Long medicalServiceId);

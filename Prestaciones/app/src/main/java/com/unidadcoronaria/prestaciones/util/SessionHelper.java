@@ -23,6 +23,10 @@ public class SessionHelper {
         return SharedPreferencesHelper.getString(App.getInstance(), KEY_USER_ID);
     }
 
+    public static String getUsername() {
+        return SharedPreferencesHelper.getString(App.getInstance(), KEY_USER_NAME);
+    }
+
     public static String getGuardId() {
         return SharedPreferencesHelper.getString(App.getInstance(), KEY_GUARD_ID);
     }

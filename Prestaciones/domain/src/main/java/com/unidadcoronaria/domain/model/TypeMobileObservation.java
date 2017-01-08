@@ -8,6 +8,8 @@ public class TypeMobileObservation extends BaseModel {
 
     private Integer typeMobileObservationId;
     private String name;
+    private String currentObservation;
+    private Boolean currentState;
 
     public Integer getTypeMobileObservationId() {
         return typeMobileObservationId;
@@ -23,5 +25,21 @@ public class TypeMobileObservation extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCurrentObservation() {
+        return currentObservation;
+    }
+
+    public void setCurrentObservation(String currentObservation) {
+        this.currentObservation = currentObservation;
+    }
+
+    public Boolean getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(Boolean currentState) {
+        this.currentState = currentState;
     }
 }

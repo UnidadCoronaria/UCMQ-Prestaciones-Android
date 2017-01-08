@@ -27,7 +27,7 @@
 
 
         <TextView
-            android:id="@+id/list_item_symptom"
+            android:id="@+id/list_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -43,7 +43,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="4dp"
-            android:layout_below="@+id/list_item_symptom"
+            android:layout_below="@+id/list_item_name"
             android:textColor="@color/sub_item_text"
             android:textSize="@dimen/subtitle_size" />
 

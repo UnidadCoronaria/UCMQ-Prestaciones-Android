@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:id="@+id/list_item_message_container"
+    android:background="@drawable/selector_message"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/list_item_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_message_item"
         android:backgroundTint="@color/progress_bar_background"
         android:textColor="@color/item_text"
         android:textSize="@dimen/title_size" />
+
+    <TextView
+        android:id="@+id/list_item_message_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/progress_bar_background"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
 
 </LinearLayout>

@@ -29,6 +29,10 @@ public class MedicalServiceResourceTransformer implements Transformer<MedicalSer
         }
         entity.setCanceled(object.getCanceled());
         entity.setClosedMedicalService(object.getClosedMedicalService());
+        entity.setCurrentState(object.getCurrentState());
+        if(object.getAuthorizedStates() != null){
+            entity.setAuthorizedStates(object.getAuthorizedStates());
+        }
         return entity;
     }
 
@@ -53,6 +57,10 @@ public class MedicalServiceResourceTransformer implements Transformer<MedicalSer
         }
         entity.setCanceled(object.getCanceled());
         entity.setClosedMedicalService(object.getClosedMedicalService());
+        entity.setCurrentState(object.getCurrentState());
+        if(object.getAuthorizedStates() != null){
+            entity.setAuthorizedStates(object.getAuthorizedStates());
+        }
         return entity;
     }
 

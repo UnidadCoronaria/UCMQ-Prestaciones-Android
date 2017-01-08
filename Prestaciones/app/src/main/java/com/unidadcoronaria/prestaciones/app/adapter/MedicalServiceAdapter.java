@@ -58,16 +58,15 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
         final MedicalServiceResource medicalServiceResource = mList.get(position);
         final MedicalService medicalService = medicalServiceResource.getMedicalService();
         holder.vAddress.setText(medicalService.getAddressMedicalService().getStreet());
-        holder.vSymptom.setText(medicalService.getName());
-     //TODO
-        //   holder.vStatus.setText(MedicalServiceStatusHelper.getStatusName(Integer.valueOf(medicalService.getStatus())));
+        holder.vName.setText(medicalService.getName());
+        holder.vStatus.setText(MedicalServiceStatusHelper.getStatusName(Integer.valueOf(medicalServiceResource.getCurrentState())));
         holder.vAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callback.onMedicalServiceClick(medicalService);
             }
         });
-        holder.vSymptom.setOnClickListener(new View.OnClickListener() {
+        holder.vName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callback.onMedicalServiceClick(medicalService);
@@ -106,8 +105,8 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
         @BindView(R.id.list_item_status)
         protected TextView vStatus;
 
-        @BindView(R.id.list_item_symptom)
-        protected TextView vSymptom;
+        @BindView(R.id.list_item_name)
+        protected TextView vName;
 
         @BindView(R.id.list_item_container)
         protected View vContainer;

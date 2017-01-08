@@ -1,5 +1,7 @@
 package com.unidadcoronaria.prestaciones.data.entity;
 
+import java.util.List;
+
 /**
  * Created by AGUSTIN.BALA on 01/01/2017.
  */
@@ -11,6 +13,8 @@ public class MedicalServiceResourceEntity extends BaseEntity {
     private ResourceEntity resource;
     private Integer canceled;
     private char closedMedicalService;
+    private Integer currentState;
+    private List<Integer> authorizedStates;
 
     public Integer getMedicalServiceResourceId() {
         return medicalServiceResourceId;
@@ -50,5 +54,21 @@ public class MedicalServiceResourceEntity extends BaseEntity {
 
     public void setClosedMedicalService(char closedMedicalService) {
         this.closedMedicalService = closedMedicalService;
+    }
+
+    public Integer getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(Integer currentState) {
+        this.currentState = currentState;
+    }
+
+    public List<Integer> getAuthorizedStates() {
+        return authorizedStates;
+    }
+
+    public void setAuthorizedStates(List<Integer> authorizedStates) {
+        this.authorizedStates = authorizedStates;
     }
 }

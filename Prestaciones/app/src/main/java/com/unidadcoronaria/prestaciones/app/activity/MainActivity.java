@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import com.unidadcoronaria.domain.model.Provider;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.MainView;
+import com.unidadcoronaria.prestaciones.app.activity.event.OnUserChange;
 import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
 import com.unidadcoronaria.prestaciones.app.fragment.MedicalServiceListFragment;
 import com.unidadcoronaria.prestaciones.app.presenter.MainPresenter;
@@ -91,6 +92,11 @@ public class MainActivity extends BaseNavActivity implements MainView {
         }
     }
 
+    @Override
+    protected Boolean locationEnabled() {
+        return true;
+    }
+
     public void changeUser(Boolean isCancelable){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -100,9 +106,11 @@ public class MainActivity extends BaseNavActivity implements MainView {
         ArrayAdapter<Provider> adapter = new ArrayAdapter<>(this, R.layout.item_person, providerList);
         spinner.setAdapter(adapter);
         Integer selectedIndex = 0;
-        for (Provider provider: providerList) {
-            if(provider.getProviderId().equals(Integer.valueOf(SessionHelper.getUser()))){
-                selectedIndex = providerList.indexOf(provider);
+        if(!SessionHelper.getUser().isEmpty()) {
+            for (Provider provider : providerList) {
+                if (provider.getProviderId().equals(Integer.valueOf(SessionHelper.getUser()))) {
+                    selectedIndex = providerList.indexOf(provider);
+                }
             }
         }
         spinner.setSelection(selectedIndex);

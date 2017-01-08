@@ -17,4 +17,8 @@ public interface GuardView extends View {
 
     void onWatchMobileObservationItemsIncompleted();
 
+    void onGuardInit();
+
+    void onGuardInitError();
+
 }

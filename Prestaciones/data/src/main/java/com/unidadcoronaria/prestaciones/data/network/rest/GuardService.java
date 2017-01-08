@@ -1,11 +1,15 @@
 package com.unidadcoronaria.prestaciones.data.network.rest;
 
+import com.unidadcoronaria.prestaciones.data.dto.MobileObservationDTO;
 import com.unidadcoronaria.prestaciones.data.entity.GuardEntity;
+
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 /**
  * @author Agustin.Bala
@@ -13,10 +17,7 @@ import retrofit.http.POST;
  */
 public interface GuardService {
 
-    @POST("watch")
-    Call<GuardEntity> post(@Body GuardEntity watchEntity);
-
-    @GET("watch")
-    Call<GuardEntity> get();
+    @POST("/mobileObservation/{guardId}")
+    Call<Void> post(@Path("guardId") Integer guardId, @Body List<MobileObservationDTO> mobileObservationList);
 
 }

@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.unidadcoronaria.domain.usecase.GetMedicalServiceAttendedListUseCase;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
-import com.unidadcoronaria.prestaciones.app.activity.OnUserChange;
+import com.unidadcoronaria.prestaciones.app.activity.event.OnUserChange;
 import com.unidadcoronaria.prestaciones.util.SessionHelper;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -28,8 +28,10 @@ public class ListMedicalServiceAttendedPresenter extends BasePresenter<ListMedic
 
     public void getList() {
         view.showLoading();
-        mGetMedicalServiceAttendedListUseCase.setData(Integer.valueOf(SessionHelper.getGuardId()));
-        mGetMedicalServiceAttendedListUseCase.execute(context);
+        if(!SessionHelper.getGuardId().isEmpty()) {
+            mGetMedicalServiceAttendedListUseCase.setData(Integer.valueOf(SessionHelper.getGuardId()));
+            mGetMedicalServiceAttendedListUseCase.execute(context);
+        }
     }
 
     @Subscribe

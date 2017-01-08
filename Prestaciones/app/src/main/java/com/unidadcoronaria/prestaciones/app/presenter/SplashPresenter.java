@@ -25,7 +25,7 @@ public class SplashPresenter extends BasePresenter<SplashView>{
     }
 
     public void initSplash(){
-        //if(isGooglePlayServicesAvailable()) {
+        if(isGooglePlayServicesAvailable()) {
             view.onProgressUpdate(total);
             new CountDownTimer(SPLASH_DURATION, 20) {
                 public void onTick(long millisUntilFinished) {
@@ -40,7 +40,7 @@ public class SplashPresenter extends BasePresenter<SplashView>{
                     view.getActivity().finish();
                 }
             }.start();
-      //  }
+       }
     }
 
     private boolean isGooglePlayServicesAvailable() {

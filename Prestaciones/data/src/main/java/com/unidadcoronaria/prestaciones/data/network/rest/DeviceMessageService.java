@@ -1,5 +1,6 @@
 package com.unidadcoronaria.prestaciones.data.network.rest;
 
+import com.unidadcoronaria.prestaciones.data.dto.DeviceMessageDTO;
 import com.unidadcoronaria.prestaciones.data.entity.DeviceMessageEntity;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface DeviceMessageService {
     @GET("/deviceMessage/{guardId}/messages")
     Call<List<DeviceMessageEntity>> get(@Path("guardId") Integer watchId);
 
-    @POST("message")
-    Call<DeviceMessageEntity> send(@Body DeviceMessageEntity deviceMessageEntity);
+    @POST("/deviceMessage/{guardId}/messages")
+    Call<DeviceMessageEntity> send(@Path("guardId") Integer watchId, @Body DeviceMessageDTO deviceMessageDTO);
 
 }

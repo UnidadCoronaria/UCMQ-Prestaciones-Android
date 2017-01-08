@@ -12,12 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.unidadcoronaria.domain.model.MobileObservation;
 import com.unidadcoronaria.domain.model.TypeMobileObservation;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.adapter.MobileObservationAdapter;
 import com.unidadcoronaria.prestaciones.app.presenter.GuardPresenter;
 import com.unidadcoronaria.prestaciones.app.viewpager.GuardView;
+import com.unidadcoronaria.prestaciones.util.SessionHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,7 +44,6 @@ public class GuardFragment extends BaseFragment implements GuardView {
 
     private MobileObservationAdapter mAdapter;
     private GuardPresenter presenter;
-    private List<TypeMobileObservation> typeMobileObservations;
     private LinearLayoutManager mLayoutManager;
     private static GuardFragment instance;
     //endregions
@@ -91,7 +93,15 @@ public class GuardFragment extends BaseFragment implements GuardView {
 
     @Override
     public void displayError(String message) {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Hubo un error obteniendo los datos de la guardia. Intentelo nuevamente más tarde.");
+        // Set up the buttons
+        builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
     }
 
 
@@ -113,13 +123,12 @@ public class GuardFragment extends BaseFragment implements GuardView {
 
     @Override
     public void onMobileObservationRetrieved(List<TypeMobileObservation> typeMobileObservations) {
-        this.typeMobileObservations = typeMobileObservations;
         mAdapter.add(typeMobileObservations);
     }
 
     @OnClick(R.id.fragment_watch_button)
-    public void onSaveButton(){
-       //TODO
+    public void onSaveButton() {
+        showConfirmDialog();
     }
 
     @Override
@@ -132,21 +141,37 @@ public class GuardFragment extends BaseFragment implements GuardView {
         vButton.hide();
     }
 
-
-    private void showNoteDialog(){
+    @Override
+    public void onGuardInit() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.view_note, null);
-        // Set up the input
-        final EditText input = (EditText) view.findViewById(R.id.view_note_text);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        builder.setView(view);
-
+        builder.setMessage("La guardia se inició correctamente");
         // Set up the buttons
         builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO
+                presenter.getList();
+            }
+        });
+        builder.show();
+    }
+
+
+    private void showConfirmDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Va a iniciar una guardia con "+ SessionHelper.getUsername()+" como responsable.\nSi esto no es correcto, por favor, cambie el usuario y vuelva a intentarlo");
+        // Set up the buttons
+        builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                List<TypeMobileObservation> list = mAdapter.getList();
+                List<MobileObservation> mobileObservations = new ArrayList<>();
+                for (TypeMobileObservation typeMobileObservation : list) {
+                    MobileObservation mobileObservation = new MobileObservation();
+                    mobileObservation.setObservation(typeMobileObservation.getCurrentObservation());
+                    mobileObservation.setTypeMobileObservation(typeMobileObservation);
+                    mobileObservations.add(mobileObservation);
+                }
+                presenter.initGuard(mobileObservations);
             }
         });
         builder.setNegativeButton(getActivity().getString(R.string.button_close) , new DialogInterface.OnClickListener() {
@@ -157,5 +182,20 @@ public class GuardFragment extends BaseFragment implements GuardView {
         });
         builder.show();
     }
+
+    @Override
+    public void onGuardInitError() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("La guardia no pudo iniciarse correctamente, por favor intentelo más tarde");
+        // Set up the buttons
+        builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.getList();
+            }
+        });
+        builder.show();
+    }
+
 
 }

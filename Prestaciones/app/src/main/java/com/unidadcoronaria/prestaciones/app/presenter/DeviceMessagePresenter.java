@@ -7,7 +7,7 @@ import com.unidadcoronaria.domain.model.DeviceMessage;
 import com.unidadcoronaria.domain.usecase.GetDeviceMessageUseCase;
 import com.unidadcoronaria.domain.usecase.SendDeviceMessageUseCase;
 import com.unidadcoronaria.prestaciones.app.MessageView;
-import com.unidadcoronaria.prestaciones.app.activity.OnUserChange;
+import com.unidadcoronaria.prestaciones.app.activity.event.OnUserChange;
 import com.unidadcoronaria.prestaciones.util.SessionHelper;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -43,13 +43,15 @@ public class DeviceMessagePresenter extends BasePresenter<MessageView>  {
     }
 
     public void sendMessage(String message) {
-        mSendDeviceMessageUseCase.setData(new DeviceMessage(message, new Date()));
+        view.showLoading();
+        mSendDeviceMessageUseCase.setData(Integer.valueOf(SessionHelper.getGuardId()), new DeviceMessage(message, new Date()));
         mSendDeviceMessageUseCase.execute(mContext);
     }
 
     @Subscribe
     public void onMessageSendReceived(SendDeviceMessageUseCase.SuccessResponse response){
         view.onMessageSendReceived(response.getDeviceMessage());
+        view.hideLoading();
     }
 
     @Subscribe

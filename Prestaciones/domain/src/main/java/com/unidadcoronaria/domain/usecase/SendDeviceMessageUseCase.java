@@ -19,6 +19,7 @@ import java.util.List;
 public class SendDeviceMessageUseCase extends UseCase<DeviceMessage> {
 
     private DeviceMessage DeviceMessage;
+    private Integer guardId;
     private final DeviceMessageTransformer transformer = new DeviceMessageTransformer();
 
     @Override
@@ -33,11 +34,12 @@ public class SendDeviceMessageUseCase extends UseCase<DeviceMessage> {
             public void onFailure(String DeviceMessage) {
                 SendDeviceMessageUseCase.super.onFailure(DeviceMessage);
             }
-        }, transformer.transformToEntity(DeviceMessage));
+        },guardId,  transformer.transformToEntity(DeviceMessage));
     }
 
-    public void setData(DeviceMessage DeviceMessage){
+    public void setData(Integer guardId, DeviceMessage DeviceMessage){
         this.DeviceMessage = DeviceMessage;
+        this.guardId = guardId;
     }
 
     //region Inner Classes
