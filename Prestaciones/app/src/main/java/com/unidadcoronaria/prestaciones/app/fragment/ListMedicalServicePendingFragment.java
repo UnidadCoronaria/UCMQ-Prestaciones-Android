@@ -74,6 +74,7 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
         vListMedicalService.setHasFixedSize(true);
         mAdapter = new MedicalServiceAdapter(this, new ArrayList<MedicalServiceResource>());
         vListMedicalService.setAdapter(mAdapter);
+        setRetainInstance(true);
         return rootView;
     }
 
@@ -96,6 +97,7 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
     public void displayError(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         vProgress.setVisibility(View.GONE);
+        swipeContainer.setRefreshing(false);
     }
 
     @Override
