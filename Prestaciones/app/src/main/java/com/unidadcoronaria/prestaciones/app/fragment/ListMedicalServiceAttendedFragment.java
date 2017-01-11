@@ -76,19 +76,12 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
         return R.layout.fragment_medical_service_attended;
     }
 
-    @Override
-    public void onMedicalServiceClick(MedicalService medicalService) {
-        Intent intent = new Intent(this.getActivity(), MedicalServiceDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MEDICAL_SERVICE_KEY , medicalService);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
 
     @Override
     public void displayError(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Hubo un error obteniendo la lista de prestaciones atendidas.", Toast.LENGTH_LONG).show();
         vProgress.setVisibility(View.GONE);
+        swipeContainer.setRefreshing(false);
     }
 
     @Override
@@ -105,6 +98,15 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
     public void onListRetrieved(List<MedicalServiceResource> list) {
         swipeContainer.setRefreshing(false);
         mAdapter.addAll(list);
+    }
+
+    @Override
+    public void onMedicalServiceClick(MedicalServiceResource medicalService) {
+        Intent intent = new Intent(this.getActivity(), MedicalServiceDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MEDICAL_SERVICE_KEY , medicalService);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
 

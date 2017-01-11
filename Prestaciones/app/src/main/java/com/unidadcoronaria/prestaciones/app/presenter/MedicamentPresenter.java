@@ -2,10 +2,16 @@ package com.unidadcoronaria.prestaciones.app.presenter;
 
 import android.content.Context;
 
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
+import com.unidadcoronaria.domain.model.Medicament;
 import com.unidadcoronaria.domain.usecase.GetMedicamentUseCase;
+import com.unidadcoronaria.domain.usecase.UpdateMedicalServiceUseCase;
+import com.unidadcoronaria.domain.usecase.UpdateMedicalServiceWithMedicamentUseCase;
 import com.unidadcoronaria.prestaciones.app.MedicamentView;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 
 /**
@@ -15,11 +21,13 @@ import org.greenrobot.eventbus.Subscribe;
 public class MedicamentPresenter extends BasePresenter<MedicamentView> {
 
     private GetMedicamentUseCase mGetMedicamentUseCase;
+    private UpdateMedicalServiceWithMedicamentUseCase medicalServiceWithMedicamentUseCase;
     private Context context;
 
     public MedicamentPresenter(MedicamentView view, Context context) {
         super(view);
         this.mGetMedicamentUseCase = new GetMedicamentUseCase();
+        this.medicalServiceWithMedicamentUseCase = new UpdateMedicalServiceWithMedicamentUseCase();
         this.context = context;
     }
 
@@ -34,4 +42,21 @@ public class MedicamentPresenter extends BasePresenter<MedicamentView> {
         view.hideLoading();
     }
 
+    public void update(List<Medicament> medicamentList, MedicalServiceResource medicalService) {
+        view.showLoading();
+        medicalServiceWithMedicamentUseCase.setData(medicalService.getMedicalServiceResourceId(), medicamentList);
+        medicalServiceWithMedicamentUseCase.execute(context);
+    }
+
+    @Subscribe
+    public void onMedicalServiceUpdate(UpdateMedicalServiceWithMedicamentUseCase.SuccessResponse response){
+        view.hideLoading();
+        view.onUpdate();
+    }
+
+    @Subscribe
+    public void onMedicalServiceUpdateError(UpdateMedicalServiceWithMedicamentUseCase.ErrorResponse response){
+        view.hideLoading();
+        view.onUpdateError();
+    }
 }

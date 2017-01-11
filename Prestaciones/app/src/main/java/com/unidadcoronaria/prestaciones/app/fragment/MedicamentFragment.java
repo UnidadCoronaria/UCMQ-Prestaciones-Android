@@ -14,8 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unidadcoronaria.domain.model.MedicalService;
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.model.Medicament;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.MedicamentView;
@@ -48,7 +50,7 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
 
     private MedicamentAdapter adapter;
     private MedicamentPresenter presenter;
-    private MedicalService medicalService;
+    private MedicalServiceResource medicalService;
     //endregions
 
     //region Constructors implementations
@@ -63,7 +65,7 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
-        medicalService = (MedicalService) getActivity().getIntent().getSerializableExtra(MedicamentActivity.MEDICAL_SERVICE_KEY);
+        medicalService = (MedicalServiceResource) getActivity().getIntent().getSerializableExtra(MedicamentActivity.MEDICAL_SERVICE_KEY);
         presenter = new MedicamentPresenter(this, getContext());
         vSupplyList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MedicamentAdapter(this, new ArrayList<Medicament>());
@@ -106,8 +108,19 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
     }
 
     @Override
-    public void displayError(String message) {
+    public void onUpdateError() {
+        Toast.makeText(getActivity(), "Hubo un error actualizando la prestación. Intentelo nuevamente más tarde.", Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onUpdate() {
+        showSuccess();
+    }
+
+    @Override
+    public void displayError(String message) {
+        Toast.makeText(getActivity(), "Hubo un error obteniendo la lista de insumos. Intentelo nuevamente más tarde.", Toast.LENGTH_LONG).show();
+        vProgress.setVisibility(View.GONE);
     }
 
     @Override
@@ -127,7 +140,8 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
 
     @OnClick(R.id.fragment_supply_accept_button)
     protected void onAcceptButtonClick(View view){
-        List<Medicament> supplyList = adapter.getList();
+        List<Medicament> medicamentList = adapter.getList();
+        presenter.update(medicamentList, medicalService);
     }
 
     @OnClick(R.id.fragment_supply_cancel_button)
@@ -150,7 +164,7 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
         builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                medicament.setNumber(input.getText().toString());
+                medicament.setAmmount(Double.valueOf(input.getText().toString()));
                 adapter.add(medicament);
                 vSupplyAutocomplete.setText("");
                 dialog.dismiss();
@@ -160,6 +174,19 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    public void showSuccess(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("La prestación se actualizó correctamente.");
+        // Set up the buttons
+        builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getActivity().finish();
             }
         });
         builder.show();

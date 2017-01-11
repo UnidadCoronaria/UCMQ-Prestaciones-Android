@@ -38,7 +38,6 @@ public class ListMedicalServicePendingPresenter extends BasePresenter<ListMedica
 
     @Subscribe
     public void onUserChange(OnUserChange response){
-        Log.i("Pending", "On user change");
         getList();
     }
 }

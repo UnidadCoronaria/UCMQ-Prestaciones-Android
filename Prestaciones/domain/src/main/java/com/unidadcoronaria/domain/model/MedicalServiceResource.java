@@ -1,12 +1,13 @@
 package com.unidadcoronaria.domain.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by AGUSTIN.BALA on 01/01/2017.
  */
 
-public class MedicalServiceResource extends BaseModel {
+public class MedicalServiceResource extends BaseModel implements Serializable{
 
     private Integer medicalServiceResourceId;
     private MedicalService medicalService;

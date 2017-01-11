@@ -1,5 +1,6 @@
 package com.unidadcoronaria.prestaciones.app;
 
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.model.directions.Route;
 
 /**
@@ -9,4 +10,6 @@ import com.unidadcoronaria.domain.model.directions.Route;
 public interface MedicalServiceDetailView extends  View {
 
     void drawDirections(Route route);
+
+    void onMedicalServiceUpdate(MedicalServiceResource medicalServiceResource);
 }

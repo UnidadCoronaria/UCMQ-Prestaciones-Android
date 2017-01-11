@@ -68,8 +68,6 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
             }
         });
 
-
-
         vListMedicalService.setLayoutManager(new LinearLayoutManager(getActivity()));
         vListMedicalService.setHasFixedSize(true);
         mAdapter = new MedicalServiceAdapter(this, new ArrayList<MedicalServiceResource>());
@@ -85,7 +83,7 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
     }
 
     @Override
-    public void onMedicalServiceClick(MedicalService medicalService) {
+    public void onMedicalServiceClick(MedicalServiceResource medicalService) {
         Intent intent = new Intent(this.getActivity(), MedicalServiceDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(MEDICAL_SERVICE_KEY , medicalService);
@@ -95,7 +93,7 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
 
     @Override
     public void displayError(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Hubo un error obteniendo la lista de prestaciones pendientes.", Toast.LENGTH_LONG).show();
         vProgress.setVisibility(View.GONE);
         swipeContainer.setRefreshing(false);
     }

@@ -1,7 +1,7 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
 import android.Manifest;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,12 +9,13 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,7 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.unidadcoronaria.domain.model.MedicalService;
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.model.directions.Point;
 import com.unidadcoronaria.domain.model.directions.Route;
 import com.unidadcoronaria.prestaciones.R;
@@ -32,6 +33,7 @@ import com.unidadcoronaria.prestaciones.app.MedicalServiceDetailView;
 import com.unidadcoronaria.prestaciones.app.activity.MedicamentActivity;
 import com.unidadcoronaria.prestaciones.app.presenter.MedicalServiceDetailPresenter;
 import com.unidadcoronaria.prestaciones.util.LocationHelper;
+import com.unidadcoronaria.prestaciones.util.MedicalServiceStatusHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,19 +48,16 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
 
     //region Variables
-    private MedicalService medicalService;
     @BindView(R.id.fragment_medical_detail_address)
     TextView vAddress;
     @BindView(R.id.fragment_medical_detail_name)
     TextView vName;
     @BindView(R.id.fragment_medical_detail_info)
     TextView vInfo;
-    @BindView(R.id.fragment_medical_detail_symptom)
-    TextView vSymptom;
-    @BindView(R.id.fragment_medical_detail_container)
-    View vContainer;
-    @BindView(R.id.fragment_medical_detail_buttons)
-    View vButtonsContainer;
+    @BindView(R.id.fragment_medical_detail_first_button)
+    Button vFirstButton;
+    @BindView(R.id.fragment_medical_detail_second_button)
+    Button vSecondButton;
     @BindView(R.id.fragment_medical_detail_observations_icon)
     View vObservations;
     @BindView(R.id.fragment_medical_detail_sheet)
@@ -72,9 +71,12 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     private MedicalServiceDetailPresenter presenter;
     private LatLng origin;
     private LatLng destination;
+    private Marker markerOrigin;
     private Marker markerDestination;
     private BottomSheetBehavior behavior;
     private SupportMapFragment supportMapFragment;
+    private MedicalServiceResource medicalService;
+    private com.google.android.gms.maps.model.Polyline polyline;
     //endregion
 
     //region Constructors implementations
@@ -90,7 +92,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
         presenter = new MedicalServiceDetailPresenter(this, getActivity());
-        medicalService = (MedicalService) getActivity().getIntent().getSerializableExtra(ListMedicalServicePendingFragment.MEDICAL_SERVICE_KEY);
+        medicalService = (MedicalServiceResource) getActivity().getIntent().getSerializableExtra(ListMedicalServicePendingFragment.MEDICAL_SERVICE_KEY);
         initView();
         behavior = BottomSheetBehavior.from(vSheet);
         vMap.setOnClickListener(new View.OnClickListener() {
@@ -149,73 +151,98 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         return R.layout.fragment_detail_medical_service;
     }
 
-    @OnClick(R.id.fragment_medical_detail_second_button)
-    protected void onFirstClick(View view){
-        //TODO Get proximo accion n1 y mandar ese estado al server
-        startActivity(MedicamentActivity.getStartIntent(getContext(), medicalService));
-    }
-
-    @OnClick(R.id.fragment_medical_detail_first_button)
-    protected void onSecondClick(View view){
-       // if(medicalService.getStatus().equals(MedicalServiceStatus.DONE)) {
-            //startActivity(SupplyActivity.getStartIntent(getContext(), medicalService));
-       // } else {
-            //TODO Get proximo accion n2 y mandar ese estado al server
-       // }
-    }
 
     private void initView() {
-        vInfo.setText(getString(R.string.medical_service_detail_info, medicalService.getSex(), medicalService.getAge()));
-        vName.setText(medicalService.getName());
-        vAddress.setText(medicalService.getAddressMedicalService().getStreet());
+        vInfo.setText(getString(R.string.medical_service_detail_info, medicalService.getMedicalService().getSex(), medicalService.getMedicalService().getAge()));
+        vName.setText(medicalService.getMedicalService().getName());
+        vAddress.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet());
+        vObservations.setVisibility(View.GONE);
+        checkButtonsStatus();
+    }
+
+    private void checkButtonsStatus() {
+        if(medicalService.getAuthorizedStates() != null && medicalService.getAuthorizedStates().size() > 0){
+            setFirstButtonClick(medicalService.getAuthorizedStates().get(0));
+            if( medicalService.getAuthorizedStates().size() > 1) {
+                setSecondButtonClick(medicalService.getAuthorizedStates().get(1));
+            } else {
+                vSecondButton.setVisibility(View.GONE);
+            }
+        } else {
+            vSecondButton.setVisibility(View.GONE);
+            vFirstButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         if (mGoogleMap != null) {
-            origin = new LatLng(Double.parseDouble(LocationHelper.getLatitude()), Double.parseDouble(LocationHelper.getLongitude()));
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 14));
-            if(!LocationHelper.getLatitude().isEmpty() && !LocationHelper.getLongitude().isEmpty()){
-                mGoogleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.valueOf(LocationHelper.getLatitude()), Double.valueOf(LocationHelper.getLongitude()))));
-            }
-            destination = new LatLng(medicalService.getAddressMedicalService().getLatitude(), medicalService.getAddressMedicalService().getLongitude());
-            markerDestination = mGoogleMap.addMarker(new MarkerOptions()
-                    .title(medicalService.getAddressMedicalService().getStreet())
-                    .position(destination));
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            mGoogleMap.setMyLocationEnabled(true);
-
-            presenter.getRoute(origin, medicalService);
+           drawMap();
         }
+    }
+
+    private void drawMap(){
+        origin = new LatLng(Double.parseDouble(LocationHelper.getLatitude()), Double.parseDouble(LocationHelper.getLongitude()));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 14));
+        if(markerOrigin != null){
+            markerOrigin.remove();
+        }
+        if(destination != null){
+            markerDestination.remove();
+        }
+        if(!LocationHelper.getLatitude().isEmpty() && !LocationHelper.getLongitude().isEmpty()){
+            markerOrigin = mGoogleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.valueOf(LocationHelper.getLatitude()), Double.valueOf(LocationHelper.getLongitude()))));
+        }
+        destination = new LatLng(medicalService.getMedicalService().getAddressMedicalService().getLatitude(), medicalService.getMedicalService().getAddressMedicalService().getLongitude());
+        markerDestination = mGoogleMap.addMarker(new MarkerOptions()
+                .title(medicalService.getMedicalService().getAddressMedicalService().getStreet())
+                .position(destination));
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mGoogleMap.setMyLocationEnabled(true);
+
+        presenter.getRoute(origin, medicalService.getMedicalService());
     }
 
     @Override
     public void displayError(String message) {
-
+        Toast.makeText(getActivity(), "Hubo un error obteniendo la información. Intentelo nuevamente más tarde.", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showLoading() {
-
+        vProgress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        vProgress.setVisibility(View.GONE);
     }
 
     @Override
     public void drawDirections(Route route) {
+        if(polyline != null){
+            polyline.remove();
+        }
         PolylineOptions rectOptions = new PolylineOptions().width(5).color(ContextCompat.getColor(getActivity(), R.color.colorPrimary)).geodesic(true);
         for (Point point : route.getPoints()) {
             rectOptions.add(new LatLng(point.getLat(), point.getLng()));
         }
-        com.google.android.gms.maps.model.Polyline polyline = mGoogleMap.addPolyline(rectOptions);
+        polyline = mGoogleMap.addPolyline(rectOptions);
         markerDestination.setSnippet(route.getDistance());
+    }
+
+    @Override
+    public void onMedicalServiceUpdate(MedicalServiceResource medicalServiceResource) {
+        this.medicalService = medicalServiceResource;
+        initView();
+        if (mGoogleMap != null) {
+            drawMap();
+        }
+        Toast.makeText(getActivity(), "La prestación fue actualizada correctamente.", Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.fragment_medical_detail_arrow)
@@ -230,18 +257,31 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
     }
 
+    public void setSecondButtonClick(final Integer state) {
+        vSecondButton.setText(MedicalServiceStatusHelper.getStatusName(state));
+        vSecondButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(state == 6) {
+                    startActivity(MedicamentActivity.getStartIntent(getContext(), medicalService));
+                } else {
+                    presenter.updateState(state, medicalService);
+                }
+            }
+        });
+    }
 
-    @OnClick(R.id.fragment_medical_detail_observations_icon)
-    public void onObservationClick(View view){
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.observations))
-                //TODO .setMessage(medicalService.getObservations())
-                .setCancelable(true)
-                .setPositiveButton(R.string.button_accept, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+    public void setFirstButtonClick(final Integer state) {
+        vFirstButton.setText(MedicalServiceStatusHelper.getStatusName(state));
+        vFirstButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(state == 6) {
+                    startActivity(MedicamentActivity.getStartIntent(getContext(), medicalService));
+                } else {
+                    presenter.updateState(state, medicalService);
+                }
+            }
+        });
     }
 }

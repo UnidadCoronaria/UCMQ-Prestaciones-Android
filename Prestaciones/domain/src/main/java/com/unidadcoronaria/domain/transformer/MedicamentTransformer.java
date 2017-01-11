@@ -21,7 +21,8 @@ public class MedicamentTransformer implements Transformer<MedicamentEntity, Medi
         entity.setName(object.getName());
         entity.setNumber(object.getNumber());
         entity.setActive(object.getActive());
-        object.setType(object.getType());
+        entity.setType(object.getType());
+        entity.setAmmount(object.getAmmount());
         return entity;
     }
 
@@ -41,7 +42,8 @@ public class MedicamentTransformer implements Transformer<MedicamentEntity, Medi
         entity.setName(object.getName());
         entity.setNumber(object.getNumber());
         entity.setActive(object.getActive());
-        object.setType(object.getType());
+        entity.setType(object.getType());
+        entity.setAmmount(object.getAmmount());
         return entity;
     }
 

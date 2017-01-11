@@ -7,6 +7,7 @@ public class Medicament extends BaseModel{
 	private String number;
 	private char active;
 	private String type;
+	private Double ammount;
 
 
 	public Integer getMedicamentId() {
@@ -49,8 +50,16 @@ public class Medicament extends BaseModel{
 		this.type = type;
 	}
 
-	
-	
-	
+	public Double getAmmount() {
+		return ammount;
+	}
 
+	public void setAmmount(Double ammount) {
+		this.ammount = ammount;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

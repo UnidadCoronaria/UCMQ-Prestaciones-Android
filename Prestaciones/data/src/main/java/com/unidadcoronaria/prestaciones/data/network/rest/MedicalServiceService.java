@@ -1,5 +1,7 @@
 package com.unidadcoronaria.prestaciones.data.network.rest;
 
+import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceMedicamentDTO;
+import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceResourceDTO;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
 
 import java.util.List;
@@ -8,6 +10,7 @@ import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
@@ -25,7 +28,9 @@ public interface MedicalServiceService {
     @GET("medicalServiceResource/{medicalServiceResourceId}")
     Call<MedicalServiceResourceEntity> getById(@Path("medicalServiceResourceId") Long medicalServiceId);
 
-    @POST("medicalServiceResource")
-    Call<MedicalServiceResourceEntity> post(@Body MedicalServiceResourceEntity medicalServiceEntity);
+    @PUT("/medicalServiceResource/setState")
+    Call<MedicalServiceResourceEntity> put(@Body MedicalServiceResourceDTO medicalServiceResourceDTO);
 
+    @PUT("/medicalServiceResource/setState")
+    Call<MedicalServiceResourceEntity> put(@Body List<MedicalServiceMedicamentDTO> medicalServiceResourceDTO);
 }

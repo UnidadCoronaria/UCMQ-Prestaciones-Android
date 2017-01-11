@@ -1,6 +1,8 @@
 package com.unidadcoronaria.domain.model;
 
-public class AddressMedicalService extends BaseModel{
+import java.io.Serializable;
+
+public class AddressMedicalService extends BaseModel implements Serializable {
 
 	private Integer addressMedicalServiceId;
 	private String street;

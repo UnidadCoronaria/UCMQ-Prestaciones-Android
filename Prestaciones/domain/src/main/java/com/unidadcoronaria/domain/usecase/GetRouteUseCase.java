@@ -34,7 +34,7 @@ public class GetRouteUseCase extends UseCase<List<Polyline>> {
 
             @Override
             public void onFailure(String message) {
-                GetRouteUseCase.super.onFailure(message);
+                BusProvider.getDefaultBus().post(new ErrorResponse());
             }
         },origin,destination);
     }
@@ -56,6 +56,11 @@ public class GetRouteUseCase extends UseCase<List<Polyline>> {
         public Route getRoute() {
             return mRoute;
         }
+    }
+
+    //region Inner Classes
+    public static class ErrorResponse {
+
     }
     //endregion
 }

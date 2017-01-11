@@ -63,19 +63,19 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
         holder.vAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onMedicalServiceClick(medicalService);
+                callback.onMedicalServiceClick(medicalServiceResource);
             }
         });
         holder.vName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onMedicalServiceClick(medicalService);
+                callback.onMedicalServiceClick(medicalServiceResource);
             }
         });
         holder.vContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onMedicalServiceClick(medicalService);
+                callback.onMedicalServiceClick(medicalServiceResource);
             }
         });
     }
@@ -87,7 +87,7 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
 
 
     public interface Callback{
-        void onMedicalServiceClick(MedicalService medicalService);
+        void onMedicalServiceClick(MedicalServiceResource medicalService);
     }
 
 

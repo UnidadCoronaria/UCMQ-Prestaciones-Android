@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.unidadcoronaria.domain.model.MedicalService;
+import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
 import com.unidadcoronaria.prestaciones.app.fragment.MedicamentFragment;
@@ -35,7 +36,7 @@ public class MedicamentActivity extends BaseActivity {
         return fragment;
     }
 
-    public static Intent getStartIntent(Context context, MedicalService medicalService){
+    public static Intent getStartIntent(Context context, MedicalServiceResource medicalService){
         Intent intent = new Intent(context, MedicamentActivity.class);
         intent.putExtra(MEDICAL_SERVICE_KEY, medicalService);
         return intent;

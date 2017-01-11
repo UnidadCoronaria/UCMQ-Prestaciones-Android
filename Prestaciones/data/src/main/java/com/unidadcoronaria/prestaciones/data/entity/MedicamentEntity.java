@@ -11,6 +11,7 @@ public class MedicamentEntity extends BaseEntity {
     private String number;
     private char active;
     private String type;
+    private Double ammount;
 
     public String getName() {
         return name;
@@ -50,5 +51,13 @@ public class MedicamentEntity extends BaseEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Double getAmmount() {
+        return ammount;
+    }
+
+    public void setAmmount(Double ammount) {
+        this.ammount = ammount;
     }
 }

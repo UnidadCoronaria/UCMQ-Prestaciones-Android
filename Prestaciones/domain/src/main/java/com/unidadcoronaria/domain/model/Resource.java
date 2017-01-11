@@ -1,6 +1,8 @@
 package com.unidadcoronaria.domain.model;
 
-public class Resource extends BaseModel{
+import java.io.Serializable;
+
+public class Resource extends BaseModel implements Serializable {
 
 	private Integer resourceId;
 	private MobileType mobile;

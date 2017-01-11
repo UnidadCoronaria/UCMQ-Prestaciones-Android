@@ -9,8 +9,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.unidadcoronaria.prestaciones.data.dto.DeviceMessageDTO;
+import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceMedicamentDTO;
+import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceResourceDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MobileObservationDTO;
-import com.unidadcoronaria.prestaciones.data.entity.GuardEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
 import com.unidadcoronaria.prestaciones.data.entity.DeviceMessageEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MobileObservationEntity;
@@ -143,6 +144,25 @@ public class ApiClient {
     }
 
 
+    public void updateMedicalService(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, Integer state) {
+        MedicalServiceResourceDTO medicalServiceResourceDTO = new MedicalServiceResourceDTO();
+        medicalServiceResourceDTO.setMedicalServiceResourceId(medicalServiceId);
+        medicalServiceResourceDTO.setState(state);
+        retrofit.create(MedicalServiceService.class).put(medicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
+    }
+
+    public void updateMedicalService(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, List<MedicamentEntity> listMedicamentEntities) {
+        List<MedicalServiceMedicamentDTO> list = new ArrayList<>();
+        for (MedicamentEntity medicamentEntity: listMedicamentEntities) {
+            MedicalServiceMedicamentDTO dto = new MedicalServiceMedicamentDTO();
+            dto.setMedicalServiceResourceId(medicalServiceId);
+            dto.setMedicamentId(medicamentEntity.getMedicamentId());
+            dto.setAmount(medicamentEntity.getAmmount());
+            list.add(dto);
+        }
+        retrofit.create(MedicalServiceService.class).put(list).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
+    }
+
     //region Pending check
     public void getMedicalService(Long medicalServiceId, final SuccessFailureCallBack<MedicalServiceResourceEntity> callback) {
         retrofit.create(MedicalServiceService.class).getById(medicalServiceId).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
@@ -151,13 +171,6 @@ public class ApiClient {
     public void getMedicament(final SuccessFailureCallBack<List<MedicamentEntity>> callback) {
         retrofit.create(MedicamentService.class).get().enqueue(new ResultEntityCallback<List<MedicamentEntity>>(callback));
     }
-
-
-
-    public void updateMedicalService(MedicalServiceResourceEntity medicalServiceEntity, final SuccessFailureCallBack<MedicalServiceResourceEntity> callback) {
-        retrofit.create(MedicalServiceService.class).post(medicalServiceEntity).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
-    }
-
 
     public void getRoute(final SuccessFailureCallBack<RouteResponseEntity> callback, String origin, String destination) {
         retrofitGoogleDirections.create(MapService.class).getRoute(origin, destination,"AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q", "metric").enqueue(new ResultEntityCallback<RouteResponseEntity>(callback));

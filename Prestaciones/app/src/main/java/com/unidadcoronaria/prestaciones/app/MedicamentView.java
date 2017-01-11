@@ -11,4 +11,8 @@ import java.util.List;
 public interface MedicamentView extends View{
 
     void onListMedicamentRetrieved(List<Medicament> medicamentList);
+
+    void onUpdateError();
+
+    void onUpdate();
 }
