@@ -7,19 +7,15 @@ import retrofit.Response;
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public class ResultEntityCallback<E> extends BaseCallback<E> {
+public class EmptyResultEntityCallback<E> extends BaseCallback<E> {
 
-    public ResultEntityCallback(SuccessFailureCallBack callBack) {
+    public EmptyResultEntityCallback(SuccessFailureCallBack callBack) {
         super(callBack);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     protected void validateResponse(Response<E> response) {
-        if (response.body() != null) {
-            callBack.onSuccess(response.body());
-        } else {
-            callBack.onFailure(null);
-        }
+        callBack.onSuccess(response.body());
     }
 }

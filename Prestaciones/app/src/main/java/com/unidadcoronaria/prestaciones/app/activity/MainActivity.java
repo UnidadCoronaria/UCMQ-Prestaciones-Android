@@ -87,6 +87,9 @@ public class MainActivity extends BaseNavActivity implements MainView {
             case R.id.action_login:
                 changeUser(true);
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -121,10 +124,12 @@ public class MainActivity extends BaseNavActivity implements MainView {
         builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Provider provider = (Provider) spinner.getSelectedItem();
-                SessionHelper.saveProvider(provider);
-                EventBus.getDefault().post(new OnUserChange());
-                dialog.dismiss();
+                if(spinner.getSelectedItem() != null) {
+                    Provider provider = (Provider) spinner.getSelectedItem();
+                    SessionHelper.saveProvider(provider);
+                    EventBus.getDefault().post(new OnUserChange());
+                    dialog.dismiss();
+                }
             }
         });
         if(isCancelable) {

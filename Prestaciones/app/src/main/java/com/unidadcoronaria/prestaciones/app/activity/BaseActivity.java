@@ -106,7 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                supportFinishAfterTransition();
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

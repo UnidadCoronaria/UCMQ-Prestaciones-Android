@@ -26,12 +26,8 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
-       // saveIMEI();
     }
 
-    private void saveIMEI() {
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        ApiClient.IMEI = telephonyManager.getDeviceId().toString();
-    }
+
 
 }

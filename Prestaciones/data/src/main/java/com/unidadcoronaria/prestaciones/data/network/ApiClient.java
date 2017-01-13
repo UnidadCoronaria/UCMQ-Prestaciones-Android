@@ -19,6 +19,7 @@ import com.unidadcoronaria.prestaciones.data.entity.ProviderEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MedicamentEntity;
 import com.unidadcoronaria.prestaciones.data.entity.TypeMobileObservationEntity;
 import com.unidadcoronaria.prestaciones.data.entity.directions.RouteResponseEntity;
+import com.unidadcoronaria.prestaciones.data.network.callback.EmptyResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.ResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
 import com.unidadcoronaria.prestaciones.data.network.rest.MapService;
@@ -64,8 +65,7 @@ public class ApiClient {
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
                 try {
                     Request newRequest = chain.request().newBuilder()
-                            //.header("Authorization", IMEI)
-                            .header("Authorization", "451236200698230")
+                            .header("Authorization", IMEI)
                             .build();
 
                     final Response response = chain.proceed(newRequest);
@@ -134,7 +134,7 @@ public class ApiClient {
             dto.setTypeMobileObservationId(entity.getTypeMobileObservation().getTypeMobileObservationId());
             dtoList.add(dto);
         }
-        retrofit.create(GuardService.class).post(guardId,dtoList).enqueue(new ResultEntityCallback<Void>(callback));
+        retrofit.create(GuardService.class).post(guardId,dtoList).enqueue(new EmptyResultEntityCallback<Void>(callback));
     }
 
     public void sendMessage(final SuccessFailureCallBack<DeviceMessageEntity> callback, Integer guardId, DeviceMessageEntity message) {

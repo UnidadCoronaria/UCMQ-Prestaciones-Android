@@ -1,12 +1,19 @@
 package com.unidadcoronaria.prestaciones.app.activity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.telephony.TelephonyManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.unidadcoronaria.prestaciones.BuildConfig;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
 import com.unidadcoronaria.prestaciones.app.fragment.SplashFragment;
+import com.unidadcoronaria.prestaciones.data.network.ApiClient;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -18,6 +25,8 @@ import io.fabric.sdk.android.Fabric;
  */
 public class SplashActivity extends BaseActivity {
 
+    private static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 111;
+
     //region BaseActivity implementation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +34,7 @@ public class SplashActivity extends BaseActivity {
         if(!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics());
         }
+
         hideToolbar();
     }
 
@@ -39,7 +49,43 @@ public class SplashActivity extends BaseActivity {
     }
 
     protected BaseFragment getFragment() {
-        return SplashFragment.newInstance();
+        return null;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE},
+                        PERMISSIONS_REQUEST_READ_PHONE_STATE);
+            } else {
+                saveIMEI();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_READ_PHONE_STATE
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            saveIMEI();
+        }
+    }
+
+
+    private void saveIMEI() {
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        ApiClient.IMEI = telephonyManager.getDeviceId().toString();
+        new Handler().post(new Runnable() {
+            public void run() {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.activity_base_fragment, SplashFragment.newInstance()).commit();
+            }
+        });
+
     }
 
 

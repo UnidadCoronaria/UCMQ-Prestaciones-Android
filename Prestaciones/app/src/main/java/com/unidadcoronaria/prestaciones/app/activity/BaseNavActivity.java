@@ -99,5 +99,6 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
          getSupportFragmentManager().beginTransaction().addToBackStack("fragment")
                     .replace(R.id.activity_base_fragment, fragment).commit();
     }
+
     //endregion
 }

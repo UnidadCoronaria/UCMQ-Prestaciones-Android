@@ -2,6 +2,7 @@ package com.unidadcoronaria.prestaciones.data.network.rest;
 
 import com.unidadcoronaria.prestaciones.data.dto.MobileObservationDTO;
 import com.unidadcoronaria.prestaciones.data.entity.GuardEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MobileObservationEntity;
 
 import java.util.List;
 

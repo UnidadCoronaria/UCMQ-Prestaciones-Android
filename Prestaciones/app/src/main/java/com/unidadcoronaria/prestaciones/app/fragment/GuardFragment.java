@@ -1,6 +1,5 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.unidadcoronaria.domain.model.MobileObservation;
 import com.unidadcoronaria.domain.model.TypeMobileObservation;
@@ -69,6 +67,7 @@ public class GuardFragment extends BaseFragment implements GuardView {
         vRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MobileObservationAdapter(getActivity(),this);
         vRecyclerView.setAdapter(mAdapter);
+        presenter.getList();
         return view;
     }
 
@@ -81,7 +80,6 @@ public class GuardFragment extends BaseFragment implements GuardView {
     public void onResume() {
         super.onResume();
         presenter.onResume();
-        presenter.getList();
         getActivity().setTitle(R.string.main_drawer_start_watch);
     }
 
@@ -149,6 +147,7 @@ public class GuardFragment extends BaseFragment implements GuardView {
         builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                mAdapter.add(new ArrayList<TypeMobileObservation>());
                 presenter.getList();
             }
         });
@@ -191,7 +190,7 @@ public class GuardFragment extends BaseFragment implements GuardView {
         builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                presenter.getList();
+                onMobileObservationItemsCompleted();
             }
         });
         builder.show();
