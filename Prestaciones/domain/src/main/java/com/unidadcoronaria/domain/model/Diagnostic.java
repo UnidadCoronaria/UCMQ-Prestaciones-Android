@@ -1,6 +1,8 @@
 package com.unidadcoronaria.domain.model;
 
-public class Diagnostic extends BaseModel{
+import java.io.Serializable;
+
+public class Diagnostic extends BaseModel  implements Serializable {
 
 	private Integer diagnosticId;
 	private String name;
@@ -48,7 +50,10 @@ public class Diagnostic extends BaseModel{
 		this.number = number;
 	}
 
-
+	@Override
+	public String toString() {
+		return name;
+	}
 
 
 

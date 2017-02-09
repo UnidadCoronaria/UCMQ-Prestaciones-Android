@@ -8,10 +8,12 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.unidadcoronaria.prestaciones.data.dto.CloseMedicalServiceResourceDTO;
 import com.unidadcoronaria.prestaciones.data.dto.DeviceMessageDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceMedicamentDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceResourceDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MobileObservationDTO;
+import com.unidadcoronaria.prestaciones.data.entity.DiagnosticEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
 import com.unidadcoronaria.prestaciones.data.entity.DeviceMessageEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MobileObservationEntity;
@@ -22,6 +24,7 @@ import com.unidadcoronaria.prestaciones.data.entity.directions.RouteResponseEnti
 import com.unidadcoronaria.prestaciones.data.network.callback.EmptyResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.ResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
+import com.unidadcoronaria.prestaciones.data.network.rest.DiagnosticService;
 import com.unidadcoronaria.prestaciones.data.network.rest.MapService;
 import com.unidadcoronaria.prestaciones.data.network.rest.MedicalServiceService;
 import com.unidadcoronaria.prestaciones.data.network.rest.DeviceMessageService;
@@ -144,23 +147,34 @@ public class ApiClient {
     }
 
 
-    public void updateMedicalService(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, Integer state) {
+    public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, Integer state) {
         MedicalServiceResourceDTO medicalServiceResourceDTO = new MedicalServiceResourceDTO();
         medicalServiceResourceDTO.setMedicalServiceResourceId(medicalServiceId);
         medicalServiceResourceDTO.setState(state);
         retrofit.create(MedicalServiceService.class).put(medicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
 
-    public void updateMedicalService(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, List<MedicamentEntity> listMedicamentEntities) {
-        List<MedicalServiceMedicamentDTO> list = new ArrayList<>();
+    public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, List<MedicamentEntity> listMedicamentEntities, List<DiagnosticEntity> diagnosticEntities) {
+        List<MedicalServiceMedicamentDTO> medicamentList = new ArrayList<>();
         for (MedicamentEntity medicamentEntity: listMedicamentEntities) {
             MedicalServiceMedicamentDTO dto = new MedicalServiceMedicamentDTO();
             dto.setMedicalServiceResourceId(medicalServiceId);
             dto.setMedicamentId(medicamentEntity.getMedicamentId());
             dto.setAmount(medicamentEntity.getAmmount());
-            list.add(dto);
+            medicamentList.add(dto);
         }
-        retrofit.create(MedicalServiceService.class).put(list).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
+        List<Integer> diagnostics = new ArrayList<>();
+        for (DiagnosticEntity diagnosticEntity: diagnosticEntities) {
+            diagnostics.add(diagnosticEntity.getDiagnosticId());
+        }
+        MedicalServiceResourceDTO medicalServiceResourceDTO = new MedicalServiceResourceDTO();
+        medicalServiceResourceDTO.setMedicalServiceResourceId(medicalServiceId);
+        medicalServiceResourceDTO.setState(6);
+        CloseMedicalServiceResourceDTO closeMedicalServiceResourceDTO = new CloseMedicalServiceResourceDTO();
+        closeMedicalServiceResourceDTO.setListMedicalServiceMedicamentDTO(medicamentList);
+        closeMedicalServiceResourceDTO.setMedicalServiceResourceDTO(medicalServiceResourceDTO);
+        closeMedicalServiceResourceDTO.setListDiagnosticId(diagnostics);
+        retrofit.create(MedicalServiceService.class).close(closeMedicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
 
     //region Pending check
@@ -174,6 +188,10 @@ public class ApiClient {
 
     public void getRoute(final SuccessFailureCallBack<RouteResponseEntity> callback, String origin, String destination) {
         retrofitGoogleDirections.create(MapService.class).getRoute(origin, destination,"AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q", "metric").enqueue(new ResultEntityCallback<RouteResponseEntity>(callback));
+    }
+
+    public void getDiagnostic(final SuccessFailureCallBack<List<DiagnosticEntity>> callback) {
+        retrofit.create(DiagnosticService.class).get().enqueue(new ResultEntityCallback<List<DiagnosticEntity>>(callback));
     }
 
     //endregion

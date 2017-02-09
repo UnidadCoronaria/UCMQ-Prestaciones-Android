@@ -52,6 +52,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
 
+        <activity
+            android:name=".app.activity.DiagnosticActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7ce6b3e82c1debf66fc206edef2253fa3cd6fb16" />

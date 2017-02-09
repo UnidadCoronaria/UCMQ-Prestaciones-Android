@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.unidadcoronaria.prestaciones.App;
+import com.unidadcoronaria.prestaciones.util.SharedPreferencesHelper;
 
 /**
  * Created by AGUSTIN.BALA on 11/12/2016.
@@ -20,7 +22,7 @@ public class FCMInstanceIdService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         String fcmToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "FCM Token: " + fcmToken);
-
+        SharedPreferencesHelper.putString(App.getInstance(), "FCM_TOKEN", fcmToken);
         sendTokenToServer(fcmToken);
     }
 

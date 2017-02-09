@@ -1,5 +1,6 @@
 package com.unidadcoronaria.prestaciones.data.network.rest;
 
+import com.unidadcoronaria.prestaciones.data.dto.CloseMedicalServiceResourceDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceMedicamentDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceResourceDTO;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
@@ -31,6 +32,6 @@ public interface MedicalServiceService {
     @PUT("/medicalServiceResource/setState")
     Call<MedicalServiceResourceEntity> put(@Body MedicalServiceResourceDTO medicalServiceResourceDTO);
 
-    @PUT("/medicalServiceResource/setState")
-    Call<MedicalServiceResourceEntity> put(@Body List<MedicalServiceMedicamentDTO> medicalServiceResourceDTO);
+    @PUT("/medicalServiceResource/close")
+    Call<MedicalServiceResourceEntity> close(@Body CloseMedicalServiceResourceDTO closeMedicalServiceResourceDTO);
 }

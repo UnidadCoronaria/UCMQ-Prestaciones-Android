@@ -34,6 +34,7 @@
             android:layout_below="@+id/splash_app_icon"
             android:textAlignment="center"
             android:textSize="18dp"
+            android:visibility="invisible"
             android:text="@string/loading"/>
 
         <ProgressBar

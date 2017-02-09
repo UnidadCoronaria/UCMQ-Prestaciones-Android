@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
@@ -30,6 +31,7 @@ import com.unidadcoronaria.domain.model.directions.Point;
 import com.unidadcoronaria.domain.model.directions.Route;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.MedicalServiceDetailView;
+import com.unidadcoronaria.prestaciones.app.activity.DiagnosticActivity;
 import com.unidadcoronaria.prestaciones.app.activity.MedicamentActivity;
 import com.unidadcoronaria.prestaciones.app.presenter.MedicalServiceDetailPresenter;
 import com.unidadcoronaria.prestaciones.util.LocationHelper;
@@ -118,7 +120,15 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
                 vArrow.setImageResource(R.drawable.ic_arrow_down);
             }
         });
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                vArrow.setImageResource(R.drawable.ic_arrow_down);
+            }
+        }, 3000);
+
         return view;
     }
 
@@ -263,7 +273,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
             @Override
             public void onClick(View view) {
                 if(state == 6) {
-                    startActivity(MedicamentActivity.getStartIntent(getContext(), medicalService));
+                    startActivity(DiagnosticActivity.getStartIntent(getContext(), medicalService));
                 } else {
                     presenter.updateState(state, medicalService);
                 }
@@ -277,7 +287,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
             @Override
             public void onClick(View view) {
                 if(state == 6) {
-                    startActivity(MedicamentActivity.getStartIntent(getContext(), medicalService));
+                    startActivity(DiagnosticActivity.getStartIntent(getContext(), medicalService));
                 } else {
                     presenter.updateState(state, medicalService);
                 }

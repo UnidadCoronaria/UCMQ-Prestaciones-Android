@@ -21,7 +21,7 @@ public class UpdateMedicalServiceUseCase extends UseCase<MedicalServiceResource>
 
     @Override
     public void execute(Context aContext) {
-        ApiClient.getInstance().updateMedicalService(new SuccessFailureCallBack<MedicalServiceResourceEntity>() {
+        ApiClient.getInstance().closeMedicalServiceResource(new SuccessFailureCallBack<MedicalServiceResourceEntity>() {
             @Override
             public void onSuccess(MedicalServiceResourceEntity medicalServiceEntity) {
                 BusProvider.getDefaultBus().post(new SuccessResponse(transformer.transform(medicalServiceEntity)));

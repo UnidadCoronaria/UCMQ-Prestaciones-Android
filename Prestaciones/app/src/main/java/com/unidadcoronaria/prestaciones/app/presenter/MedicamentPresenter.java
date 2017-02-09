@@ -2,6 +2,7 @@ package com.unidadcoronaria.prestaciones.app.presenter;
 
 import android.content.Context;
 
+import com.unidadcoronaria.domain.model.Diagnostic;
 import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.model.Medicament;
 import com.unidadcoronaria.domain.usecase.GetMedicamentUseCase;
@@ -42,9 +43,9 @@ public class MedicamentPresenter extends BasePresenter<MedicamentView> {
         view.hideLoading();
     }
 
-    public void update(List<Medicament> medicamentList, MedicalServiceResource medicalService) {
+    public void update(List<Medicament> medicamentList, MedicalServiceResource medicalService, List<Diagnostic> diagnostics) {
         view.showLoading();
-        medicalServiceWithMedicamentUseCase.setData(medicalService.getMedicalServiceResourceId(), medicamentList);
+        medicalServiceWithMedicamentUseCase.setData(medicalService.getMedicalServiceResourceId(), medicamentList,diagnostics);
         medicalServiceWithMedicamentUseCase.execute(context);
     }
 

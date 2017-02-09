@@ -20,6 +20,10 @@
     <string name="button_accept">ACEPTAR</string>
     <string name="button_finish">FINALIZAR</string>
     <string name="button_cancel">CANCELAR</string>
+    <string name="button_continue">CONTINUAR</string>
+
+    <!-- Diagnostic -->
+    <string name="diagnostics">Diagnosticos</string>
 
     <!-- Supply -->
     <string name="watch_entities">Insumos</string>
@@ -45,18 +49,18 @@
     <string name="message_sent_error">El mensaje no pudo ser enviado. Intentelo nuevamente.</string>
 
     <!-- Medical Service Status -->
-    <string name="medical_service_status_assigned">Asignado</string>
-    <string name="medical_service_status_going">En Camino</string>
-    <string name="medical_service_status_on_site">Domicilio</string>
-    <string name="medical_service_status_support">Apoyo</string>
-    <string name="medical_service_status_available">Disponible</string>
-    <string name="medical_service_status_done">Finalizado</string>
-    <string name="medical_service_status_released">Liberado</string>
-    <string name="medical_service_status_cancelled">Cancelado</string>
-    <string name="medical_service_status_to_destiny">A Destino</string>
-    <string name="medical_service_status_in_destiny">En Destino</string>
-    <string name="medical_service_status_to_origin">A Origen</string>
-    <string name="medical_service_status_in_origin">En Origen</string>
+    <string name="medical_service_status_assigned">ASIGNADO</string>
+    <string name="medical_service_status_going">EN CAMINO</string>
+    <string name="medical_service_status_on_site">DOMICILIO</string>
+    <string name="medical_service_status_support">APOYO</string>
+    <string name="medical_service_status_available">DISPONIBLE</string>
+    <string name="medical_service_status_done">FINALIZADO</string>
+    <string name="medical_service_status_released">LIBERADO</string>
+    <string name="medical_service_status_cancelled">CANCELADO</string>
+    <string name="medical_service_status_to_destiny">A DESTINO</string>
+    <string name="medical_service_status_in_destiny">EN DESTINO</string>
+    <string name="medical_service_status_to_origin">A ORIGEN</string>
+    <string name="medical_service_status_in_origin">EN ORIGEN</string>
 
 
     <!-- Change User -->

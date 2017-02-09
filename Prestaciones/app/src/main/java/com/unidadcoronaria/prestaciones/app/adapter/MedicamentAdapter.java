@@ -53,7 +53,7 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
     public void onBindViewHolder(MedicamentAdapter.MedicamentViewHolder holder, int position) {
         final Medicament medicament = mList.get(position);
         holder.vName.setText(medicament.getName());
-        holder.vQuantity.setText(medicament.getNumber());
+        holder.vQuantity.setText(medicament.getAmmount().toString());
         holder.vDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

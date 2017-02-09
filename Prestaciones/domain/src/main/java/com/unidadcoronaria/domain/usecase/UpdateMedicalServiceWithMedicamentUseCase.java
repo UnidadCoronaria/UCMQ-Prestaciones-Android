@@ -3,8 +3,10 @@ package com.unidadcoronaria.domain.usecase;
 import android.content.Context;
 
 import com.unidadcoronaria.domain.BusProvider;
+import com.unidadcoronaria.domain.model.Diagnostic;
 import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.model.Medicament;
+import com.unidadcoronaria.domain.transformer.DiagnosticTransformer;
 import com.unidadcoronaria.domain.transformer.MedicalServiceResourceTransformer;
 import com.unidadcoronaria.domain.transformer.MedicamentTransformer;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
@@ -21,12 +23,14 @@ public class UpdateMedicalServiceWithMedicamentUseCase extends UseCase<MedicalSe
 
     private final MedicalServiceResourceTransformer transformer = new MedicalServiceResourceTransformer();
     private final MedicamentTransformer medicamentTransformer= new MedicamentTransformer();
+    private final DiagnosticTransformer diagnosticTransformer= new DiagnosticTransformer();
     private Integer medicalServiceId;
     private List<Medicament> medicamentList;
+    private List<Diagnostic> diagnostics;
 
     @Override
     public void execute(Context aContext) {
-        ApiClient.getInstance().updateMedicalService(new SuccessFailureCallBack<MedicalServiceResourceEntity>() {
+        ApiClient.getInstance().closeMedicalServiceResource(new SuccessFailureCallBack<MedicalServiceResourceEntity>() {
             @Override
             public void onSuccess(MedicalServiceResourceEntity medicalServiceEntity) {
                 BusProvider.getDefaultBus().post(new SuccessResponse(transformer.transform(medicalServiceEntity)));
@@ -36,12 +40,13 @@ public class UpdateMedicalServiceWithMedicamentUseCase extends UseCase<MedicalSe
             public void onFailure(String message) {
                 BusProvider.getDefaultBus().post(new ErrorResponse());
             }
-        }, medicalServiceId, medicamentTransformer.transformToEntity(medicamentList));
+        }, medicalServiceId, medicamentTransformer.transformToEntity(medicamentList), diagnosticTransformer.transformToEntity(diagnostics));
     }
 
-    public void setData(Integer medicalServiceId, List<Medicament> medicamentList){
+    public void setData(Integer medicalServiceId, List<Medicament> medicamentList, List<Diagnostic> diagnostics){
         this.medicalServiceId = medicalServiceId;
         this.medicamentList = medicamentList;
+        this.diagnostics = diagnostics;
     }
 
     //region Inner Classes

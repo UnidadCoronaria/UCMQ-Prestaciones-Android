@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.unidadcoronaria.domain.model.Diagnostic;
 import com.unidadcoronaria.domain.model.MedicalService;
 import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.model.Medicament;
@@ -51,6 +52,7 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
     private MedicamentAdapter adapter;
     private MedicamentPresenter presenter;
     private MedicalServiceResource medicalService;
+    private List<Diagnostic> diagnostics;
     //endregions
 
     //region Constructors implementations
@@ -66,6 +68,7 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
         medicalService = (MedicalServiceResource) getActivity().getIntent().getSerializableExtra(MedicamentActivity.MEDICAL_SERVICE_KEY);
+        diagnostics = (List<Diagnostic>) getActivity().getIntent().getSerializableExtra(MedicamentActivity.MEDICAL_SERVICE_DIAGNOSTIC_KEY);
         presenter = new MedicamentPresenter(this, getContext());
         vSupplyList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MedicamentAdapter(this, new ArrayList<Medicament>());
@@ -141,7 +144,7 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
     @OnClick(R.id.fragment_supply_accept_button)
     protected void onAcceptButtonClick(View view){
         List<Medicament> medicamentList = adapter.getList();
-        presenter.update(medicamentList, medicalService);
+        presenter.update(medicamentList, medicalService, diagnostics);
     }
 
     @OnClick(R.id.fragment_supply_cancel_button)

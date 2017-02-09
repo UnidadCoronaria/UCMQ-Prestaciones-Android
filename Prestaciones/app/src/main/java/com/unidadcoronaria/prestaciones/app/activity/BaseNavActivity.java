@@ -96,7 +96,7 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
 
     @Override
     public void showFragment(BaseFragment fragment){
-         getSupportFragmentManager().beginTransaction().addToBackStack("fragment")
+         getSupportFragmentManager().beginTransaction().addToBackStack(fragment.getClass().getSimpleName())
                     .replace(R.id.activity_base_fragment, fragment).commit();
     }
 

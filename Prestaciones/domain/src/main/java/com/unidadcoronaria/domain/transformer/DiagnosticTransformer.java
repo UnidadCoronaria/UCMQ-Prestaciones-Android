@@ -21,7 +21,7 @@ public class DiagnosticTransformer implements Transformer<DiagnosticEntity, Diag
         diagnostic.setName(object.getName());
         diagnostic.setDescription(object.getDescription());
         diagnostic.setActive(object.getActive());
-        diagnostic.setName(object.getNumber());
+        diagnostic.setNumber(object.getNumber());
         return diagnostic;
     }
 
@@ -41,7 +41,7 @@ public class DiagnosticTransformer implements Transformer<DiagnosticEntity, Diag
         diagnostic.setName(object.getName());
         diagnostic.setDescription(object.getDescription());
         diagnostic.setActive(object.getActive());
-        diagnostic.setName(object.getNumber());
+        diagnostic.setNumber(object.getNumber());
         return diagnostic;
     }
 
