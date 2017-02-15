@@ -63,6 +63,8 @@ public class SplashActivity extends BaseActivity {
             } else {
                 saveIMEI();
             }
+        } else {
+            saveIMEI();
         }
     }
 

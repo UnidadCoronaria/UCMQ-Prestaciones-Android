@@ -121,7 +121,9 @@ public class GuardFragment extends BaseFragment implements GuardView {
 
     @Override
     public void onMobileObservationRetrieved(List<TypeMobileObservation> typeMobileObservations) {
+        mAdapter = new MobileObservationAdapter(getActivity(), this);
         mAdapter.add(typeMobileObservations);
+        vRecyclerView.setAdapter(mAdapter);
     }
 
     @OnClick(R.id.fragment_watch_button)
@@ -148,6 +150,7 @@ public class GuardFragment extends BaseFragment implements GuardView {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mAdapter.add(new ArrayList<TypeMobileObservation>());
+                vRecyclerView.setAdapter(mAdapter);
                 presenter.getList();
             }
         });

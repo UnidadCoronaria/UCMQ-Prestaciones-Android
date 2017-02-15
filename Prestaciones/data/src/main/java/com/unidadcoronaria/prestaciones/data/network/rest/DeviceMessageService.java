@@ -20,7 +20,7 @@ public interface DeviceMessageService {
     @GET("/deviceMessage/{guardId}/messages")
     Call<List<DeviceMessageEntity>> get(@Path("guardId") Integer watchId);
 
-    @POST("/deviceMessage/{guardId}/messages")
-    Call<DeviceMessageEntity> send(@Path("guardId") Integer watchId, @Body DeviceMessageDTO deviceMessageDTO);
+    @POST("/deviceMessage/send")
+    Call<DeviceMessageEntity> send(@Body DeviceMessageDTO deviceMessageDTO);
 
 }

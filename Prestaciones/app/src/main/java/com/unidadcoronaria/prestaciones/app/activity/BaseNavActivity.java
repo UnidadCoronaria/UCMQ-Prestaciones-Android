@@ -41,7 +41,7 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.nav_medical_services:
-                                presenter.openMedicalServices();
+                                openMedicalServices();
                                 return true;
                             case R.id.nav_start_watch:
                                 presenter.openInitWatch();
@@ -65,6 +65,11 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
     public void onPause() {
         super.onPause();
         presenter.onPause();
+    }
+
+
+    public void openMedicalServices(){
+        presenter.openMedicalServices();
     }
 
     @Override
@@ -96,7 +101,7 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
 
     @Override
     public void showFragment(BaseFragment fragment){
-         getSupportFragmentManager().beginTransaction().addToBackStack(fragment.getClass().getSimpleName())
+         getSupportFragmentManager().beginTransaction().addToBackStack("")
                     .replace(R.id.activity_base_fragment, fragment).commit();
     }
 

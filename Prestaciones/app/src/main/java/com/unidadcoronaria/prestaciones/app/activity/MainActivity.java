@@ -1,10 +1,12 @@
 package com.unidadcoronaria.prestaciones.app.activity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
@@ -88,10 +90,24 @@ public class MainActivity extends BaseNavActivity implements MainView {
                 changeUser(true);
                 return true;
             case android.R.id.home:
-                onBackPressed();
+                doBack();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        doBack();
+    }
+
+    private void doBack(){
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.activity_base_fragment);
+        if(!(f instanceof MedicalServiceListFragment)) {
+            openMedicalServices();
+        } else {
+            getActivity().finish();
         }
     }
 

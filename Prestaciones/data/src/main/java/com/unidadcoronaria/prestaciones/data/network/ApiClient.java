@@ -143,7 +143,8 @@ public class ApiClient {
     public void sendMessage(final SuccessFailureCallBack<DeviceMessageEntity> callback, Integer guardId, DeviceMessageEntity message) {
         DeviceMessageDTO dto = new DeviceMessageDTO();
         dto.setMessage(message.getMessage());
-        retrofit.create(DeviceMessageService.class).send(guardId, dto).enqueue(new ResultEntityCallback<DeviceMessageEntity>(callback));
+        dto.setGuardId(guardId);
+        retrofit.create(DeviceMessageService.class).send(dto).enqueue(new ResultEntityCallback<DeviceMessageEntity>(callback));
     }
 
 
