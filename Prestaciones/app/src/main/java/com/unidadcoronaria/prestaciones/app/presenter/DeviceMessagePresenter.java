@@ -44,7 +44,7 @@ public class DeviceMessagePresenter extends BasePresenter<MessageView>  {
 
     public void sendMessage(String message) {
         view.showLoading();
-        mSendDeviceMessageUseCase.setData(Integer.valueOf(SessionHelper.getGuardId()), new DeviceMessage(message, new Date()));
+        mSendDeviceMessageUseCase.setData(Integer.valueOf(SessionHelper.getGuardId()), new DeviceMessage(message, new Date().getTime()));
         mSendDeviceMessageUseCase.execute(mContext);
     }
 
@@ -58,5 +58,10 @@ public class DeviceMessagePresenter extends BasePresenter<MessageView>  {
     public void onUserChange(OnUserChange response){
         Log.i("DevicePresenter", "On user change");
         getList();
+    }
+
+    @Subscribe
+    public void onGetError(GetDeviceMessageUseCase.ErrorResponse errorResponse){
+        view.showListError();
     }
 }

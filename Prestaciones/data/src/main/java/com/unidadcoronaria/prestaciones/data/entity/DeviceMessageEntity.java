@@ -9,7 +9,7 @@ import java.util.Date;
 public class DeviceMessageEntity extends BaseEntity {
 
     private Integer deviceMessageId;
-    private Date dateTime;
+    private Long dateTime;
     private String message;
     private DeviceEntity device;
     private GuardEntity guard;
@@ -23,11 +23,11 @@ public class DeviceMessageEntity extends BaseEntity {
         this.deviceMessageId = deviceMessageId;
     }
 
-    public Date getDateTime() {
+    public Long getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(Long dateTime) {
         this.dateTime = dateTime;
     }
 

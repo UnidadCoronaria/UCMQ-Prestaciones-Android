@@ -9,13 +9,13 @@ import java.util.Date;
 public class DeviceMessage extends BaseModel {
 
     private Integer deviceMessageId;
-    private Date dateTime;
+    private Long dateTime;
     private String message;
     private Device device;
     private Guard guard;
     private char sendCallcenter;
 
-    public DeviceMessage(String message, Date dateTime) {
+    public DeviceMessage(String message, Long dateTime) {
         this.message = message;
         this.dateTime = dateTime;
     }
@@ -31,11 +31,11 @@ public class DeviceMessage extends BaseModel {
         this.deviceMessageId = deviceMessageId;
     }
 
-    public Date getDateTime() {
+    public Long getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(Long dateTime) {
         this.dateTime = dateTime;
     }
 

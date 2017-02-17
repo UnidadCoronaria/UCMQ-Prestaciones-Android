@@ -7,7 +7,7 @@ public class MedicalServiceEntity {
 
 	private Integer medicalServiceId;
 	private Integer number;
-	private Date date;
+	private Long date;
 	private String telephone;
 	private AddressMedicalServiceEntity addressMedicalService;
 	private String name;
@@ -34,11 +34,11 @@ public class MedicalServiceEntity {
 		this.number = number;
 	}
 
-	public Date getDate() {
+	public Long getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Long date) {
 		this.date = date;
 	}
 

@@ -9,7 +9,7 @@ public class MedicalService extends BaseModel implements Serializable  {
 
 	private Integer medicalServiceId;
 	private Integer number;
-	private Date date;
+	private Long date;
 	private String telephone;
 	private AddressMedicalService addressMedicalService;
 	private String name;
@@ -36,11 +36,11 @@ public class MedicalService extends BaseModel implements Serializable  {
 		this.number = number;
 	}
 
-	public Date getDate() {
+	public Long getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Long date) {
 		this.date = date;
 	}
 

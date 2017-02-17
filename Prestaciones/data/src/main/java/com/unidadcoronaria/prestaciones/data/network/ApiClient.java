@@ -13,25 +13,25 @@ import com.unidadcoronaria.prestaciones.data.dto.DeviceMessageDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceMedicamentDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceResourceDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MobileObservationDTO;
+import com.unidadcoronaria.prestaciones.data.entity.DeviceMessageEntity;
 import com.unidadcoronaria.prestaciones.data.entity.DiagnosticEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
-import com.unidadcoronaria.prestaciones.data.entity.DeviceMessageEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MedicamentEntity;
 import com.unidadcoronaria.prestaciones.data.entity.MobileObservationEntity;
 import com.unidadcoronaria.prestaciones.data.entity.ProviderEntity;
-import com.unidadcoronaria.prestaciones.data.entity.MedicamentEntity;
 import com.unidadcoronaria.prestaciones.data.entity.TypeMobileObservationEntity;
 import com.unidadcoronaria.prestaciones.data.entity.directions.RouteResponseEntity;
 import com.unidadcoronaria.prestaciones.data.network.callback.EmptyResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.ResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
+import com.unidadcoronaria.prestaciones.data.network.rest.DeviceMessageService;
 import com.unidadcoronaria.prestaciones.data.network.rest.DiagnosticService;
+import com.unidadcoronaria.prestaciones.data.network.rest.GuardService;
 import com.unidadcoronaria.prestaciones.data.network.rest.MapService;
 import com.unidadcoronaria.prestaciones.data.network.rest.MedicalServiceService;
-import com.unidadcoronaria.prestaciones.data.network.rest.DeviceMessageService;
+import com.unidadcoronaria.prestaciones.data.network.rest.MedicamentService;
 import com.unidadcoronaria.prestaciones.data.network.rest.MobileObservationService;
 import com.unidadcoronaria.prestaciones.data.network.rest.ProviderService;
-import com.unidadcoronaria.prestaciones.data.network.rest.MedicamentService;
-import com.unidadcoronaria.prestaciones.data.network.rest.GuardService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +50,8 @@ public class ApiClient {
     //region Properties
     public static String IMEI;
     private static final ApiClient INSTANCE = new ApiClient();
-    private static final String BASE_URL = "http://private-da46b-unidadcoronaria.apiary-mock.com";
+    //private static final String BASE_URL = "http://private-da46b-unidadcoronaria.apiary-mock.com";
+    private static final String BASE_URL = "http://200.68.80.42:60628/api/";
     private final Retrofit retrofit;
     private final Retrofit retrofitGoogleDirections;
     //endregion
@@ -60,22 +61,25 @@ public class ApiClient {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
         OkHttpClient client = new OkHttpClient();
-        client.setReadTimeout(60, TimeUnit.SECONDS);
-        client.setConnectTimeout(60, TimeUnit.SECONDS);
-        client.setWriteTimeout(60, TimeUnit.SECONDS);
+        client.setReadTimeout(20, TimeUnit.SECONDS);
+        client.setConnectTimeout(20, TimeUnit.SECONDS);
+        client.setWriteTimeout(20, TimeUnit.SECONDS);
+        client.setRetryOnConnectionFailure(false);
         client.networkInterceptors().add(new Interceptor() {
             @Override
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
                 try {
                     Request newRequest = chain.request().newBuilder()
-                            .header("Authorization", IMEI)
+                            .header("Authorization", "451236200698230")
+                            //.header("Authorization", IMEI)
                             .build();
-
+                    Log.d("Request",newRequest.httpUrl().url().toString());
                     final Response response = chain.proceed(newRequest);
+                    Log.d("Request response",newRequest.httpUrl().url().toString());
                     return response;
                 } catch (Exception e) {
                     if (e.getMessage() != null) {
-                        Log.e("Error", e.getMessage());
+                        Log.e("Request Error", e.getMessage());
                     }
                     throw e;
                 }

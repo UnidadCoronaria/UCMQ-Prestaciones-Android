@@ -31,7 +31,7 @@ public class GetMedicalServiceAttendedListUseCase extends UseCase<List<MedicalSe
 
             @Override
             public void onFailure(String message) {
-                GetMedicalServiceAttendedListUseCase.super.onFailure(message);
+                BusProvider.getDefaultBus().post(new ErrorResponse());
             }
         }, this.guardId);
     }
@@ -52,6 +52,10 @@ public class GetMedicalServiceAttendedListUseCase extends UseCase<List<MedicalSe
         public List<MedicalServiceResource> getList() {
             return mList;
         }
+    }
+
+    public static class ErrorResponse {
+
     }
     //endregion
 }

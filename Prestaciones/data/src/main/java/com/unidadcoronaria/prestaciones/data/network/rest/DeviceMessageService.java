@@ -17,10 +17,10 @@ import retrofit.http.Path;
  */
 public interface DeviceMessageService {
 
-    @GET("/deviceMessage/{guardId}/messages")
+    @GET("deviceMessage/{guardId}/messages")
     Call<List<DeviceMessageEntity>> get(@Path("guardId") Integer watchId);
 
-    @POST("/deviceMessage/send")
+    @POST("deviceMessage/send")
     Call<DeviceMessageEntity> send(@Body DeviceMessageDTO deviceMessageDTO);
 
 }

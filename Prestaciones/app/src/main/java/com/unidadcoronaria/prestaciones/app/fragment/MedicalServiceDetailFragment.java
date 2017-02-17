@@ -219,7 +219,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
     @Override
     public void displayError(String message) {
-        Toast.makeText(getActivity(), "Hubo un error obteniendo la información. Intentelo nuevamente más tarde.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),  message, Toast.LENGTH_LONG).show();
     }
 
     @Override

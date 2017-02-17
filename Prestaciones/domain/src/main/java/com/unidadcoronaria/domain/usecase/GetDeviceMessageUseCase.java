@@ -31,7 +31,7 @@ public class GetDeviceMessageUseCase extends UseCase<List<DeviceMessage>> {
 
             @Override
             public void onFailure(String message) {
-                GetDeviceMessageUseCase.super.onFailure(message);
+                BusProvider.getDefaultBus().post(new ErrorResponse());
             }
         }, this.guardId);
     }
@@ -52,6 +52,13 @@ public class GetDeviceMessageUseCase extends UseCase<List<DeviceMessage>> {
         public List<DeviceMessage> getMessageList() {
             return messageList;
         }
+    }
+
+    public static class ErrorResponse {
+
+        public ErrorResponse() {
+        }
+
     }
     //endregion
 }

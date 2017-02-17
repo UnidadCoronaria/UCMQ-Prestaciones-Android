@@ -29,9 +29,9 @@ public interface MedicalServiceService {
     @GET("medicalServiceResource/{medicalServiceResourceId}")
     Call<MedicalServiceResourceEntity> getById(@Path("medicalServiceResourceId") Long medicalServiceId);
 
-    @PUT("/medicalServiceResource/setState")
+    @PUT("medicalServiceResource/setState")
     Call<MedicalServiceResourceEntity> put(@Body MedicalServiceResourceDTO medicalServiceResourceDTO);
 
-    @PUT("/medicalServiceResource/close")
+    @PUT("medicalServiceResource/close")
     Call<MedicalServiceResourceEntity> close(@Body CloseMedicalServiceResourceDTO closeMedicalServiceResourceDTO);
 }

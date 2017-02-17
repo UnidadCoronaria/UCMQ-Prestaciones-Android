@@ -1,10 +1,12 @@
 package com.unidadcoronaria.domain.model;
 
+import java.io.Serializable;
+
 /**
  * Created by AGUSTIN.BALA on 01/01/2017.
  */
 
-public class Territory extends BaseModel{
+public class Territory extends BaseModel implements Serializable{
 
     private Integer territoryId;
     private String name;

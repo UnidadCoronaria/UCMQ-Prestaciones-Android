@@ -13,4 +13,6 @@ public interface MessageView extends View {
     void onMessageListReceived(List<DeviceMessage> messageList);
 
     void onMessageSendReceived(DeviceMessage message);
+
+    void showListError();
 }

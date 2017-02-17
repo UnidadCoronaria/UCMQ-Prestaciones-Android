@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.unidadcoronaria.domain.usecase.GetMedicalServiceAttendedListUseCase;
+import com.unidadcoronaria.domain.usecase.GetMedicalServicePendingListUseCase;
+import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
 import com.unidadcoronaria.prestaciones.app.activity.event.OnUserChange;
 import com.unidadcoronaria.prestaciones.util.SessionHelper;
@@ -46,5 +48,9 @@ public class ListMedicalServiceAttendedPresenter extends BasePresenter<ListMedic
         getList();
     }
 
+    @Subscribe
+    public void onError(GetMedicalServiceAttendedListUseCase.ErrorResponse error) {
+        view.displayError(context.getString(R.string.attended_list_error));
+    }
 
 }

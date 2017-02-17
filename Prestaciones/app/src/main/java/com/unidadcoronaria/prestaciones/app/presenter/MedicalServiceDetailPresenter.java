@@ -60,6 +60,7 @@ public class MedicalServiceDetailPresenter extends BasePresenter<MedicalServiceD
     @Subscribe
     public void onMedicalServiceUpdateError(UpdateMedicalServiceUseCase.ErrorResponse response){
         view.hideLoading();
+        view.displayError("No se pudo actualizar el estado de la prestación. Intentelo más tarde.");
     }
 
 }

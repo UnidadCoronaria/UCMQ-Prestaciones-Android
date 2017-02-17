@@ -3,7 +3,9 @@ package com.unidadcoronaria.prestaciones.app.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.unidadcoronaria.domain.usecase.GeneralUseCaseError;
 import com.unidadcoronaria.domain.usecase.GetMedicalServicePendingListUseCase;
+import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
 import com.unidadcoronaria.prestaciones.app.activity.event.OnUserChange;
 
@@ -39,5 +41,10 @@ public class ListMedicalServicePendingPresenter extends BasePresenter<ListMedica
     @Subscribe
     public void onUserChange(OnUserChange response){
         getList();
+    }
+
+    @Subscribe
+    public void onError(GetMedicalServicePendingListUseCase.ErrorResponse error) {
+        view.displayError(context.getString(R.string.pending_list_error));
     }
 }

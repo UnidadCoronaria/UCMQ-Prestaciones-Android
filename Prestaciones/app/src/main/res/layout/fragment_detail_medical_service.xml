@@ -69,7 +69,7 @@
                         android:id="@+id/fragment_medical_detail_first_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="50dp"
+
                         android:background="@drawable/selector_button"
                         android:includeFontPadding="false"
                         android:padding="5dp"
@@ -83,6 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_button"
+                        android:layout_marginLeft="50dp"
                         android:padding="5dp"
                         android:text="CERRAR"
                         android:textColor="@color/button_background" />

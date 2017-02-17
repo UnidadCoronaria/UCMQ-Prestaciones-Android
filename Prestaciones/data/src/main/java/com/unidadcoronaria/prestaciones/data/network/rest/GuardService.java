@@ -18,7 +18,7 @@ import retrofit.http.Path;
  */
 public interface GuardService {
 
-    @POST("/mobileObservation/{guardId}")
+    @POST("mobileObservation/{guardId}")
     Call<Void> post(@Path("guardId") Integer guardId, @Body List<MobileObservationDTO> mobileObservationList);
 
 }

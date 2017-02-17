@@ -79,7 +79,7 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
 
     @Override
     public void displayError(String message) {
-        Toast.makeText(getActivity(), "Hubo un error obteniendo la lista de prestaciones atendidas.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),  message , Toast.LENGTH_LONG).show();
         vProgress.setVisibility(View.GONE);
         swipeContainer.setRefreshing(false);
         mAdapter.addAll(new ArrayList<MedicalServiceResource>());

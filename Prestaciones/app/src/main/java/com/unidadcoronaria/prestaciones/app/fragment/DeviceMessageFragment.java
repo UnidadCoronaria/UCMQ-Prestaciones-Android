@@ -92,6 +92,7 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
 
     @Override
     public void displayError(String message) {
+        vText.setText("");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(getString(R.string.message_sent_error)).setPositiveButton(getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
@@ -151,6 +152,20 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
             }
         });
          builder.create().show();
+    }
+
+    @Override
+    public void showListError() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(getString(R.string.message_get_error)).setPositiveButton(getString(R.string.button_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //do nothing
+                getActivity().onBackPressed();
+            }
+        });
+        builder.create().show();
+        hideLoading();
     }
 
     @OnClick(R.id.fragment_message_send)

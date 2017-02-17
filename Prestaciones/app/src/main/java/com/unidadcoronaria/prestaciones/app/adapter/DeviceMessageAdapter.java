@@ -12,6 +12,7 @@ import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.util.DateUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,17 +52,20 @@ public class DeviceMessageAdapter extends RecyclerView.Adapter<DeviceMessageAdap
     public void onBindViewHolder(DeviceMessageViewHolder holder, int position) {
         final DeviceMessage deviceMessage = mList.get(position);
         holder.vDeviceMessage.setText(deviceMessage.getMessage());
-        if(DateUtil.isToday(deviceMessage.getDateTime().getTime())) {
-            holder.vDeviceMessageDate.setText(DateUtil.getConvertedHourString(deviceMessage.getDateTime()));
+        Date date = new Date(deviceMessage.getDateTime());
+        if(DateUtil.isToday(deviceMessage.getDateTime())) {
+            holder.vDeviceMessageDate.setText(DateUtil.getConvertedHourString(date));
         } else {
-            holder.vDeviceMessageDate.setText(DateUtil.getConvertedHourString(deviceMessage.getDateTime())+" "+DateUtil.getConvertedDayString(deviceMessage.getDateTime()));
+            holder.vDeviceMessageDate.setText(DateUtil.getConvertedHourString(date)+" "+DateUtil.getConvertedDayString(date));
         }
         holder.vContainer.setSelected('T' == deviceMessage.getSendCallcenter());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             if('T' == deviceMessage.getSendCallcenter()) {
                 holder.vDeviceMessageDate.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+                holder.vContainer.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
             } else {
                 holder.vDeviceMessageDate.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+                holder.vContainer.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
             }
         }
 

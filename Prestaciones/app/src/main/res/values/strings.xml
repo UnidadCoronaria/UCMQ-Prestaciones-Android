@@ -21,6 +21,9 @@
     <string name="button_finish">FINALIZAR</string>
     <string name="button_cancel">CANCELAR</string>
     <string name="button_continue">CONTINUAR</string>
+    <string name="pending_list_error">Hubo un error obteniendo la lista de prestaciones pendientes.</string>
+    <string name="attended_list_error">Hubo un error obteniendo la lista de prestaciones atendidas.</string>
+
 
     <!-- Diagnostic -->
     <string name="diagnostics">Diagnosticos</string>
@@ -46,6 +49,7 @@
     <!-- Messages -->
     <string name="messages">Mensajes</string>
     <string name="message_sent">El mensaje se envio correctamente</string>
+    <string name="message_get_error">No se pudieron obtener los mensajes. Intentelo nuevamente más tarde.</string>
     <string name="message_sent_error">El mensaje no pudo ser enviado. Intentelo nuevamente.</string>
 
     <!-- Medical Service Status -->
