@@ -64,12 +64,12 @@ public class BasePresenter<V extends View> {
 
     protected void defaultError(GeneralUseCaseError error) {
         view.hideLoading();
-        view.displayError("");
+        view.displayError("Default Error - "+error.getErrorMessage());
     }
 
     private void handleBusinessError(GeneralUseCaseError error) {
         view.hideLoading();
-        view.displayError("");
+        view.displayError("Business Error - "+error.getErrorMessage());
     }
 
 

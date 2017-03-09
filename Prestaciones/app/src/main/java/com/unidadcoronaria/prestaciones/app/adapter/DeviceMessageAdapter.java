@@ -56,7 +56,7 @@ public class DeviceMessageAdapter extends RecyclerView.Adapter<DeviceMessageAdap
         if(DateUtil.isToday(deviceMessage.getDateTime())) {
             holder.vDeviceMessageDate.setText(DateUtil.getConvertedHourString(date));
         } else {
-            holder.vDeviceMessageDate.setText(DateUtil.getConvertedHourString(date)+" "+DateUtil.getConvertedDayString(date));
+            holder.vDeviceMessageDate.setText(DateUtil.getConvertedHourString(date)+" - "+DateUtil.getConvertedDayString(date));
         }
         holder.vContainer.setSelected('T' == deviceMessage.getSendCallcenter());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {

@@ -118,7 +118,6 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
     @Override
     public void onUpdate() {
         showSuccess();
-        getActivity().finish();
     }
 
     @Override

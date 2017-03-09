@@ -69,4 +69,6 @@
 
     <!-- Change User -->
     <string name="change_user_title">Cambiar usuario</string>
+    <string name="gps_network_not_enabled">Por favor, habilite la localización del dispositivo para continuar</string>
+    <string name="open_location_settings">Ir a Ajustes</string>
 </resources>

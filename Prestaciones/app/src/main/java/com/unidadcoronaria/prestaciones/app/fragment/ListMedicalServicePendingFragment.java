@@ -93,7 +93,7 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
 
     @Override
     public void displayError(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
         vProgress.setVisibility(View.GONE);
         swipeContainer.setRefreshing(false);
     }

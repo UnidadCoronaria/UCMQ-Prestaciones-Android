@@ -18,6 +18,8 @@ public class UpdateMedicalServiceUseCase extends UseCase<MedicalServiceResource>
     private final MedicalServiceResourceTransformer transformer = new MedicalServiceResourceTransformer();
     private Integer medicalServiceId;
     private Integer state;
+    private Double lng;
+    private Double lat;
 
     @Override
     public void execute(Context aContext) {
@@ -31,12 +33,14 @@ public class UpdateMedicalServiceUseCase extends UseCase<MedicalServiceResource>
             public void onFailure(String message) {
                 BusProvider.getDefaultBus().post(new ErrorResponse());
             }
-        },medicalServiceId, state);
+        },medicalServiceId, state, lat, lng);
     }
 
-    public void setData(Integer medicalServiceId, Integer state){
+    public void setData(Integer medicalServiceId, Integer state, Double lat, Double lng){
         this.medicalServiceId = medicalServiceId;
         this.state = state;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     //region Inner Classes

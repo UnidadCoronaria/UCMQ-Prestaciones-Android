@@ -7,14 +7,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class DateUtil {
 
     private final static String LOG_TAG = "DateUtil";
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-    private static final SimpleDateFormat dateFormatUserDay = new SimpleDateFormat("dd/MM/yyyy");
-    private static final SimpleDateFormat dateFormatUserHour = new SimpleDateFormat("HH:mm");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+    private static final SimpleDateFormat dateFormatUserDay = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private static final SimpleDateFormat dateFormatUserHour = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
 
     public static Date getConvertedDate(String dateString) {
@@ -48,9 +49,11 @@ public class DateUtil {
     }
 
     public static String getConvertedHourString(Date date) {
+        Log.d("DateUtil", "Time - "+String.valueOf(date.getTime()));
         String convertedString = "";
         try {
             convertedString = dateFormatUserHour.format(date);
+            Log.d("DateUtil", "Hour - "+convertedString);
         } catch (Exception e) {
             Log.e(LOG_TAG, "Error converting date.");
         }

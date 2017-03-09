@@ -52,7 +52,7 @@ public class MobileObservationAdapter extends RecyclerView.Adapter<MobileObserva
     }
 
     @Override
-    public void onBindViewHolder(final MobileObservationHolder holder, int position) {
+    public void onBindViewHolder(final MobileObservationHolder holder, final int position) {
         final TypeMobileObservation mobileObservation = mList.get(position);
         holder.vLabel.setText(mobileObservation.getName());
         holder.vCheckContainer.setOnClickListener(new View.OnClickListener() {
@@ -67,11 +67,19 @@ public class MobileObservationAdapter extends RecyclerView.Adapter<MobileObserva
                  showNoteDialog(mobileObservation);
              }
            });
+        if(mobileObservation.getCurrentViewState() == 0){
+            holder.vCheck.setSelected(false);
+            holder.vCheck.setVisibility(View.INVISIBLE);
+        } else {
+            holder.vCheck.setVisibility(View.VISIBLE);
+            holder.vCheck.setSelected(mobileObservation.getCurrentViewState() != 1);
+        }
     }
 
     private void setCheckState(View view, TypeMobileObservation item){
         if(view.getVisibility() == View.VISIBLE){
             if(view.isSelected()){
+                item.setCurrentViewState(0);
                 view.setSelected(false);
                 view.setVisibility(View.INVISIBLE);
                 mVisibleItems--;
@@ -79,12 +87,14 @@ public class MobileObservationAdapter extends RecyclerView.Adapter<MobileObserva
             } else {
                 item.setCurrentState(false);
                 view.setSelected(true);
+                item.setCurrentViewState(2);
             }
         } else {
             mVisibleItems++;
             view.setVisibility(View.VISIBLE);
             view.setSelected(false);
             item.setCurrentState(true);
+            item.setCurrentViewState(1);
             if(mVisibleItems == mList.size()){
                 mCallback.onMobileObservationItemsCompleted();
             }

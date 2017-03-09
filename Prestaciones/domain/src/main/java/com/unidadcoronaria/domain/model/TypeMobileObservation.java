@@ -10,6 +10,7 @@ public class TypeMobileObservation extends BaseModel {
     private String name;
     private String currentObservation;
     private Boolean currentState;
+    private Integer currentViewState = 0;
 
     public Integer getTypeMobileObservationId() {
         return typeMobileObservationId;
@@ -41,5 +42,13 @@ public class TypeMobileObservation extends BaseModel {
 
     public void setCurrentState(Boolean currentState) {
         this.currentState = currentState;
+    }
+
+    public Integer getCurrentViewState() {
+        return currentViewState;
+    }
+
+    public void setCurrentViewState(Integer currentViewState) {
+        this.currentViewState = currentViewState;
     }
 }

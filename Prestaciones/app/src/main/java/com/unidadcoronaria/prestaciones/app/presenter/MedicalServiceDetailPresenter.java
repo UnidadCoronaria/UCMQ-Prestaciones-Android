@@ -8,6 +8,7 @@ import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.usecase.GetRouteUseCase;
 import com.unidadcoronaria.domain.usecase.UpdateMedicalServiceUseCase;
 import com.unidadcoronaria.prestaciones.app.MedicalServiceDetailView;
+import com.unidadcoronaria.prestaciones.util.LocationHelper;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -48,7 +49,7 @@ public class MedicalServiceDetailPresenter extends BasePresenter<MedicalServiceD
 
     public void updateState(Integer state, MedicalServiceResource medicalServiceResource){
         view.showLoading();
-        this.mUpdateMedicalServiceUseCase.setData(medicalServiceResource.getMedicalServiceResourceId(), state);
+        this.mUpdateMedicalServiceUseCase.setData(medicalServiceResource.getMedicalServiceResourceId(), state, Double.parseDouble(LocationHelper.getLatitude()), Double.parseDouble(LocationHelper.getLongitude()));
         this.mUpdateMedicalServiceUseCase.execute(mContext);
     }
 

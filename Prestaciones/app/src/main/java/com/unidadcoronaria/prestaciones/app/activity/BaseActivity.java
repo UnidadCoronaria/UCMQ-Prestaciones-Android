@@ -21,6 +21,7 @@ import android.view.MenuItem;
 
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
+import com.unidadcoronaria.prestaciones.util.LocationHelper;
 import com.unidadcoronaria.prestaciones.util.location.LocationService;
 
 import butterknife.BindView;
@@ -51,15 +52,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_base_fragment, getFragment()).commit();
         }
-        if(locationEnabled()) {
+        if (locationEnabled()) {
             mLocationService = new LocationService(this);
             mLocationService.onCreate();
         }
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        LocationHelper.isLocationEnabled(this);
         if(locationEnabled()) {
             mLocationService.onResume();
         }

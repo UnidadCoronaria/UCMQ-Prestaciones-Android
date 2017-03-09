@@ -60,6 +60,8 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     Button vFirstButton;
     @BindView(R.id.fragment_medical_detail_second_button)
     Button vSecondButton;
+    @BindView(R.id.fragment_medical_detail_third_button)
+    Button vThirdButton;
     @BindView(R.id.fragment_medical_detail_observations_icon)
     View vObservations;
     @BindView(R.id.fragment_medical_detail_sheet)
@@ -175,12 +177,20 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
             setFirstButtonClick(medicalService.getAuthorizedStates().get(0));
             if( medicalService.getAuthorizedStates().size() > 1) {
                 setSecondButtonClick(medicalService.getAuthorizedStates().get(1));
+                if(medicalService.getAuthorizedStates().size() > 2){
+                    vThirdButton.setVisibility(View.VISIBLE);
+                    setThirdButtonClick(medicalService.getAuthorizedStates().get(2));
+                } else {
+                    vThirdButton.setVisibility(View.GONE);
+                }
             } else {
                 vSecondButton.setVisibility(View.GONE);
+                vThirdButton.setVisibility(View.GONE);
             }
         } else {
             vSecondButton.setVisibility(View.GONE);
             vFirstButton.setVisibility(View.GONE);
+            vThirdButton.setVisibility(View.GONE);
         }
     }
 
@@ -284,6 +294,20 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     public void setFirstButtonClick(final Integer state) {
         vFirstButton.setText(MedicalServiceStatusHelper.getStatusName(state));
         vFirstButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(state == 6) {
+                    startActivity(DiagnosticActivity.getStartIntent(getContext(), medicalService));
+                } else {
+                    presenter.updateState(state, medicalService);
+                }
+            }
+        });
+    }
+
+    private void setThirdButtonClick(final Integer state) {
+        vThirdButton.setText(MedicalServiceStatusHelper.getStatusName(state));
+        vThirdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(state == 6) {

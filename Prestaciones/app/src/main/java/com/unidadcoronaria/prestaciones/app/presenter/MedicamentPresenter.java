@@ -9,6 +9,7 @@ import com.unidadcoronaria.domain.usecase.GetMedicamentUseCase;
 import com.unidadcoronaria.domain.usecase.UpdateMedicalServiceUseCase;
 import com.unidadcoronaria.domain.usecase.UpdateMedicalServiceWithMedicamentUseCase;
 import com.unidadcoronaria.prestaciones.app.MedicamentView;
+import com.unidadcoronaria.prestaciones.util.LocationHelper;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -45,7 +46,7 @@ public class MedicamentPresenter extends BasePresenter<MedicamentView> {
 
     public void update(List<Medicament> medicamentList, MedicalServiceResource medicalService, List<Diagnostic> diagnostics) {
         view.showLoading();
-        medicalServiceWithMedicamentUseCase.setData(medicalService.getMedicalServiceResourceId(), medicamentList,diagnostics);
+        medicalServiceWithMedicamentUseCase.setData(medicalService.getMedicalServiceResourceId(), medicamentList,diagnostics, Double.parseDouble(LocationHelper.getLatitude()), Double.parseDouble(LocationHelper.getLongitude()));
         medicalServiceWithMedicamentUseCase.execute(context);
     }
 

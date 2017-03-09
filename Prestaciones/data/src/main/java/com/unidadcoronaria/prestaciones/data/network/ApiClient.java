@@ -152,14 +152,16 @@ public class ApiClient {
     }
 
 
-    public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, Integer state) {
+    public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, Integer state, Double lat, Double lng) {
         MedicalServiceResourceDTO medicalServiceResourceDTO = new MedicalServiceResourceDTO();
         medicalServiceResourceDTO.setMedicalServiceResourceId(medicalServiceId);
         medicalServiceResourceDTO.setState(state);
+        medicalServiceResourceDTO.setLatitude(lat);
+        medicalServiceResourceDTO.setLongitude(lng);
         retrofit.create(MedicalServiceService.class).put(medicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
 
-    public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, List<MedicamentEntity> listMedicamentEntities, List<DiagnosticEntity> diagnosticEntities) {
+    public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, List<MedicamentEntity> listMedicamentEntities, List<DiagnosticEntity> diagnosticEntities, Double lat, Double lng) {
         List<MedicalServiceMedicamentDTO> medicamentList = new ArrayList<>();
         for (MedicamentEntity medicamentEntity: listMedicamentEntities) {
             MedicalServiceMedicamentDTO dto = new MedicalServiceMedicamentDTO();
@@ -175,6 +177,8 @@ public class ApiClient {
         MedicalServiceResourceDTO medicalServiceResourceDTO = new MedicalServiceResourceDTO();
         medicalServiceResourceDTO.setMedicalServiceResourceId(medicalServiceId);
         medicalServiceResourceDTO.setState(6);
+        medicalServiceResourceDTO.setLatitude(lat);
+        medicalServiceResourceDTO.setLongitude(lng);
         CloseMedicalServiceResourceDTO closeMedicalServiceResourceDTO = new CloseMedicalServiceResourceDTO();
         closeMedicalServiceResourceDTO.setListMedicalServiceMedicamentDTO(medicamentList);
         closeMedicalServiceResourceDTO.setMedicalServiceResourceDTO(medicalServiceResourceDTO);

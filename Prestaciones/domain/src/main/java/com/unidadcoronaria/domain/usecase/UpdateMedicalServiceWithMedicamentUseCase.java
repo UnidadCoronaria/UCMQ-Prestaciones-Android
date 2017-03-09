@@ -27,6 +27,9 @@ public class UpdateMedicalServiceWithMedicamentUseCase extends UseCase<MedicalSe
     private Integer medicalServiceId;
     private List<Medicament> medicamentList;
     private List<Diagnostic> diagnostics;
+    private Double lng;
+    private Double lat;
+
 
     @Override
     public void execute(Context aContext) {
@@ -40,13 +43,15 @@ public class UpdateMedicalServiceWithMedicamentUseCase extends UseCase<MedicalSe
             public void onFailure(String message) {
                 BusProvider.getDefaultBus().post(new ErrorResponse());
             }
-        }, medicalServiceId, medicamentTransformer.transformToEntity(medicamentList), diagnosticTransformer.transformToEntity(diagnostics));
+        }, medicalServiceId, medicamentTransformer.transformToEntity(medicamentList), diagnosticTransformer.transformToEntity(diagnostics), lat, lng);
     }
 
-    public void setData(Integer medicalServiceId, List<Medicament> medicamentList, List<Diagnostic> diagnostics){
+    public void setData(Integer medicalServiceId, List<Medicament> medicamentList, List<Diagnostic> diagnostics, Double lat, Double lng){
         this.medicalServiceId = medicalServiceId;
         this.medicamentList = medicamentList;
         this.diagnostics = diagnostics;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     //region Inner Classes

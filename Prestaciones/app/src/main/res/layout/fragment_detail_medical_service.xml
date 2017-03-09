@@ -69,12 +69,10 @@
                         android:id="@+id/fragment_medical_detail_first_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:background="@drawable/selector_button"
                         android:includeFontPadding="false"
                         android:padding="5dp"
                         android:paddingTop="5dp"
-                        android:text="EN DOMICILIO"
                         android:textColor="@color/button_background" />
 
 
@@ -83,9 +81,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_button"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginLeft="30dp"
                         android:padding="5dp"
-                        android:text="CERRAR"
+                        android:textColor="@color/button_background" />
+
+                    <Button
+                        android:id="@+id/fragment_medical_detail_third_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_button"
+                        android:layout_marginLeft="30dp"
+                        android:padding="5dp"
                         android:textColor="@color/button_background" />
 
                     <View
