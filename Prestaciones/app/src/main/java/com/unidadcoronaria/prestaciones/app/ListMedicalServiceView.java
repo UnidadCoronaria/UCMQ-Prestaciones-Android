@@ -11,4 +11,6 @@ import java.util.List;
 public interface ListMedicalServiceView extends View {
 
     void onListRetrieved(List<MedicalServiceResource> list);
+
+    void onListError();
 }

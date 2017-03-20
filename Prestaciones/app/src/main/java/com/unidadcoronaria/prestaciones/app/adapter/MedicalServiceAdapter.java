@@ -57,7 +57,7 @@ public class MedicalServiceAdapter extends RecyclerView.Adapter<MedicalServiceAd
     public void onBindViewHolder(MedicalServiceViewHolder holder, int position) {
         final MedicalServiceResource medicalServiceResource = mList.get(position);
         final MedicalService medicalService = medicalServiceResource.getMedicalService();
-        holder.vAddress.setText(medicalService.getAddressMedicalService().getStreet());
+        holder.vAddress.setText(medicalService.getAddressMedicalService().getStreet()+ " " + medicalService.getAddressMedicalService().getNumber() + " - "+medicalService.getAddressMedicalService().getTerritory().getName());
         holder.vName.setText(medicalService.getName());
         holder.vStatus.setText(MedicalServiceStatusHelper.getStatusName(Integer.valueOf(medicalServiceResource.getCurrentState())));
         holder.vAddress.setOnClickListener(new View.OnClickListener() {

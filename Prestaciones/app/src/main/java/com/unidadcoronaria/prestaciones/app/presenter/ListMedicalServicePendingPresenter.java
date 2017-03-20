@@ -45,6 +45,6 @@ public class ListMedicalServicePendingPresenter extends BasePresenter<ListMedica
 
     @Subscribe
     public void onError(GetMedicalServicePendingListUseCase.ErrorResponse error) {
-        view.displayError(context.getString(R.string.pending_list_error));
+        view.onListError();
     }
 }

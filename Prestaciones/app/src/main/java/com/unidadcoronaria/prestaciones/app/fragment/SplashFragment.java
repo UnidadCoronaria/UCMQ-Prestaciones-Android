@@ -1,6 +1,8 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.SplashView;
+import com.unidadcoronaria.prestaciones.app.activity.MainActivity;
 import com.unidadcoronaria.prestaciones.app.presenter.SplashPresenter;
 
 import butterknife.BindView;
@@ -31,6 +34,7 @@ public class SplashFragment extends BaseFragment implements SplashView{
     protected ProgressBar progressBarSplash;
 
     private SplashPresenter presenter;
+    private Activity activity;
     //endregion
 
     //region Constructors implementations
@@ -38,6 +42,12 @@ public class SplashFragment extends BaseFragment implements SplashView{
         return new SplashFragment();
     }
     //endregion
+
+    @Override
+    public void onAttach(Context activity){
+        super.onAttach(activity);
+        this.activity = (Activity) activity;
+    }
 
     //region Lifecycle implementation
     @Override
@@ -75,6 +85,12 @@ public class SplashFragment extends BaseFragment implements SplashView{
                         codeError,
                         REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
+    }
+
+    @Override
+    public void callNextActivity() {
+        activity.startActivity(MainActivity.getStartIntent(activity));
+        activity.finish();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.unidadcoronaria.prestaciones.app.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,12 @@ public class GuardFragment extends BaseFragment implements GuardView {
     protected RecyclerView vRecyclerView;
     @BindView(R.id.fragment_watch_button)
     protected FloatingActionButton vButton;
+    @BindView(R.id.fragment_watch_error_container)
+    View vErrorContainer;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.fragment_watch_container)
+    View vContainer;
 
     private MobileObservationAdapter mAdapter;
     private GuardPresenter presenter;
@@ -67,6 +74,13 @@ public class GuardFragment extends BaseFragment implements GuardView {
         vRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MobileObservationAdapter(getActivity(),this);
         vRecyclerView.setAdapter(mAdapter);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getList();
+            }
+        });
         presenter.getList();
         return view;
     }
@@ -91,15 +105,16 @@ public class GuardFragment extends BaseFragment implements GuardView {
 
     @Override
     public void displayError(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Hubo un error obteniendo los datos de la guardia. Intentelo nuevamente más tarde.");
-        // Set up the buttons
-        builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.show();
+        // Nothing to do
+    }
+
+    public void onWatchError(){
+        vErrorContainer.setVisibility(View.VISIBLE);
+        swipeContainer.setVisibility(View.VISIBLE);
+        vRecyclerView.setVisibility(View.GONE);
+        vButton.setVisibility(View.GONE);
+        swipeContainer.setRefreshing(false);
+        vContainer.setVisibility(View.GONE);
     }
 
 
@@ -108,14 +123,12 @@ public class GuardFragment extends BaseFragment implements GuardView {
         vProgress.setVisibility(View.VISIBLE);
         vRecyclerView.setVisibility(View.GONE);
         vButton.setVisibility(View.GONE);
+        vContainer.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
         vProgress.setVisibility(View.GONE);
-        vRecyclerView.setVisibility(View.VISIBLE);
-        vButton.setVisibility(View.VISIBLE);
-        vButton.hide();
     }
 
 
@@ -124,6 +137,11 @@ public class GuardFragment extends BaseFragment implements GuardView {
         mAdapter = new MobileObservationAdapter(getActivity(), this);
         mAdapter.add(typeMobileObservations);
         vRecyclerView.setAdapter(mAdapter);
+        vErrorContainer.setVisibility(View.GONE);
+        swipeContainer.setVisibility(View.GONE);
+        vRecyclerView.setVisibility(View.VISIBLE);
+        vContainer.setVisibility(View.VISIBLE);
+        swipeContainer.setRefreshing(false);
     }
 
     @OnClick(R.id.fragment_watch_button)
@@ -176,7 +194,7 @@ public class GuardFragment extends BaseFragment implements GuardView {
                 presenter.initGuard(mobileObservations);
             }
         });
-        builder.setNegativeButton(getActivity().getString(R.string.button_close) , new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getActivity().getString(R.string.button_cancel) , new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

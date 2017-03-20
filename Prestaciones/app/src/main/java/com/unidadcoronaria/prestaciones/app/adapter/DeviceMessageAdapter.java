@@ -1,5 +1,8 @@
 package com.unidadcoronaria.prestaciones.app.adapter;
 
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.unidadcoronaria.domain.model.DeviceMessage;
+import com.unidadcoronaria.prestaciones.App;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.util.DateUtil;
 
@@ -59,15 +63,6 @@ public class DeviceMessageAdapter extends RecyclerView.Adapter<DeviceMessageAdap
             holder.vDeviceMessageDate.setText(DateUtil.getConvertedHourString(date)+" - "+DateUtil.getConvertedDayString(date));
         }
         holder.vContainer.setSelected('T' == deviceMessage.getSendCallcenter());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            if('T' == deviceMessage.getSendCallcenter()) {
-                holder.vDeviceMessageDate.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-                holder.vContainer.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-            } else {
-                holder.vDeviceMessageDate.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-                holder.vContainer.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-            }
-        }
 
     }
 

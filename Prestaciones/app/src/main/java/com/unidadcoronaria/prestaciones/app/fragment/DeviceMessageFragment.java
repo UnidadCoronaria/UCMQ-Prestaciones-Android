@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,9 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
     @BindView(R.id.fragment_message_list)
     protected RecyclerView mMessageList;
 
+    @BindView(R.id.fragment_messages_error_container)
+    View vErrorContainer;
+
     @BindView(R.id.fragment_message_send)
     protected View vSendButton;
 
@@ -43,6 +47,8 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
 
     @BindView(R.id.fragment_message_container)
     protected View vContainer;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeContainer;
 
     private DeviceMessageAdapter adapter;
     private DeviceMessagePresenter presenter;
@@ -69,6 +75,13 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
         adapter = new DeviceMessageAdapter(new ArrayList<DeviceMessage>());
         mMessageList.setAdapter(adapter);
         presenter.getList();
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getList();
+                swipeContainer.setRefreshing(true);
+            }
+        });
         return view;
     }
 
@@ -107,7 +120,6 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
     @Override
     public void showLoading() {
         vProgress.setVisibility(View.VISIBLE);
-        mMessageList.setVisibility(View.GONE);
         vText.setVisibility(View.GONE);
         vSendButton.setVisibility(View.GONE);
         vContainer.setVisibility(View.GONE);
@@ -116,10 +128,9 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
     @Override
     public void hideLoading() {
         vProgress.setVisibility(View.GONE);
-        mMessageList.setVisibility(View.VISIBLE);
-        vText.setVisibility(View.VISIBLE);
-        vSendButton.setVisibility(View.VISIBLE);
         vContainer.setVisibility(View.VISIBLE);
+        mMessageList.setVisibility(View.VISIBLE);
+        vSendButton.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -129,16 +140,25 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
             @Override
             public void run() {
                 mMessageList.smoothScrollToPosition(adapter.getItemCount() - 1);
-                hideLoading();
+                vText.setVisibility(View.VISIBLE);
+                mMessageList.setVisibility(View.VISIBLE);
+                vSendButton.setVisibility(View.VISIBLE);
+                vContainer.setVisibility(View.VISIBLE);
             }
         },500);
-
+        swipeContainer.setRefreshing(false);
+        vErrorContainer.setVisibility(View.GONE);
+        vProgress.setVisibility(View.GONE);
+        swipeContainer.setVisibility(View.GONE);
     }
 
     @Override
     public void onMessageSendReceived(DeviceMessage message) {
         vSendButton.setClickable(true);
         vText.setText("");
+        vSendButton.setVisibility(View.VISIBLE);
+        vText.setVisibility(View.VISIBLE);
+        mMessageList.setVisibility(View.VISIBLE);
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(vText.getWindowToken(),
                 InputMethodManager.RESULT_UNCHANGED_SHOWN);
@@ -156,16 +176,14 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
 
     @Override
     public void showListError() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(getString(R.string.message_get_error)).setPositiveButton(getString(R.string.button_accept), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //do nothing
-                getActivity().onBackPressed();
-            }
-        });
-        builder.create().show();
-        hideLoading();
+        vErrorContainer.setVisibility(View.VISIBLE);
+        mMessageList.setVisibility(View.GONE);
+        vContainer.setVisibility(View.GONE);
+        swipeContainer.setRefreshing(false);
+        vProgress.setVisibility(View.GONE);
+        swipeContainer.setVisibility(View.VISIBLE);
+        vText.setVisibility(View.GONE);
+        vSendButton.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.fragment_message_send)

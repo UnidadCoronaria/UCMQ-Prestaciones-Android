@@ -12,4 +12,5 @@ public interface DiagnosticView extends View{
 
     void onListDiagnosticRetrieved(List<Diagnostic> diagnostics);
 
+    void onListError();
 }

@@ -41,4 +41,10 @@ public class DiagnosticPresenter extends BasePresenter<DiagnosticView> {
         view.hideLoading();
     }
 
+    @Subscribe
+    public void onListError(GetDiagnosticUseCase.ErrorResponse response){
+        view.onListError();
+        view.hideLoading();
+    }
+
 }

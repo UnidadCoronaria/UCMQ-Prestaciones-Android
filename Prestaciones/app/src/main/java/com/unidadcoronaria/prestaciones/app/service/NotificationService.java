@@ -43,29 +43,8 @@ public class NotificationService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         this.remoteMessage = remoteMessage;
-        if(!getBus().isRegistered(this)) {
-            getBus().register(this);
+        if(remoteMessage.getData().get("id") != null && remoteMessage.getData().get("type") != null) {
+            NotificationHelper.showNotification(App.getInstance(),remoteMessage.getData().get("type").toString(), remoteMessage.getData().get("id").toString());
         }
-        GetMedicalServiceUseCase getMessageUseCase = new GetMedicalServiceUseCase();
-        //getMessageUseCase.setData(Long.getLong(remoteMessage.getData().get(NotificationHelper.NOTIFICATION_MEDICAL_SERVICE_ID_KEY)));
-        getMessageUseCase.setData(1l);
-        getMessageUseCase.execute(App.getInstance());
-
-    }
-
-    protected EventBus getBus() {
-        if (mBus == null) {
-            mBus = BusProvider.getDefaultBus();
-        }
-        return mBus;
-    }
-
-
-    @Subscribe
-    public void onMedicalServiceRetrieved(GetMedicalServiceUseCase.SuccessResponse response){
-        if(response.getMedicalService() != null) {
-            NotificationHelper.showNotification(App.getInstance(), remoteMessage.getNotification().getBody(), response.getMedicalService().getMedicalService());
-        }
-        getBus().unregister(this);
     }
 }

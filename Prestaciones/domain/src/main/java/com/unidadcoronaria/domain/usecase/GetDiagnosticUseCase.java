@@ -29,7 +29,7 @@ public class GetDiagnosticUseCase extends UseCase<List<Diagnostic>> {
 
             @Override
             public void onFailure(String message) {
-                GetDiagnosticUseCase.super.onFailure(message);
+                BusProvider.getDefaultBus().post(new ErrorResponse());
             }
         });
     }
@@ -46,6 +46,10 @@ public class GetDiagnosticUseCase extends UseCase<List<Diagnostic>> {
         public List<Diagnostic> getDiagnostics() {
             return diagnostics;
         }
+    }
+
+    public static class ErrorResponse {
+
     }
     //endregion
 }

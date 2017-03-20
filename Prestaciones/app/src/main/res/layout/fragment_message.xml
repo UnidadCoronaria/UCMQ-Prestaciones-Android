@@ -1,23 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <RelativeLayout
+        android:id="@+id/fragment_messages_error_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_messages_error_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No se pudo obtener la lista de mensajes. Por favor, intente más tarde."
+                android:textAlignment="center"
+                android:textColor="#726f6f"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_messages_error_message"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_no_connection"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_message_list"
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:visibility="gone"
-        android:layout_weight="1"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fragment_message_container"
         />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:id="@+id/fragment_message_container"
         android:background="@drawable/shape_message_input"
+        android:layout_alignParentBottom="true"
         android:layout_height="50dp">
 
         <EditText
@@ -25,7 +68,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:visibility="gone"
+            android:layout_marginLeft="20dp"
             android:layout_height="match_parent"
+            android:background="@android:color/transparent"
             android:layout_marginRight="10dp"/>
 
         <ImageView
@@ -41,4 +86,4 @@
 
     <include layout="@layout/view_progress" />
 
-</LinearLayout>
+</RelativeLayout>

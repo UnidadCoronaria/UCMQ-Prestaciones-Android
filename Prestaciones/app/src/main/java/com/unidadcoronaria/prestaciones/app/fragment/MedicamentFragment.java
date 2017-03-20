@@ -3,6 +3,7 @@ package com.unidadcoronaria.prestaciones.app.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,10 +50,20 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
     @BindView(R.id.fragment_supply_list)
     RecyclerView vSupplyList;
 
+    @BindView(R.id.fragment_supply_container)
+    View vContainer;
+
+    @BindView(R.id.fragment_supply_error_container)
+    View vErrorContainer;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeContainer;
+
     private MedicamentAdapter adapter;
     private MedicamentPresenter presenter;
     private MedicalServiceResource medicalService;
     private List<Diagnostic> diagnostics;
+    private char ecg;
+    private char copaymentPaid;
     //endregions
 
     //region Constructors implementations
@@ -73,6 +84,13 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
         vSupplyList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MedicamentAdapter(this, new ArrayList<Medicament>());
         vSupplyList.setAdapter(adapter);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getList();
+                swipeContainer.setRefreshing(true);
+            }
+        });
         return view;
     }
 
@@ -107,7 +125,11 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
                 showQuantityDialog(medicament);
             }
         });
-
+        swipeContainer.setRefreshing(false);
+        vContainer.setVisibility(View.VISIBLE);
+        vErrorContainer.setVisibility(View.GONE);
+        vProgress.setVisibility(View.GONE);
+        swipeContainer.setVisibility(View.GONE);
     }
 
     @Override
@@ -121,18 +143,33 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
     }
 
     @Override
-    public void displayError(String message) {
-        Toast.makeText(getActivity(), "Hubo un error obteniendo la lista de insumos. Intentelo nuevamente más tarde.", Toast.LENGTH_LONG).show();
+    public void onListError() {
+        vContainer.setVisibility(View.GONE);
+        vErrorContainer.setVisibility(View.VISIBLE);
         vProgress.setVisibility(View.GONE);
+        swipeContainer.setVisibility(View.VISIBLE);
+        swipeContainer.setRefreshing(false);
+    }
+
+    @Override
+    public void displayError(String message) {
+        // Nothing to do
+        vContainer.setVisibility(View.GONE);
+        vErrorContainer.setVisibility(View.VISIBLE);
+        vProgress.setVisibility(View.GONE);
+        swipeContainer.setVisibility(View.VISIBLE);
+        swipeContainer.setRefreshing(false);
     }
 
     @Override
     public void showLoading() {
+        vContainer.setVisibility(View.GONE);
         vProgress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
+        vContainer.setVisibility(View.VISIBLE);
         vProgress.setVisibility(View.GONE);
     }
 
@@ -143,8 +180,12 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
 
     @OnClick(R.id.fragment_supply_accept_button)
     protected void onAcceptButtonClick(View view){
-        List<Medicament> medicamentList = adapter.getList();
-        presenter.update(medicamentList, medicalService, diagnostics);
+        if(medicalService.getMedicalService().getCopayment() == 'T'){
+            showCopaymentDialog();
+        } else {
+            medicalService.getMedicalService().setCopaymentPaid('F');
+            showECGDialog();
+        }
     }
 
     @OnClick(R.id.fragment_supply_cancel_button)
@@ -182,6 +223,70 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
         builder.show();
     }
 
+    private void showCopaymentDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("¿El paciente abonó el copago?");
+        builder.setCancelable(false);
+        // Set up the buttons
+        builder.setPositiveButton( getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                copaymentPaid = 'T';
+                dialog.dismiss();
+                showECGDialog();
+            }
+        });
+        builder.setNegativeButton(getActivity().getString(R.string.no) , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                copaymentPaid = 'F';
+                dialog.dismiss();
+                showECGDialog();
+            }
+        });
+        builder.setNeutralButton(getActivity().getString(R.string.button_cancel) , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void showECGDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("¿Se realizó un ECG?");
+        builder.setCancelable(false);
+        // Set up the buttons
+        builder.setPositiveButton( getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ecg = 'T';
+                List<Medicament> medicamentList = adapter.getList();
+                presenter.update(medicamentList, medicalService, diagnostics, ecg, copaymentPaid);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(getActivity().getString(R.string.no) , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ecg = 'F';
+                List<Medicament> medicamentList = adapter.getList();
+                presenter.update(medicamentList, medicalService, diagnostics, ecg, copaymentPaid);
+                dialog.dismiss();
+            }
+        });
+        builder.setNeutralButton(getActivity().getString(R.string.button_cancel) , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+    }
+
     public void showSuccess(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("La prestación se actualizó correctamente.");
@@ -189,6 +294,7 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
         builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 getActivity().finish();
             }
         });

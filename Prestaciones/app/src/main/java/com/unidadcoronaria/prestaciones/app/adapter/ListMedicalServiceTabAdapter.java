@@ -3,6 +3,7 @@ package com.unidadcoronaria.prestaciones.app.adapter;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.unidadcoronaria.prestaciones.app.fragment.ListMedicalServiceAttendedFragment;
@@ -12,7 +13,7 @@ import com.unidadcoronaria.prestaciones.app.fragment.ListMedicalServicePendingFr
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public class ListMedicalServiceTabAdapter  extends FragmentStatePagerAdapter {
+public class ListMedicalServiceTabAdapter  extends FragmentPagerAdapter {
 
     public ListMedicalServiceTabAdapter(FragmentManager fm) {
         super(fm);
@@ -40,10 +41,5 @@ public class ListMedicalServiceTabAdapter  extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return 2;
-    }
-
-    @Override
-    public Parcelable saveState() {
-        return null;
     }
 }

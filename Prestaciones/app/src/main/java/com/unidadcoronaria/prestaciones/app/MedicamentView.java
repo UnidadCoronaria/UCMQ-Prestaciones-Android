@@ -15,4 +15,6 @@ public interface MedicamentView extends View{
     void onUpdateError();
 
     void onUpdate();
+
+    void onListError();
 }

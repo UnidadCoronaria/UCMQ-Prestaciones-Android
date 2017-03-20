@@ -12,4 +12,6 @@ public interface MedicalServiceDetailView extends  View {
     void drawDirections(Route route);
 
     void onMedicalServiceUpdate(MedicalServiceResource medicalServiceResource);
+
+    void onMedicalServiceResourceRetrieved(MedicalServiceResource medicalService);
 }

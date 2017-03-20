@@ -3,6 +3,7 @@ package com.unidadcoronaria.prestaciones.app.fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class MedicalServiceListFragment extends BaseFragment {
         View  rootView = super.onCreateView(inflater, container, savedInstanceState);
         tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
         viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
-        viewPagerAdapter = new ListMedicalServiceTabAdapter(getActivity().getSupportFragmentManager());
+        viewPagerAdapter = new ListMedicalServiceTabAdapter(getChildFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.post(new Runnable() {

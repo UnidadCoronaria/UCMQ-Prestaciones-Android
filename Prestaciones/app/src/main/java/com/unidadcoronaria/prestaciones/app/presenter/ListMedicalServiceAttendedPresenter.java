@@ -50,7 +50,7 @@ public class ListMedicalServiceAttendedPresenter extends BasePresenter<ListMedic
 
     @Subscribe
     public void onError(GetMedicalServiceAttendedListUseCase.ErrorResponse error) {
-        view.displayError(context.getString(R.string.attended_list_error));
+        view.onListError();
     }
 
 }

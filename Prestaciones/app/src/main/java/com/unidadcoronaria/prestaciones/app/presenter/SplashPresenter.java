@@ -7,6 +7,9 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.unidadcoronaria.prestaciones.App;
 import com.unidadcoronaria.prestaciones.app.SplashView;
 import com.unidadcoronaria.prestaciones.app.activity.MainActivity;
+import com.unidadcoronaria.prestaciones.app.fragment.SplashFragment;
+import com.unidadcoronaria.prestaciones.data.network.ApiClient;
+import com.unidadcoronaria.prestaciones.util.SharedPreferencesHelper;
 
 /**
  * @author Agustin.Bala
@@ -36,8 +39,12 @@ public class SplashPresenter extends BasePresenter<SplashView>{
                 @Override
                 public void onFinish() {
                     total = 0;
-                    view.getActivity().startActivity(MainActivity.getStartIntent(view.getActivity()));
-                    view.getActivity().finish();
+                    SharedPreferencesHelper.putBoolean(App.getInstance(), "SPLASH_FINISH", true);
+                    if(SharedPreferencesHelper.getBoolean(App.getInstance(), "IMEI")) {
+                       view.callNextActivity();
+                       SharedPreferencesHelper.putBoolean(App.getInstance(), "SPLASH_FINISH", false);
+                       SharedPreferencesHelper.putBoolean(App.getInstance(), "IMEI", false);
+                    }
                 }
             }.start();
        }

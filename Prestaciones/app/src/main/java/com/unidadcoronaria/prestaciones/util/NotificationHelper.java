@@ -21,11 +21,16 @@ import java.util.Random;
  */
 public class NotificationHelper {
 
-    private static int mNotificationId = 1;
-    public static final String NOTIFICATION_MEDICAL_SERVICE_ID_KEY =  "NOTIFICATION_MEDICAL_SERVICE_ID_KEY";
 
-    public static void showNotification(Context context, String text, MedicalService medicalService) {
+    public static void showNotification(Context context, String type, String medicalServiceId) {
 
+
+        String text;
+        if(type.equals("PRC")){
+            text = "Una prestación fue actualizada.";
+        } else {
+            text = "Se te asignó una nueva prestación.";
+        }
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
@@ -33,9 +38,10 @@ public class NotificationHelper {
                 .setContentTitle(context.getString(R.string.app_name))
                 .setAutoCancel(true).setContentText(text);
 
+
         Intent resultIntent = new Intent(context, MedicalServiceDetailActivity.class);
-        resultIntent.setType( String.valueOf(new Random().nextInt(50) + 1));
-        resultIntent.putExtra(ListMedicalServicePendingFragment.MEDICAL_SERVICE_KEY,  medicalService);
+        resultIntent.setType( medicalServiceId);
+        resultIntent.putExtra(Constants.MEDICAL_SERVICE_KEY,  medicalServiceId);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MedicalServiceDetailActivity.class);
         stackBuilder.addNextIntent(resultIntent);
@@ -44,12 +50,12 @@ public class NotificationHelper {
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_SOUND;
 
-        mNotificationManager.notify(mNotificationId, notification);
+        mNotificationManager.notify(Integer.parseInt(medicalServiceId), notification);
     }
 
-    public static void dismissNotification(Context context, int operation){
+    public static void dismissNotification(Context context, int id){
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(mNotificationId);
+        mNotificationManager.cancel(id);
     }
 }

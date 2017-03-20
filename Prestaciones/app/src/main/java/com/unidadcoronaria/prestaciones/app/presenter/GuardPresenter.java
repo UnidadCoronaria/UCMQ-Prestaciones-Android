@@ -41,6 +41,12 @@ public class GuardPresenter extends BasePresenter<GuardView> {
         view.hideLoading();
     }
 
+    @Subscribe
+    public void onWatchError(GetTypeMobileObservationUseCase.ErrorResponse response){
+        view.onWatchError();
+        view.hideLoading();
+    }
+
     public void initGuard(List<MobileObservation> mobileObservationList){
         view.showLoading();
         mInitGuardUseCase.setData(mobileObservationList, Integer.valueOf(SessionHelper.getGuardId()));

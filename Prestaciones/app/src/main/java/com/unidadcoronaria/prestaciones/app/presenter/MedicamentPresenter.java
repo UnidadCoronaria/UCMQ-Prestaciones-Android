@@ -5,6 +5,7 @@ import android.content.Context;
 import com.unidadcoronaria.domain.model.Diagnostic;
 import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.model.Medicament;
+import com.unidadcoronaria.domain.usecase.GetDiagnosticUseCase;
 import com.unidadcoronaria.domain.usecase.GetMedicamentUseCase;
 import com.unidadcoronaria.domain.usecase.UpdateMedicalServiceUseCase;
 import com.unidadcoronaria.domain.usecase.UpdateMedicalServiceWithMedicamentUseCase;
@@ -44,9 +45,15 @@ public class MedicamentPresenter extends BasePresenter<MedicamentView> {
         view.hideLoading();
     }
 
-    public void update(List<Medicament> medicamentList, MedicalServiceResource medicalService, List<Diagnostic> diagnostics) {
+    @Subscribe
+    public void onListError(GetMedicamentUseCase.ErrorResponse response){
+        view.onListError();
+        view.hideLoading();
+    }
+
+    public void update(List<Medicament> medicamentList, MedicalServiceResource medicalService, List<Diagnostic> diagnostics, char ech, char copaymentPaid) {
         view.showLoading();
-        medicalServiceWithMedicamentUseCase.setData(medicalService.getMedicalServiceResourceId(), medicamentList,diagnostics, Double.parseDouble(LocationHelper.getLatitude()), Double.parseDouble(LocationHelper.getLongitude()));
+        medicalServiceWithMedicamentUseCase.setData(medicalService.getMedicalServiceResourceId(), medicamentList,diagnostics, Double.parseDouble(LocationHelper.getLatitude()), Double.parseDouble(LocationHelper.getLongitude()), ech, copaymentPaid);
         medicalServiceWithMedicamentUseCase.execute(context);
     }
 

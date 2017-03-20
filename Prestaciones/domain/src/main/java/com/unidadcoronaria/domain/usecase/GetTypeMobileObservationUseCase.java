@@ -30,7 +30,7 @@ public class GetTypeMobileObservationUseCase extends UseCase<TypeMobileObservati
 
             @Override
             public void onFailure(String message) {
-                GetTypeMobileObservationUseCase.super.onFailure(message);
+                BusProvider.getDefaultBus().post(new ErrorResponse());
             }
         });
     }
@@ -47,6 +47,10 @@ public class GetTypeMobileObservationUseCase extends UseCase<TypeMobileObservati
         public List<TypeMobileObservation> getTypeMobileObservationList() {
             return typeMobileObservationList;
         }
+    }
+
+    public static class ErrorResponse {
+
     }
     //endregion
 }

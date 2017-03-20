@@ -4,59 +4,101 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     >
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <RelativeLayout
+        android:id="@+id/fragment_diagnostic_error_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_diagnostic_error_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No se pudo obtener la lista de diagnosticos. Por favor, intente más tarde."
+                android:textAlignment="center"
+                android:textColor="#726f6f"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_diagnostic_error_message"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_no_connection"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/fragment_diagnostic_container"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/fragment_diagnostic_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/item_text"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="20dp"
             android:gravity="left"
-            android:textSize="@dimen/title_size"
             android:text="@string/diagnostics"
-            android:layout_marginBottom="20dp"/>
+            android:textColor="@color/item_text"
+            android:textSize="@dimen/title_size" />
 
         <android.support.v7.widget.AppCompatAutoCompleteTextView
             android:id="@+id/fragment_diagnostic_autocomplete"
-            android:layout_below="@+id/fragment_diagnostic_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/item_text"
-            android:hint="@string/search_supplies"
+            android:layout_below="@+id/fragment_diagnostic_title"
+            android:layout_marginBottom="20dp"
             android:gravity="left"
-            android:textSize="@dimen/subtitle_size"
-            android:layout_marginBottom="20dp"/>
+            android:hint="@string/search_supplies"
+            android:textColor="@color/item_text"
+            android:textSize="@dimen/subtitle_size" />
 
         <android.support.v7.widget.RecyclerView
-            android:layout_below="@+id/fragment_diagnostic_autocomplete"
-            android:layout_above="@+id/fragment_diagnostic_button_container"
             android:id="@+id/fragment_diagnostic_list"
-            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:layout_above="@+id/fragment_diagnostic_button_container"
+            android:layout_below="@+id/fragment_diagnostic_autocomplete"
+            android:scrollbars="vertical" />
 
         <LinearLayout
             android:id="@+id/fragment_diagnostic_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
 
             <Button
                 android:id="@+id/fragment_diagnostic_accept_button"

@@ -40,6 +40,11 @@ public class MedicalServiceTransformer implements Transformer<MedicalServiceEnti
         medicalService.setCopaymentPaid(object.getCopaymentPaid());
         medicalService.setStatus(object.getStatus());
         medicalService.setCabinId(object.getCabinId());
+        medicalService.setCopaymentAmount(object.getCopaymentAmount());
+        medicalService.setInternmentProtocol(object.getInternmentProtocol());
+        medicalService.setEcgProtocol(object.getEcgProtocol());
+        medicalService.setColour(object.getColour());
+        medicalService.setEcg(object.getEcg());
         return medicalService;
     }
 
@@ -58,6 +63,7 @@ public class MedicalServiceTransformer implements Transformer<MedicalServiceEnti
         medicalService.setCopaymentPaid(object.getCopaymentPaid());
         medicalService.setStatus(object.getStatus());
         medicalService.setCabinId(object.getCabinId());
+        medicalService.setEcg(object.getEcg());
         return medicalService;
     }
 

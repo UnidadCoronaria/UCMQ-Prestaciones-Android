@@ -27,7 +27,7 @@ public interface MedicalServiceService {
     Call<List<MedicalServiceResourceEntity>> getAttendedList(@Path("guardId") Integer guardId);
 
     @GET("medicalServiceResource/{medicalServiceResourceId}")
-    Call<MedicalServiceResourceEntity> getById(@Path("medicalServiceResourceId") Long medicalServiceId);
+    Call<MedicalServiceResourceEntity> getById(@Path("medicalServiceResourceId") Integer medicalServiceId);
 
     @PUT("medicalServiceResource/setState")
     Call<MedicalServiceResourceEntity> put(@Body MedicalServiceResourceDTO medicalServiceResourceDTO);

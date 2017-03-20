@@ -5,7 +5,7 @@
     android:id="@+id/list_item_container"
     android:orientation="vertical"
     android:background="@drawable/ripple_medical_service_item"
-    android:layout_height="100dp">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"

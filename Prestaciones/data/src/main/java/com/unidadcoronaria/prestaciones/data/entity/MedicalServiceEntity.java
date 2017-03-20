@@ -1,7 +1,5 @@
 package com.unidadcoronaria.prestaciones.data.entity;
 
-import java.util.Date;
-
 public class MedicalServiceEntity {
 
 
@@ -15,8 +13,13 @@ public class MedicalServiceEntity {
 	private Integer age;
 	private char copayment;
 	private char copaymentPaid;
+	private Integer copaymentAmount;
+	private char internmentProtocol;
+	private char ecgProtocol;
+	private String colour;
 	private String status;
 	private Integer cabinId;
+	private char ecg;
 
 	public Integer getMedicalServiceId() {
 		return medicalServiceId;
@@ -112,6 +115,46 @@ public class MedicalServiceEntity {
 
 	public void setCabinId(Integer cabinId) {
 		this.cabinId = cabinId;
+	}
+
+	public Integer getCopaymentAmount() {
+		return copaymentAmount;
+	}
+
+	public void setCopaymentAmount(Integer copaymentAmount) {
+		this.copaymentAmount = copaymentAmount;
+	}
+
+	public char getInternmentProtocol() {
+		return internmentProtocol;
+	}
+
+	public void setInternmentProtocol(char internmentProtocol) {
+		this.internmentProtocol = internmentProtocol;
+	}
+
+	public char getEcgProtocol() {
+		return ecgProtocol;
+	}
+
+	public void setEcgProtocol(char ecgProtocol) {
+		this.ecgProtocol = ecgProtocol;
+	}
+
+	public String getColour() {
+		return colour;
+	}
+
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+
+	public char getEcg() {
+		return ecg;
+	}
+
+	public void setEcg(char ecg) {
+		this.ecg = ecg;
 	}
 }
 

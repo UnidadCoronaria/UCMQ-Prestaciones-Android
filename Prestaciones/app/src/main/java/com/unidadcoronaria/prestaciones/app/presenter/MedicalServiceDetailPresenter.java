@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.android.gms.maps.model.LatLng;
 import com.unidadcoronaria.domain.model.MedicalService;
 import com.unidadcoronaria.domain.model.MedicalServiceResource;
+import com.unidadcoronaria.domain.usecase.GetMedicalServiceUseCase;
 import com.unidadcoronaria.domain.usecase.GetRouteUseCase;
 import com.unidadcoronaria.domain.usecase.UpdateMedicalServiceUseCase;
 import com.unidadcoronaria.prestaciones.app.MedicalServiceDetailView;
@@ -20,6 +21,7 @@ public class MedicalServiceDetailPresenter extends BasePresenter<MedicalServiceD
 
     private Context mContext;
     private GetRouteUseCase mGetRouteUseCase;
+    private GetMedicalServiceUseCase mGetMedicalServiceUseCase;
     private UpdateMedicalServiceUseCase mUpdateMedicalServiceUseCase;
 
     public MedicalServiceDetailPresenter(MedicalServiceDetailView view, Context context) {
@@ -27,10 +29,29 @@ public class MedicalServiceDetailPresenter extends BasePresenter<MedicalServiceD
         this.mContext = context;
         this.mGetRouteUseCase = new GetRouteUseCase();
         this.mUpdateMedicalServiceUseCase = new UpdateMedicalServiceUseCase();
+        this.mGetMedicalServiceUseCase = new GetMedicalServiceUseCase();
+    }
+
+    public void getMedicalServiceResource(Integer id){
+        view.showLoading();
+        mGetMedicalServiceUseCase.setData(id);
+        mGetMedicalServiceUseCase.execute(mContext);
+    }
+
+    @Subscribe
+    public void onMedicalServiceResourceReceived(GetMedicalServiceUseCase.SuccessResponse response){
+        view.onMedicalServiceResourceRetrieved(response.getMedicalService());
+        view.hideLoading();
+    }
+
+
+    @Subscribe
+    public void onMedicalServiceResourceErrorReceived(GetMedicalServiceUseCase.ErrorResponse response){
+        view.hideLoading();
+        view.displayError("Error obteniendo la prestación.");
     }
 
     public void getRoute(LatLng origin, MedicalService medicalService){
-        view.showLoading();
         mGetRouteUseCase.setData(String.valueOf(origin.latitude)+","+String.valueOf(origin.longitude),
                 String.valueOf(medicalService.getAddressMedicalService().getLatitude())+","+String.valueOf(medicalService.getAddressMedicalService().getLongitude()) );
         mGetRouteUseCase.execute(mContext);

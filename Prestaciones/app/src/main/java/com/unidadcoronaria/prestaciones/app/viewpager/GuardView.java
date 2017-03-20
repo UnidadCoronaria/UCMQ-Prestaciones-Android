@@ -21,4 +21,5 @@ public interface GuardView extends View {
 
     void onGuardInitError();
 
+    void onWatchError();
 }

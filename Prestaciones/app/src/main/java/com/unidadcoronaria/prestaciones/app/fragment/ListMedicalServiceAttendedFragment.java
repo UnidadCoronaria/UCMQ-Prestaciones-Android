@@ -17,6 +17,7 @@ import com.unidadcoronaria.prestaciones.app.ListMedicalServiceView;
 import com.unidadcoronaria.prestaciones.app.activity.MedicalServiceDetailActivity;
 import com.unidadcoronaria.prestaciones.app.adapter.MedicalServiceAdapter;
 import com.unidadcoronaria.prestaciones.app.presenter.ListMedicalServiceAttendedPresenter;
+import com.unidadcoronaria.prestaciones.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,10 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
 
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.swipe_container2)
+    SwipeRefreshLayout swipeContainer2;
+    @BindView(R.id.fragment_attended_list_error_container)
+    View vErrorContainer;
     private MedicalServiceAdapter mAdapter;
 
     @BindView(R.id.list_medical_service)
@@ -62,7 +67,12 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
                 presenter.getList();
             }
         });
-
+        swipeContainer2.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getList();
+            }
+        });
 
         vListMedicalService.setLayoutManager(new LinearLayoutManager(getActivity()));
         vListMedicalService.setHasFixedSize(true);
@@ -79,10 +89,7 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
 
     @Override
     public void displayError(String message) {
-        Toast.makeText(getActivity(),  message , Toast.LENGTH_SHORT).show();
-        vProgress.setVisibility(View.GONE);
-        swipeContainer.setRefreshing(false);
-        mAdapter.addAll(new ArrayList<MedicalServiceResource>());
+        //Toast.makeText(getActivity(),  message , Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -98,14 +105,26 @@ public class ListMedicalServiceAttendedFragment extends BaseFragment implements 
     @Override
     public void onListRetrieved(List<MedicalServiceResource> list) {
         swipeContainer.setRefreshing(false);
+        swipeContainer2.setRefreshing(false);
         mAdapter.addAll(list);
+        vListMedicalService.setVisibility(View.VISIBLE);
+        vErrorContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onListError() {
+        vListMedicalService.setVisibility(View.GONE);
+        vErrorContainer.setVisibility(View.VISIBLE);
+        vProgress.setVisibility(View.GONE);
+        swipeContainer.setRefreshing(false);
+        swipeContainer2.setRefreshing(false);
     }
 
     @Override
     public void onMedicalServiceClick(MedicalServiceResource medicalService) {
         Intent intent = new Intent(this.getActivity(), MedicalServiceDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(MEDICAL_SERVICE_KEY , medicalService);
+        bundle.putString(Constants.MEDICAL_SERVICE_KEY , medicalService.getMedicalServiceResourceId().toString());
         intent.putExtras(bundle);
         startActivity(intent);
     }

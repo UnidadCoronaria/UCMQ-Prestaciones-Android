@@ -36,6 +36,7 @@ public class AddressMedicalServiceTransformer implements Transformer<AddressMedi
         addressMedicalService.setStreet2(object.getStreet2());
         addressMedicalService.setLatitude(object.getLatitude());
         addressMedicalService.setLongitude(object.getLongitude());
+        addressMedicalService.setInformation(object.getInformation());
         if(object.getTerritory() != null){
             addressMedicalService.setTerritory(territoryTransformer.transform(object.getTerritory()));
         }
@@ -52,6 +53,7 @@ public class AddressMedicalServiceTransformer implements Transformer<AddressMedi
         addressMedicalService.setStreet2(object.getStreet2());
         addressMedicalService.setLatitude(object.getLatitude());
         addressMedicalService.setLongitude(object.getLongitude());
+        addressMedicalService.setInformation(object.getInformation());
         if(object.getTerritory() != null){
             addressMedicalService.setTerritory(territoryTransformer.transformToEntity(object.getTerritory()));
         }

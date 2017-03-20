@@ -10,6 +10,7 @@ public class AddressMedicalServiceEntity extends BaseEntity {
 	private TerritoryEntity territory;
 	private Double latitude;
 	private Double longitude;
+	private String information;
 
 	public Integer getAddressMedicalServiceId() {
 		return addressMedicalServiceId;
@@ -73,5 +74,13 @@ public class AddressMedicalServiceEntity extends BaseEntity {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+
+	public String getInformation() {
+		return information;
+	}
+
+	public void setInformation(String information) {
+		this.information = information;
 	}
 }

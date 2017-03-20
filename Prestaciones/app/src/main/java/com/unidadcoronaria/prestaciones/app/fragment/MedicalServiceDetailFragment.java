@@ -10,6 +10,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.unidadcoronaria.prestaciones.app.MedicalServiceDetailView;
 import com.unidadcoronaria.prestaciones.app.activity.DiagnosticActivity;
 import com.unidadcoronaria.prestaciones.app.activity.MedicamentActivity;
 import com.unidadcoronaria.prestaciones.app.presenter.MedicalServiceDetailPresenter;
+import com.unidadcoronaria.prestaciones.util.Constants;
 import com.unidadcoronaria.prestaciones.util.LocationHelper;
 import com.unidadcoronaria.prestaciones.util.MedicalServiceStatusHelper;
 
@@ -50,12 +52,27 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
 
     //region Variables
+
+    @BindView(R.id.fragment_medical_detail_error_container)
+    View vErrorContainer;
+    @BindView(R.id.fragment_medical_detail_container)
+    View vContainer;
     @BindView(R.id.fragment_medical_detail_address)
     TextView vAddress;
+    @BindView(R.id.fragment_medical_detail_address2)
+    TextView vAddress2;
     @BindView(R.id.fragment_medical_detail_name)
     TextView vName;
     @BindView(R.id.fragment_medical_detail_info)
     TextView vInfo;
+    @BindView(R.id.fragment_medical_detail_internement_protocol)
+    TextView vInternement;
+    @BindView(R.id.fragment_medical_detail_ecg_protocol)
+    TextView vECG;
+    @BindView(R.id.fragment_medical_detail_colour)
+    TextView vColour;
+    @BindView(R.id.fragment_medical_detail_copayment)
+    TextView vCopayment;
     @BindView(R.id.fragment_medical_detail_first_button)
     Button vFirstButton;
     @BindView(R.id.fragment_medical_detail_second_button)
@@ -66,6 +83,8 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     View vObservations;
     @BindView(R.id.fragment_medical_detail_sheet)
     View vSheet;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeContainer;
     @BindView(R.id.map)
     View vMap;
     @BindView(R.id.fragment_medical_detail_arrow)
@@ -80,7 +99,9 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     private BottomSheetBehavior behavior;
     private SupportMapFragment supportMapFragment;
     private MedicalServiceResource medicalService;
+    private Integer medicalServiceId;
     private com.google.android.gms.maps.model.Polyline polyline;
+    boolean isAlreadyExpanded = false;
     //endregion
 
     //region Constructors implementations
@@ -96,8 +117,8 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
         presenter = new MedicalServiceDetailPresenter(this, getActivity());
-        medicalService = (MedicalServiceResource) getActivity().getIntent().getSerializableExtra(ListMedicalServicePendingFragment.MEDICAL_SERVICE_KEY);
-        initView();
+        medicalServiceId = Integer.valueOf(getActivity().getIntent().getStringExtra(Constants.MEDICAL_SERVICE_KEY));
+        vSheet.setVisibility(View.GONE);
         behavior = BottomSheetBehavior.from(vSheet);
         vMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +126,13 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
                 behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
-
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getMedicalServiceResource(medicalServiceId);
+                swipeContainer.setRefreshing(true);
+            }
+        });
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -122,15 +149,8 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
                 vArrow.setImageResource(R.drawable.ic_arrow_down);
             }
         });
-        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                vArrow.setImageResource(R.drawable.ic_arrow_down);
-            }
-        }, 3000);
-
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        vArrow.setImageResource(R.drawable.ic_arrow_down);
         return view;
     }
 
@@ -150,6 +170,9 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     public void onResume(){
         super.onResume();
         presenter.onResume();
+        if(mGoogleMap != null){
+            presenter.getMedicalServiceResource(medicalServiceId);
+        }
     }
 
     @Override
@@ -165,11 +188,46 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
 
     private void initView() {
+        vSheet.setVisibility(View.VISIBLE);
+        vErrorContainer.setVisibility(View.GONE);
+        vContainer.setVisibility(View.VISIBLE);
+        swipeContainer.setVisibility(View.GONE);
         vInfo.setText(getString(R.string.medical_service_detail_info, medicalService.getMedicalService().getSex(), medicalService.getMedicalService().getAge()));
         vName.setText(medicalService.getMedicalService().getName());
-        vAddress.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet());
+        vAddress.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet() + " " + medicalService.getMedicalService().getAddressMedicalService().getNumber()+" "+medicalService.getMedicalService().getAddressMedicalService().getInformation());
+        vAddress2.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet1()+ " y "+medicalService.getMedicalService().getAddressMedicalService().getStreet2() + " - "+ medicalService.getMedicalService().getAddressMedicalService().getTerritory().getName());
         vObservations.setVisibility(View.GONE);
+        vColour.setText(medicalService.getMedicalService().getColour());
         checkButtonsStatus();
+        if(!isAlreadyExpanded) {
+            isAlreadyExpanded = true;
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+        vArrow.setImageResource(R.drawable.ic_arrow_up);
+        if(medicalService.getMedicalService().getCopayment() == 'T'){
+            vCopayment.setText(medicalService.getMedicalService().getCopaymentAmount().toString());
+        } else{
+            vCopayment.setText("0");
+        }
+        if(medicalService.getMedicalService().getInternmentProtocol() == 'T'){
+            vInternement.setText(getString(R.string.yes));
+        } else{
+            vInternement.setText(getString(R.string.no));
+        }
+        if(medicalService.getMedicalService().getEcgProtocol() == 'T'){
+            vECG.setText(getString(R.string.yes));
+        } else{
+            vECG.setText(getString(R.string.no));
+        }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    vArrow.setImageResource(R.drawable.ic_arrow_down);
+                }
+            }, 3000);
+        swipeContainer.setRefreshing(false);
     }
 
     private void checkButtonsStatus() {
@@ -198,8 +256,16 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         if (mGoogleMap != null) {
-           drawMap();
+           presenter.getMedicalServiceResource(medicalServiceId);
         }
+    }
+
+
+    @Override
+    public void onMedicalServiceResourceRetrieved(MedicalServiceResource medicalService) {
+        this.medicalService = medicalService;
+        initView();
+        drawMap();
     }
 
     private void drawMap(){
@@ -217,7 +283,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         }
         destination = new LatLng(medicalService.getMedicalService().getAddressMedicalService().getLatitude(), medicalService.getMedicalService().getAddressMedicalService().getLongitude());
         markerDestination = mGoogleMap.addMarker(new MarkerOptions()
-                .title(medicalService.getMedicalService().getAddressMedicalService().getStreet())
+                .title(medicalService.getMedicalService().getAddressMedicalService().getStreet() + " " + medicalService.getMedicalService().getAddressMedicalService().getNumber() + " - "+medicalService.getMedicalService().getAddressMedicalService().getTerritory().getName())
                 .position(destination));
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -229,7 +295,11 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
     @Override
     public void displayError(String message) {
-        Toast.makeText(getActivity(),  message, Toast.LENGTH_LONG).show();
+        vErrorContainer.setVisibility(View.VISIBLE);
+        vContainer.setVisibility(View.GONE);
+        vSheet.setVisibility(View.GONE);
+        swipeContainer.setRefreshing(false);
+        //Toast.makeText(getActivity(),  message, Toast.LENGTH_LONG).show();
     }
 
     @Override

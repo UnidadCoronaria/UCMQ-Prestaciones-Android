@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
+
+
     <solid
         android:color="@color/progress_bar_background" >
     </solid>
 
     <corners
-        android:radius="2dp">
+        android:radius="10dp">
     </corners>
 
 </shape>

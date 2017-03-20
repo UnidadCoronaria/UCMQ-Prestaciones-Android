@@ -30,7 +30,7 @@ public class GetMedicamentUseCase extends UseCase<List<Medicament>> {
 
             @Override
             public void onFailure(String message) {
-                GetMedicamentUseCase.super.onFailure(message);
+                BusProvider.getDefaultBus().post(new ErrorResponse());
             }
         });
     }
@@ -47,6 +47,10 @@ public class GetMedicamentUseCase extends UseCase<List<Medicament>> {
         public List<Medicament> getMedicament() {
             return Medicament;
         }
+    }
+
+    public static class ErrorResponse {
+
     }
     //endregion
 }

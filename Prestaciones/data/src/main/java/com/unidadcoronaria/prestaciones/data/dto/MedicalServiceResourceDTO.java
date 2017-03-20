@@ -6,6 +6,9 @@ public class MedicalServiceResourceDTO {
 	private Integer state;
 	private Double latitude;
 	private Double longitude;
+	private char copaymentPaid;
+	private char ecg;
+
 	
 	public Integer getMedicalServiceResourceId() {
 		return medicalServiceResourceId;
@@ -37,5 +40,21 @@ public class MedicalServiceResourceDTO {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+
+	public char getCopaymentPaid() {
+		return copaymentPaid;
+	}
+
+	public void setCopaymentPaid(char copaymentPaid) {
+		this.copaymentPaid = copaymentPaid;
+	}
+
+	public char getEcg() {
+		return ecg;
+	}
+
+	public void setEcg(char ecg) {
+		this.ecg = ecg;
 	}
 }

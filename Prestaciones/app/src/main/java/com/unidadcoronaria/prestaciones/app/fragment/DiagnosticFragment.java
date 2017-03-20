@@ -3,6 +3,7 @@ package com.unidadcoronaria.prestaciones.app.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,6 +54,14 @@ public class DiagnosticFragment extends BaseFragment implements DiagnosticView {
     @BindView(R.id.fragment_diagnostic_list)
     RecyclerView vSupplyList;
 
+    @BindView(R.id.fragment_diagnostic_container)
+    View vContainer;
+
+    @BindView(R.id.fragment_diagnostic_error_container)
+    View vErrorContainer;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeContainer;
+
     private DiagnosticAdapter adapter;
     private DiagnosticPresenter presenter;
     private MedicalServiceResource medicalService;
@@ -75,6 +84,13 @@ public class DiagnosticFragment extends BaseFragment implements DiagnosticView {
         vSupplyList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new DiagnosticAdapter(new ArrayList<Diagnostic>());
         vSupplyList.setAdapter(adapter);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getList();
+                swipeContainer.setRefreshing(true);
+            }
+        });
         return view;
     }
 
@@ -110,13 +126,27 @@ public class DiagnosticFragment extends BaseFragment implements DiagnosticView {
                 vSupplyAutocomplete.setText("");
             }
         });
+        swipeContainer.setRefreshing(false);
+        vContainer.setVisibility(View.VISIBLE);
+        vErrorContainer.setVisibility(View.GONE);
+        swipeContainer.setVisibility(View.GONE);
+        vProgress.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void onListError() {
+        swipeContainer.setRefreshing(false);
+        vContainer.setVisibility(View.GONE);
+        vErrorContainer.setVisibility(View.VISIBLE);
+        //Toast.makeText(getActivity(), "Hubo un error obteniendo la lista de diagnosticos. Intentelo nuevamente más tarde.", Toast.LENGTH_LONG).show();
+        vProgress.setVisibility(View.GONE);
+        swipeContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void displayError(String message) {
-        Toast.makeText(getActivity(), "Hubo un error obteniendo la lista de diagnosticos. Intentelo nuevamente más tarde.", Toast.LENGTH_LONG).show();
-        vProgress.setVisibility(View.GONE);
+       // Nothing to do
+        swipeContainer.setRefreshing(false);
     }
 
     @Override

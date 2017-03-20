@@ -1,7 +1,7 @@
-
 package com.unidadcoronaria.domain.usecase;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.unidadcoronaria.domain.BusProvider;
 import com.unidadcoronaria.domain.model.MedicalServiceResource;
@@ -14,47 +14,37 @@ import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCall
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public class GetMedicalServiceUseCase extends UseCase<MedicalServiceResource> {
+public class UpdateFCMTokenUseCase extends UseCase<MedicalServiceResource> {
 
-    private final MedicalServiceResourceTransformer transformer = new MedicalServiceResourceTransformer();
-    private Integer medicalServiceId;
+    private String fcmToken;
 
     @Override
     public void execute(Context aContext) {
-        ApiClient.getInstance().getMedicalService(medicalServiceId,new SuccessFailureCallBack<MedicalServiceResourceEntity>() {
+        Log.d(this.getClass().getSimpleName(), "Updating FCMTOKEN "+fcmToken);
+        ApiClient.getInstance().updateFCMToken(new SuccessFailureCallBack<Void>() {
             @Override
-            public void onSuccess(MedicalServiceResourceEntity object) {
-                BusProvider.getDefaultBus().post(new SuccessResponse(transformer.transform(object)));
+            public void onSuccess(Void object) {
+                BusProvider.getDefaultBus().post(new SuccessResponse());
             }
 
             @Override
             public void onFailure(String message) {
                 BusProvider.getDefaultBus().post(new ErrorResponse());
             }
-        });
+        }, fcmToken);
     }
 
-    public void setData(Integer medicalServiceId){
-        this.medicalServiceId = medicalServiceId;
+    public void setData(String fcmToken){
+        this.fcmToken = fcmToken;
     }
 
     //region Inner Classes
     public static class SuccessResponse {
 
-        private MedicalServiceResource medicalService;
-
-        public SuccessResponse(MedicalServiceResource medicalService) {
-            this.medicalService = medicalService;
-        }
-
-        public MedicalServiceResource getMedicalService() {
-            return medicalService;
-        }
     }
 
     public static class ErrorResponse {
 
     }
-
     //endregion
 }

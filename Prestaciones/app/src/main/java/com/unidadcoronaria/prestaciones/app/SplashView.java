@@ -11,4 +11,6 @@ public interface SplashView extends View {
     void showGooglePlayServicesError();
 
     void showGooglePlayServicesDialog(int codeError);
+
+    void callNextActivity();
 }
