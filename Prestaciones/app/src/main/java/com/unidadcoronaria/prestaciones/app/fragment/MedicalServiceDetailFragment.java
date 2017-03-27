@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.unidadcoronaria.domain.model.MedicalServiceCallReason;
 import com.unidadcoronaria.domain.model.MedicalServiceResource;
 import com.unidadcoronaria.domain.model.directions.Point;
 import com.unidadcoronaria.domain.model.directions.Route;
@@ -89,6 +91,18 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     View vMap;
     @BindView(R.id.fragment_medical_detail_arrow)
     ImageView vArrow;
+    @BindView(R.id.fragment_medical_detail_number)
+    TextView vNumber;
+    @BindView(R.id.fragment_medical_detail_plan)
+    TextView vPlan;
+    @BindView(R.id.fragment_medical_detail_note)
+    TextView vNote;
+    @BindView(R.id.fragment_medical_detail_note_container)
+    View vNoteContainer;
+    @BindView(R.id.fragment_medical_detail_sympton)
+    TextView vSymptom;
+    @BindView(R.id.fragment_medical_detail_symptom_container)
+    View vSymptomContainer;
 
     private GoogleMap mGoogleMap;
     private MedicalServiceDetailPresenter presenter;
@@ -192,8 +206,27 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         vErrorContainer.setVisibility(View.GONE);
         vContainer.setVisibility(View.VISIBLE);
         swipeContainer.setVisibility(View.GONE);
+        vNumber.setText(medicalService.getMedicalService().getNumber().toString());
         vInfo.setText(getString(R.string.medical_service_detail_info, medicalService.getMedicalService().getSex(), medicalService.getMedicalService().getAge()));
         vName.setText(medicalService.getMedicalService().getName());
+        vPlan.setText(medicalService.getPlanName());
+        if(medicalService.getMedicalService().getNote() != null && !medicalService.getMedicalService().getNote().isEmpty()) {
+            vNote.setText(medicalService.getMedicalService().getNote());
+            vNoteContainer.setVisibility(View.VISIBLE);
+        } else {
+            vNoteContainer.setVisibility(View.GONE);
+        }
+        if(medicalService.getMedicalServiceCallReason() != null && medicalService.getMedicalServiceCallReason().size() > 0){
+            String symptom = "";
+            for (MedicalServiceCallReason medicalServiceCallReason: medicalService.getMedicalServiceCallReason()){
+                symptom = medicalServiceCallReason.getCallReasonMedicalService().getName()+", ";
+            }
+            symptom = symptom.substring(0,symptom.length() - 2);
+            vSymptom.setText(symptom);
+            vSymptomContainer.setVisibility(View.VISIBLE);
+        } else {
+            vSymptomContainer.setVisibility(View.GONE);
+        }
         vAddress.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet() + " " + medicalService.getMedicalService().getAddressMedicalService().getNumber()+" "+medicalService.getMedicalService().getAddressMedicalService().getInformation());
         vAddress2.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet1()+ " y "+medicalService.getMedicalService().getAddressMedicalService().getStreet2() + " - "+ medicalService.getMedicalService().getAddressMedicalService().getTerritory().getName());
         vObservations.setVisibility(View.GONE);
@@ -228,6 +261,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
                 }
             }, 3000);
         swipeContainer.setRefreshing(false);
+
     }
 
     private void checkButtonsStatus() {
@@ -299,7 +333,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         vContainer.setVisibility(View.GONE);
         vSheet.setVisibility(View.GONE);
         swipeContainer.setRefreshing(false);
-        //Toast.makeText(getActivity(),  message, Toast.LENGTH_LONG).show();
+        swipeContainer.setVisibility(View.VISIBLE);
     }
 
     @Override

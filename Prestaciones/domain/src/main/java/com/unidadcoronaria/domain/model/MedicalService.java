@@ -24,6 +24,7 @@ public class MedicalService extends BaseModel implements Serializable  {
 	private String status;
 	private Integer cabinId;
 	private char ecg;
+	private String note;
 
 	public Integer getMedicalServiceId() {
 		return medicalServiceId;
@@ -160,6 +161,14 @@ public class MedicalService extends BaseModel implements Serializable  {
 
 	public void setEcg(char ecg) {
 		this.ecg = ecg;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 }
 

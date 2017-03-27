@@ -15,6 +15,8 @@ public class MedicalServiceResourceEntity extends BaseEntity {
     private char closedMedicalService;
     private Integer currentState;
     private List<Integer> authorizedStates;
+    private List<MedicalServiceCallReasonEntity> medicalServiceCallReason;
+    private String planDetail;
 
     public Integer getMedicalServiceResourceId() {
         return medicalServiceResourceId;
@@ -70,5 +72,21 @@ public class MedicalServiceResourceEntity extends BaseEntity {
 
     public void setAuthorizedStates(List<Integer> authorizedStates) {
         this.authorizedStates = authorizedStates;
+    }
+
+    public List<MedicalServiceCallReasonEntity> getMedicalServiceCallReason() {
+        return medicalServiceCallReason;
+    }
+
+    public void setMedicalServiceCallReason(List<MedicalServiceCallReasonEntity> medicalServiceCallReason) {
+        this.medicalServiceCallReason = medicalServiceCallReason;
+    }
+
+    public String getPlanDetail() {
+        return planDetail;
+    }
+
+    public void setPlanDetail(String planDetail) {
+        this.planDetail = planDetail;
     }
 }

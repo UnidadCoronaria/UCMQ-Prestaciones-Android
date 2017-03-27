@@ -16,6 +16,8 @@ public class MedicalServiceResourceTransformer implements Transformer<MedicalSer
 
     private MedicalServiceTransformer medicalServiceTransformer = new MedicalServiceTransformer();
     private ResourceTransformer resourceTransformer = new ResourceTransformer();
+    private final MedicalServiceCallReasonTransformer medicalServiceCallReasonTransformer = new MedicalServiceCallReasonTransformer();
+
 
     @Override
     public MedicalServiceResourceEntity transformToEntity(MedicalServiceResource object) {
@@ -32,6 +34,10 @@ public class MedicalServiceResourceTransformer implements Transformer<MedicalSer
         entity.setCurrentState(object.getCurrentState());
         if(object.getAuthorizedStates() != null){
             entity.setAuthorizedStates(object.getAuthorizedStates());
+        }
+        entity.setPlanDetail(object.getPlanName());
+        if(object.getMedicalServiceCallReason() != null){
+            entity.setMedicalServiceCallReason(medicalServiceCallReasonTransformer.transformToEntity(object.getMedicalServiceCallReason()));
         }
         return entity;
     }
@@ -60,6 +66,10 @@ public class MedicalServiceResourceTransformer implements Transformer<MedicalSer
         entity.setCurrentState(object.getCurrentState());
         if(object.getAuthorizedStates() != null){
             entity.setAuthorizedStates(object.getAuthorizedStates());
+        }
+        entity.setPlanName(object.getPlanDetail());
+        if(object.getMedicalServiceCallReason() != null){
+            entity.setMedicalServiceCallReason(medicalServiceCallReasonTransformer.transform(object.getMedicalServiceCallReason()));
         }
         return entity;
     }

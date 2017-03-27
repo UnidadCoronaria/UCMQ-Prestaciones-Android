@@ -211,6 +211,12 @@ public class GuardFragment extends BaseFragment implements GuardView {
         builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                vErrorContainer.setVisibility(View.GONE);
+                swipeContainer.setVisibility(View.GONE);
+                vRecyclerView.setVisibility(View.VISIBLE);
+                vButton.setVisibility(View.VISIBLE);
+                swipeContainer.setRefreshing(false);
+                vContainer.setVisibility(View.VISIBLE);
                 onMobileObservationItemsCompleted();
             }
         });

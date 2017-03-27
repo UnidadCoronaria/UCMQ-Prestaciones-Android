@@ -45,6 +45,7 @@ public class MedicalServiceTransformer implements Transformer<MedicalServiceEnti
         medicalService.setEcgProtocol(object.getEcgProtocol());
         medicalService.setColour(object.getColour());
         medicalService.setEcg(object.getEcg());
+        medicalService.setNote(object.getNote());
         return medicalService;
     }
 
@@ -64,6 +65,7 @@ public class MedicalServiceTransformer implements Transformer<MedicalServiceEnti
         medicalService.setStatus(object.getStatus());
         medicalService.setCabinId(object.getCabinId());
         medicalService.setEcg(object.getEcg());
+        medicalService.setNote(object.getNote());
         return medicalService;
     }
 

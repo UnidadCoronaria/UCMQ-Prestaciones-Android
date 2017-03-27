@@ -288,7 +288,8 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
     }
 
     public void showSuccess(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        getActivity().finish();
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("La prestación se actualizó correctamente.");
         // Set up the buttons
         builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
@@ -298,6 +299,6 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
                 getActivity().finish();
             }
         });
-        builder.show();
+        builder.show();*/
     }
 }

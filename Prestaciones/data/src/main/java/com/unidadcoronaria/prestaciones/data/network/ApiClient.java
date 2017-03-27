@@ -181,12 +181,12 @@ public class ApiClient {
         medicalServiceResourceDTO.setState(6);
         medicalServiceResourceDTO.setLatitude(lat);
         medicalServiceResourceDTO.setLongitude(lng);
-        medicalServiceResourceDTO.setEcg(ecg);
-        medicalServiceResourceDTO.setCopaymentPaid(copaymentPaid);
         CloseMedicalServiceResourceDTO closeMedicalServiceResourceDTO = new CloseMedicalServiceResourceDTO();
         closeMedicalServiceResourceDTO.setListMedicalServiceMedicamentDTO(medicamentList);
         closeMedicalServiceResourceDTO.setMedicalServiceResourceDTO(medicalServiceResourceDTO);
         closeMedicalServiceResourceDTO.setListDiagnosticId(diagnostics);
+        closeMedicalServiceResourceDTO.setEcg(ecg);
+        closeMedicalServiceResourceDTO.setCopaymentPaid(copaymentPaid);
         retrofit.create(MedicalServiceService.class).close(closeMedicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
 

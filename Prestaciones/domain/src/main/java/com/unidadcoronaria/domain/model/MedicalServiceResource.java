@@ -16,6 +16,8 @@ public class MedicalServiceResource extends BaseModel implements Serializable{
     private char closedMedicalService;
     private Integer currentState;
     private List<Integer> authorizedStates;
+    private List<MedicalServiceCallReason> medicalServiceCallReason;
+    private String planName;
 
     public Integer getMedicalServiceResourceId() {
         return medicalServiceResourceId;
@@ -71,5 +73,21 @@ public class MedicalServiceResource extends BaseModel implements Serializable{
 
     public void setAuthorizedStates(List<Integer> authorizedStates) {
         this.authorizedStates = authorizedStates;
+    }
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName;
+    }
+
+    public List<MedicalServiceCallReason> getMedicalServiceCallReason() {
+        return medicalServiceCallReason;
+    }
+
+    public void setMedicalServiceCallReason(List<MedicalServiceCallReason> medicalServiceCallReason) {
+        this.medicalServiceCallReason = medicalServiceCallReason;
     }
 }
