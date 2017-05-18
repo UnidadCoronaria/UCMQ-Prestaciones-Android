@@ -5,4 +5,70 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="loading">Cargando...</string>
+
+    <!-- Drawer -->
+    <string name="main_drawer_medical_services">Prestaciones</string>
+    <string name="main_drawer_messages">Mensajes</string>
+    <string name="main_drawer_start_watch">Guardia</string>
+
+    <!-- Medical Service Detail -->
+    <string name="medical_service_detail_info">%1$s, %2$d años</string>
+    <string name="notice">Aviso</string>
+    <string name="need_gps_permission_message">Debe otorgar permisos de localicación para ver la distancia al domicilio de la prestación.</string>
+    <string name="button_close">CERRAR</string>
+    <string name="button_in_address">EN DOMICILIO</string>
+    <string name="button_accept">ACEPTAR</string>
+    <string name="button_finish">FINALIZAR</string>
+    <string name="button_cancel">CANCELAR</string>
+    <string name="button_continue">CONTINUAR</string>
+    <string name="pending_list_error">Hubo un error obteniendo la lista de prestaciones pendientes.</string>
+    <string name="attended_list_error">Hubo un error obteniendo la lista de prestaciones atendidas.</string>
+
+
+    <!-- Diagnostic -->
+    <string name="diagnostics">Diagnosticos</string>
+
+    <!-- Supply -->
+    <string name="watch_entities">Insumos</string>
+    <string name="search_supplies">Ingrese al menos 3 letras para buscar</string>
+    <string name="supply_confirmation">Estás por agregar %1$s</string>
+    <string name="supply_quantity">Cantidad</string>
+    <string name="supply_quantity_units">Unidades</string>
+    <string name="supply_quantity_ml">ML</string>
+
+    <!-- Init Watch -->
+    <string name="init_watch">Iniciar Guardia</string>
+    <string name="clean_ambulance">Móvil limpio</string>
+    <string name="complete_case">Maletin completo</string>
+    <string name="oxygen_complete">Oxígeno completo</string>
+    <string name="yes">SI</string>
+    <string name="no">NO</string>
+    <string name="observations">Observaciones</string>
+    <string name="init_watch_dialog_title">Ingrese un comentario</string>
+
+    <!-- Messages -->
+    <string name="messages">Mensajes</string>
+    <string name="message_sent">El mensaje se envio correctamente</string>
+    <string name="message_get_error">No se pudieron obtener los mensajes. Intentelo nuevamente más tarde.</string>
+    <string name="message_sent_error">El mensaje no pudo ser enviado. Intentelo nuevamente.</string>
+
+    <!-- Medical Service Status -->
+    <string name="medical_service_status_assigned">ASIGNADO</string>
+    <string name="medical_service_status_going">EN CAMINO</string>
+    <string name="medical_service_status_on_site">DOMICILIO</string>
+    <string name="medical_service_status_support">APOYO</string>
+    <string name="medical_service_status_available">DISPONIBLE</string>
+    <string name="medical_service_status_done">FINALIZADO</string>
+    <string name="medical_service_status_released">LIBERADO</string>
+    <string name="medical_service_status_cancelled">CANCELADO</string>
+    <string name="medical_service_status_to_destiny">A DESTINO</string>
+    <string name="medical_service_status_in_destiny">EN DESTINO</string>
+    <string name="medical_service_status_to_origin">A ORIGEN</string>
+    <string name="medical_service_status_in_origin">EN ORIGEN</string>
+
+
+    <!-- Change User -->
+    <string name="change_user_title">Cambiar usuario</string>
+    <string name="gps_network_not_enabled">Por favor, habilite la localización del dispositivo para continuar</string>
+    <string name="open_location_settings">Ir a Ajustes</string>
 </resources>

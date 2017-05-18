@@ -1,58 +1,169 @@
 package com.unidadcoronaria.prestaciones.data.entity;
 
-public class MedicalServiceEntity extends BaseEntity {
+public class MedicalServiceEntity {
 
-    private Long id;
-    private String name;
-    private Long time;
-    private String mode;
-    private Boolean attended;
 
-    public MedicalServiceEntity(Long id, String name, Long time, String mode, Boolean attended) {
-        this.id = id;
-        this.name = name;
-        this.time = time;
-        this.mode = mode;
-        this.attended = attended;
-    }
+	private Integer medicalServiceId;
+	private Integer number;
+	private Long date;
+	private String telephone;
+	private AddressMedicalServiceEntity addressMedicalService;
+	private String name;
+	private String sex;
+	private Integer age;
+	private char copayment;
+	private char copaymentPaid;
+	private Integer copaymentAmount;
+	private char internmentProtocol;
+	private char ecgProtocol;
+	private String colour;
+	private String status;
+	private Integer cabinId;
+	private char ecg;
+	private String note;
 
-    public Long getId() {
-        return id;
-    }
+	public Integer getMedicalServiceId() {
+		return medicalServiceId;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setMedicalServiceId(Integer medicalServiceId) {
+		this.medicalServiceId = medicalServiceId;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Integer getNumber() {
+		return number;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
-    public Long getTime() {
-        return time;
-    }
+	public Long getDate() {
+		return date;
+	}
 
-    public void setTime(Long time) {
-        this.time = time;
-    }
+	public void setDate(Long date) {
+		this.date = date;
+	}
 
-    public String getMode() {
-        return mode;
-    }
+	public String getTelephone() {
+		return telephone;
+	}
 
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 
-    public Boolean getAttended() {
-        return attended;
-    }
+	public AddressMedicalServiceEntity getAddressMedicalService() {
+		return addressMedicalService;
+	}
 
-    public void setAttended(Boolean attended) {
-        this.attended = attended;
-    }
+	public void setAddressMedicalService(AddressMedicalServiceEntity addressMedicalService) {
+		this.addressMedicalService = addressMedicalService;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public char getCopayment() {
+		return copayment;
+	}
+
+	public void setCopayment(char copayment) {
+		this.copayment = copayment;
+	}
+
+	public char getCopaymentPaid() {
+		return copaymentPaid;
+	}
+
+	public void setCopaymentPaid(char copaymentPaid) {
+		this.copaymentPaid = copaymentPaid;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Integer getCabinId() {
+		return cabinId;
+	}
+
+	public void setCabinId(Integer cabinId) {
+		this.cabinId = cabinId;
+	}
+
+	public Integer getCopaymentAmount() {
+		return copaymentAmount;
+	}
+
+	public void setCopaymentAmount(Integer copaymentAmount) {
+		this.copaymentAmount = copaymentAmount;
+	}
+
+	public char getInternmentProtocol() {
+		return internmentProtocol;
+	}
+
+	public void setInternmentProtocol(char internmentProtocol) {
+		this.internmentProtocol = internmentProtocol;
+	}
+
+	public char getEcgProtocol() {
+		return ecgProtocol;
+	}
+
+	public void setEcgProtocol(char ecgProtocol) {
+		this.ecgProtocol = ecgProtocol;
+	}
+
+	public String getColour() {
+		return colour;
+	}
+
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+
+	public char getEcg() {
+		return ecg;
+	}
+
+	public void setEcg(char ecg) {
+		this.ecg = ecg;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 }
+

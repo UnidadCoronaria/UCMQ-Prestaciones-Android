@@ -1,13 +1,20 @@
 package com.unidadcoronaria.prestaciones.app.fragment;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.unidadcoronaria.prestaciones.R;
+import com.unidadcoronaria.prestaciones.app.SplashView;
+import com.unidadcoronaria.prestaciones.app.activity.MainActivity;
+import com.unidadcoronaria.prestaciones.app.presenter.SplashPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,18 +24,18 @@ import butterknife.ButterKnife;
  * @author Agustin.Bala
  * @since  0.0.1
  */
-public class SplashFragment extends BaseFragment{
+public class SplashFragment extends BaseFragment implements SplashView{
 
-    //region Constants
-    private static final int SPLASH_DURATION = 2 * 1000;
-    //endregion
 
     //region Variables
-    private int total = 0;
+    private static final Integer REQUEST_GOOGLE_PLAY_SERVICES = 1;
+
     @BindView(R.id.progress_bar_splash)
     protected ProgressBar progressBarSplash;
 
-    //enregion
+    private SplashPresenter presenter;
+    private Activity activity;
+    //endregion
 
     //region Constructors implementations
     public static BaseFragment newInstance() {
@@ -36,29 +43,21 @@ public class SplashFragment extends BaseFragment{
     }
     //endregion
 
+    @Override
+    public void onAttach(Context activity){
+        super.onAttach(activity);
+        this.activity = (Activity) activity;
+    }
+
     //region Lifecycle implementation
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
-        initSplash();
+        presenter = new SplashPresenter(this);
+        presenter.initSplash();
         return view;
-    }
-
-    private void initSplash(){
-        progressBarSplash.setProgress(total);
-        new CountDownTimer(SPLASH_DURATION, 20) {
-            public void onTick(long millisUntilFinished) {
-                total += 2;
-                progressBarSplash.setProgress(total);
-            }
-
-            @Override
-            public void onFinish() {
-                total = 0;
-            }
-        }.start();
     }
 
     @Override
@@ -66,6 +65,47 @@ public class SplashFragment extends BaseFragment{
         return R.layout.fragment_splash;
     }
 
+    @Override
+    public void onProgressUpdate(Integer progress) {
+        progressBarSplash.setProgress(progress);
+    }
 
+    @Override
+    public void showGooglePlayServicesError() {
+        Toast.makeText(getActivity(),
+                "Se requiere Google Play Services para usar la app", Toast.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public void showGooglePlayServicesDialog(int codeError) {
+        Dialog dialog = GoogleApiAvailability.getInstance()
+                .getErrorDialog(
+                        getActivity(),
+                        codeError,
+                        REQUEST_GOOGLE_PLAY_SERVICES);
+        dialog.show();
+    }
+
+    @Override
+    public void callNextActivity() {
+        activity.startActivity(MainActivity.getStartIntent(activity));
+        activity.finish();
+    }
+
+    @Override
+    public void displayError(String message) {
+        //Not implemented
+    }
+
+    @Override
+    public void showLoading() {
+        //Not implemented
+    }
+
+    @Override
+    public void hideLoading() {
+        //Not implemented
+    }
 
 }

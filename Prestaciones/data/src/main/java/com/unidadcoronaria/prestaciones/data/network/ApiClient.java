@@ -8,16 +8,38 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceEntity;
+import com.unidadcoronaria.prestaciones.data.dto.CloseMedicalServiceResourceDTO;
+import com.unidadcoronaria.prestaciones.data.dto.DeviceMessageDTO;
+import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceMedicamentDTO;
+import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceResourceDTO;
+import com.unidadcoronaria.prestaciones.data.dto.MobileObservationDTO;
+import com.unidadcoronaria.prestaciones.data.entity.DeviceMessageEntity;
+import com.unidadcoronaria.prestaciones.data.entity.DiagnosticEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MedicalServiceResourceEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MedicamentEntity;
+import com.unidadcoronaria.prestaciones.data.entity.MobileObservationEntity;
+import com.unidadcoronaria.prestaciones.data.entity.ProviderEntity;
+import com.unidadcoronaria.prestaciones.data.entity.TypeMobileObservationEntity;
+import com.unidadcoronaria.prestaciones.data.entity.directions.RouteResponseEntity;
+import com.unidadcoronaria.prestaciones.data.network.callback.BaseCallback;
+import com.unidadcoronaria.prestaciones.data.network.callback.EmptyResultEntityCallback;
+import com.unidadcoronaria.prestaciones.data.network.callback.ResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
+import com.unidadcoronaria.prestaciones.data.network.rest.DeviceMessageService;
+import com.unidadcoronaria.prestaciones.data.network.rest.DiagnosticService;
+import com.unidadcoronaria.prestaciones.data.network.rest.GuardService;
+import com.unidadcoronaria.prestaciones.data.network.rest.MapService;
+import com.unidadcoronaria.prestaciones.data.network.rest.MedicalServiceService;
+import com.unidadcoronaria.prestaciones.data.network.rest.MedicamentService;
+import com.unidadcoronaria.prestaciones.data.network.rest.MobileObservationService;
+import com.unidadcoronaria.prestaciones.data.network.rest.NotificationService;
+import com.unidadcoronaria.prestaciones.data.network.rest.ProviderService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -28,9 +50,12 @@ import retrofit.Retrofit;
 public class ApiClient {
 
     //region Properties
+    public static String IMEI;
     private static final ApiClient INSTANCE = new ApiClient();
-    private static final String BASE_URL = "";
+    //private static final String BASE_URL = "http://private-da46b-unidadcoronaria.apiary-mock.com";
+    private static final String BASE_URL = "http://pdc.ucmq.com:60628/api/";
     private final Retrofit retrofit;
+    private final Retrofit retrofitGoogleDirections;
     //endregion
 
     //region Constructor
@@ -38,32 +63,25 @@ public class ApiClient {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
         OkHttpClient client = new OkHttpClient();
-        client.setReadTimeout(60, TimeUnit.SECONDS);
-        client.setConnectTimeout(60, TimeUnit.SECONDS);
-        client.setWriteTimeout(60, TimeUnit.SECONDS);
+        client.setReadTimeout(10, TimeUnit.SECONDS);
+        client.setConnectTimeout(10, TimeUnit.SECONDS);
+        client.setWriteTimeout(10, TimeUnit.SECONDS);
+        client.setRetryOnConnectionFailure(false);
         client.networkInterceptors().add(new Interceptor() {
             @Override
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
                 try {
-                    Request request = chain.request();
-
-                    long t1 = System.nanoTime();
-                    Log.d(getClass().getSimpleName(), String.format("Sending request %s on %s%n%s", request.url(), chain.connection(), request.headers()));
-
-                    // TODO use IMEI
                     Request newRequest = chain.request().newBuilder()
-                            .header("Authorization", "Bearer " + "IMEI")
+                           //  .header("Authorization", "355482066473886")
+                              .header("Authorization", IMEI)
                             .build();
-
+                    Log.d("Request",newRequest.httpUrl().url().toString());
                     final Response response = chain.proceed(newRequest);
-
-                    long t2 = System.nanoTime();
-                    Log.d(getClass().getSimpleName(), String.format("Received response for %s in %.1fms%n%s", response.request().url(), (t2 - t1) / 1e6d, response.headers()));
-
+                    Log.d("Request response",newRequest.httpUrl().url().toString());
                     return response;
                 } catch (Exception e) {
                     if (e.getMessage() != null) {
-                        Log.e("Error", e.getMessage());
+                        Log.e("Request Error", e.getMessage());
                     }
                     throw e;
                 }
@@ -74,6 +92,17 @@ public class ApiClient {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
+                .build();
+
+        OkHttpClient clientDirections = new OkHttpClient();
+        client.setReadTimeout(20, TimeUnit.SECONDS);
+        client.setConnectTimeout(20, TimeUnit.SECONDS);
+        client.setWriteTimeout(20, TimeUnit.SECONDS);
+
+        retrofitGoogleDirections = new Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/maps/api/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(clientDirections)
                 .build();
     }
     //endregion
@@ -86,31 +115,103 @@ public class ApiClient {
 
     //region Public Implementation
 
-    public void get(final SuccessFailureCallBack<MedicalServiceEntity> callBack) {
-       /* retrofit.create(UserService.class).login(username, password, latitude, longitude, country_code).enqueue(new ResultEntityCallback<SessionEntity>(callBack, new Transformer<SessionEntity, User>() {
-            @Override
-            public User transform(SessionEntity entity) {
-                return new User.Builder(entity).build();
-            }
-        }));*/
+    public void getProvider(final SuccessFailureCallBack<List<ProviderEntity>> callback) {
+        retrofit.create(ProviderService.class).get().enqueue(new ResultEntityCallback<List<ProviderEntity>>(callback));
+    }
+
+    public void getTypeMobileObservation(final SuccessFailureCallBack<List<TypeMobileObservationEntity>> callback) {
+        retrofit.create(MobileObservationService.class).get().enqueue(new ResultEntityCallback<List<TypeMobileObservationEntity>>(callback));
+    }
+
+    public void getMessage(final SuccessFailureCallBack<List<DeviceMessageEntity>> callback, Integer watchId) {
+        retrofit.create(DeviceMessageService.class).get(watchId).enqueue(new ResultEntityCallback<List<DeviceMessageEntity>>(callback));
+    }
+
+    public void getMedicalServiceAttendedList(final SuccessFailureCallBack<List<MedicalServiceResourceEntity>> callback, Integer guardId) {
+        retrofit.create(MedicalServiceService.class).getAttendedList(guardId).enqueue(new ResultEntityCallback<List<MedicalServiceResourceEntity>>(callback));
+    }
+
+    public void getMedicalServicePendingList(final SuccessFailureCallBack<List<MedicalServiceResourceEntity>> callback) {
+        retrofit.create(MedicalServiceService.class).getPendingList().enqueue(new ResultEntityCallback<List<MedicalServiceResourceEntity>>(callback));
+    }
+
+    public void initGuard(List<MobileObservationEntity> mobileObservationEntities, Integer guardId, final SuccessFailureCallBack<Void> callback) {
+        List<MobileObservationDTO> dtoList = new ArrayList<>();
+        for (MobileObservationEntity entity : mobileObservationEntities) {
+            MobileObservationDTO dto = new MobileObservationDTO();
+            dto.setObservation(entity.getObservation());
+            dto.setState(entity.getState());
+            dto.setTypeMobileObservationId(entity.getTypeMobileObservation().getTypeMobileObservationId());
+            dtoList.add(dto);
+        }
+        retrofit.create(GuardService.class).post(guardId,dtoList).enqueue(new EmptyResultEntityCallback<Void>(callback));
+    }
+
+    public void sendMessage(final SuccessFailureCallBack<DeviceMessageEntity> callback, Integer guardId, DeviceMessageEntity message) {
+        DeviceMessageDTO dto = new DeviceMessageDTO();
+        dto.setMessage(message.getMessage());
+        dto.setGuardId(guardId);
+        retrofit.create(DeviceMessageService.class).send(dto).enqueue(new ResultEntityCallback<DeviceMessageEntity>(callback));
     }
 
 
-    public void getList(final SuccessFailureCallBack<List<MedicalServiceEntity>> callBack) {
-      /*  retrofit.create(MatchService.class).getGameTypes().enqueue(new ResultEntityCallback<GameTypeListEntity>(callBack, new Transformer<GameTypeListEntity, List<GameType>>() {
-            @Override
-            public List<GameType> transform(GameTypeListEntity gameTypeListEntity) {
-                List<GameType> gameTypeList = new ArrayList<>();
-                for (GameTypeListEntity.GameTypeEntity gameTypeEntity : gameTypeListEntity.getEntities()) {
-                    gameTypeList.add(new GameType.Builder(gameTypeEntity).build());
-                }
-                return gameTypeList;
-            }
-        }));*/
+    public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, Integer state, Double lat, Double lng) {
+        MedicalServiceResourceDTO medicalServiceResourceDTO = new MedicalServiceResourceDTO();
+        medicalServiceResourceDTO.setMedicalServiceResourceId(medicalServiceId);
+        medicalServiceResourceDTO.setState(state);
+        medicalServiceResourceDTO.setLatitude(lat);
+        medicalServiceResourceDTO.setLongitude(lng);
+        retrofit.create(MedicalServiceService.class).put(medicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
 
-    public long getTimeZoneOffset() {
-        return TimeZone.getDefault().getRawOffset() / (60 * 60 * 1000);
+    public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, List<MedicamentEntity> listMedicamentEntities, List<DiagnosticEntity> diagnosticEntities, Double lat, Double lng, char ecg, char copaymentPaid) {
+        List<MedicalServiceMedicamentDTO> medicamentList = new ArrayList<>();
+        for (MedicamentEntity medicamentEntity: listMedicamentEntities) {
+            MedicalServiceMedicamentDTO dto = new MedicalServiceMedicamentDTO();
+            dto.setMedicalServiceResourceId(medicalServiceId);
+            dto.setMedicamentId(medicamentEntity.getMedicamentId());
+            dto.setAmount(medicamentEntity.getAmmount());
+            medicamentList.add(dto);
+        }
+        List<Integer> diagnostics = new ArrayList<>();
+        for (DiagnosticEntity diagnosticEntity: diagnosticEntities) {
+            diagnostics.add(diagnosticEntity.getDiagnosticId());
+        }
+        MedicalServiceResourceDTO medicalServiceResourceDTO = new MedicalServiceResourceDTO();
+        medicalServiceResourceDTO.setMedicalServiceResourceId(medicalServiceId);
+        medicalServiceResourceDTO.setState(6);
+        medicalServiceResourceDTO.setLatitude(lat);
+        medicalServiceResourceDTO.setLongitude(lng);
+        CloseMedicalServiceResourceDTO closeMedicalServiceResourceDTO = new CloseMedicalServiceResourceDTO();
+        closeMedicalServiceResourceDTO.setListMedicalServiceMedicamentDTO(medicamentList);
+        closeMedicalServiceResourceDTO.setMedicalServiceResourceDTO(medicalServiceResourceDTO);
+        closeMedicalServiceResourceDTO.setListDiagnosticId(diagnostics);
+        closeMedicalServiceResourceDTO.setEcg(ecg);
+        closeMedicalServiceResourceDTO.setCopaymentPaid(copaymentPaid);
+        retrofit.create(MedicalServiceService.class).close(closeMedicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
     }
+
+    //region Pending check
+    public void getMedicalService(Integer medicalServiceId, final SuccessFailureCallBack<MedicalServiceResourceEntity> callback) {
+        retrofit.create(MedicalServiceService.class).getById(medicalServiceId).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
+    }
+
+    public void getMedicament(final SuccessFailureCallBack<List<MedicamentEntity>> callback) {
+        retrofit.create(MedicamentService.class).get().enqueue(new ResultEntityCallback<List<MedicamentEntity>>(callback));
+    }
+
+    public void getRoute(final SuccessFailureCallBack<RouteResponseEntity> callback, String origin, String destination) {
+        retrofitGoogleDirections.create(MapService.class).getRoute(origin, destination,"AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q", "metric").enqueue(new ResultEntityCallback<RouteResponseEntity>(callback));
+    }
+
+    public void getDiagnostic(final SuccessFailureCallBack<List<DiagnosticEntity>> callback) {
+        retrofit.create(DiagnosticService.class).get().enqueue(new ResultEntityCallback<List<DiagnosticEntity>>(callback));
+    }
+
+    public void updateFCMToken(final SuccessFailureCallBack<Void> callback, String fcmToken) {
+        retrofit.create(NotificationService.class).put(fcmToken).enqueue(new BaseCallback<Void>(callback));
+    }
+
+    //endregion
     //endregion
 }
