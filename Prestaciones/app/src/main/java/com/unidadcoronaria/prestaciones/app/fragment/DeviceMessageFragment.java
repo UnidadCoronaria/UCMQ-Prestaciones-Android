@@ -53,13 +53,11 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
     private DeviceMessageAdapter adapter;
     private DeviceMessagePresenter presenter;
     private static BaseFragment instance;
+    private Handler mHandler;
 
     //region Constructors implementations
     public static BaseFragment newInstance() {
-        if(instance == null) {
-            instance = new DeviceMessageFragment();
-        }
-        return instance;
+        return new DeviceMessageFragment();
     }
     //endregion
 
@@ -71,7 +69,9 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
         presenter = new DeviceMessagePresenter(this, getContext());
-        mMessageList.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager llm =new LinearLayoutManager(getContext());
+        llm.setStackFromEnd(true);
+        mMessageList.setLayoutManager(llm);
         adapter = new DeviceMessageAdapter(new ArrayList<DeviceMessage>());
         mMessageList.setAdapter(adapter);
         presenter.getList();
@@ -96,6 +96,11 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
     public void onPause() {
         super.onPause();
         presenter.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -136,20 +141,14 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
     @Override
     public void onMessageListReceived(List<DeviceMessage> messageList) {
         adapter.addAll(messageList);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mMessageList.smoothScrollToPosition(adapter.getItemCount() - 1);
-                vText.setVisibility(View.VISIBLE);
-                mMessageList.setVisibility(View.VISIBLE);
-                vSendButton.setVisibility(View.VISIBLE);
-                vContainer.setVisibility(View.VISIBLE);
-            }
-        },500);
         swipeContainer.setRefreshing(false);
         vErrorContainer.setVisibility(View.GONE);
         vProgress.setVisibility(View.GONE);
         swipeContainer.setVisibility(View.GONE);
+        vText.setVisibility(View.VISIBLE);
+        mMessageList.setVisibility(View.VISIBLE);
+        vSendButton.setVisibility(View.VISIBLE);
+        vContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -159,19 +158,21 @@ public class DeviceMessageFragment extends BaseFragment implements MessageView {
         vSendButton.setVisibility(View.VISIBLE);
         vText.setVisibility(View.VISIBLE);
         mMessageList.setVisibility(View.VISIBLE);
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+       /* InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(vText.getWindowToken(),
                 InputMethodManager.RESULT_UNCHANGED_SHOWN);
-        adapter.add(message);
-        mMessageList.smoothScrollToPosition(adapter.getItemCount() - 1);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        */adapter.add(message);
+        if(adapter.getItemCount() >= 1) {
+            mMessageList.smoothScrollToPosition(adapter.getItemCount() - 1);
+        }
+      /*  AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(getString(R.string.message_sent)).setPositiveButton(getString(R.string.button_accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //do nothing
             }
         });
-         builder.create().show();
+         builder.create().show();*/
     }
 
     @Override

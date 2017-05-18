@@ -1,10 +1,12 @@
 package com.unidadcoronaria.domain.model;
 
+import java.io.Serializable;
+
 /**
  * Created by AGUSTIN.BALA on 3/22/2017.
  */
 
-public class CallReason {
+public class CallReason implements Serializable {
 
     private Integer callReasonMedicalServiceId;
     private String name;

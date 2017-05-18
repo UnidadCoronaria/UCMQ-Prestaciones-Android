@@ -189,6 +189,7 @@ public class GuardFragment extends BaseFragment implements GuardView {
                     MobileObservation mobileObservation = new MobileObservation();
                     mobileObservation.setObservation(typeMobileObservation.getCurrentObservation());
                     mobileObservation.setTypeMobileObservation(typeMobileObservation);
+                    mobileObservation.setState(typeMobileObservation.getCurrentState());
                     mobileObservations.add(mobileObservation);
                 }
                 presenter.initGuard(mobileObservations);

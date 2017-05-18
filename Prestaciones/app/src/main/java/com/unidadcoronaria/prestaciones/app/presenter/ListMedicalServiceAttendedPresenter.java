@@ -33,6 +33,8 @@ public class ListMedicalServiceAttendedPresenter extends BasePresenter<ListMedic
         if(!SessionHelper.getGuardId().isEmpty()) {
             mGetMedicalServiceAttendedListUseCase.setData(Integer.valueOf(SessionHelper.getGuardId()));
             mGetMedicalServiceAttendedListUseCase.execute(context);
+        } else {
+            view.onListError();
         }
     }
 

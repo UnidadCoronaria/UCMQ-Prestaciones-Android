@@ -2,6 +2,8 @@ package com.unidadcoronaria.prestaciones.app.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +41,8 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
     RecyclerView vListMedicalService;
 
     private ListMedicalServicePendingPresenter presenter;
+    private LinearLayoutManager mLayoutManager;
+    private Parcelable mListState;
 
 
     public ListMedicalServicePendingFragment() {
@@ -49,6 +53,10 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
     public void onResume() {
         super.onResume();
         presenter.onResume();
+
+        if (mListState != null) {
+            mLayoutManager.onRestoreInstanceState(mListState);
+        }
         presenter.getList();
     }
 
@@ -76,7 +84,8 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
                 presenter.getList();
             }
         });
-        vListMedicalService.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        vListMedicalService.setLayoutManager(mLayoutManager);
         vListMedicalService.setHasFixedSize(true);
         mAdapter = new MedicalServiceAdapter(this, new ArrayList<MedicalServiceResource>());
         vListMedicalService.setAdapter(mAdapter);
@@ -94,6 +103,7 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
     public void onMedicalServiceClick(MedicalServiceResource medicalService) {
         Intent intent = new Intent(this.getActivity(), MedicalServiceDetailActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.MEDICAL_SERVICE_OBJECT_KEY , medicalService);
         bundle.putString(Constants.MEDICAL_SERVICE_KEY , medicalService.getMedicalServiceResourceId().toString());
         intent.putExtras(bundle);
         startActivity(intent);
@@ -124,10 +134,32 @@ public class ListMedicalServicePendingFragment extends BaseFragment implements M
         mAdapter.addAll(list);
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle){
+        super.onSaveInstanceState(bundle);
+        // Save list state
+        mListState = mLayoutManager.onSaveInstanceState();
+        bundle.putParcelable("adapter", mListState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable("adapter");
+    }
+
+
     @Override
     public void onListError() {
-        vErrorContainer.setVisibility(View.VISIBLE);
-        vListMedicalService.setVisibility(View.GONE);
+        if(mAdapter.getItemCount() > 0){
+            vErrorContainer.setVisibility(View.GONE);
+            vListMedicalService.setVisibility(View.VISIBLE);
+        } else {
+            vErrorContainer.setVisibility(View.VISIBLE);
+            vListMedicalService.setVisibility(View.GONE);
+        }
         vProgress.setVisibility(View.GONE);
         swipeContainer.setRefreshing(false);
         swipeContainer2.setRefreshing(false);

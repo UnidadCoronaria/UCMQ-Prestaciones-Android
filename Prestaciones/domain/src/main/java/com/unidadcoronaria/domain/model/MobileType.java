@@ -1,6 +1,8 @@
 package com.unidadcoronaria.domain.model;
 
-public class MobileType extends BaseModel{
+import java.io.Serializable;
+
+public class MobileType extends BaseModel implements Serializable{
 	
 	private Integer mobileTypeId;
 	private String name;

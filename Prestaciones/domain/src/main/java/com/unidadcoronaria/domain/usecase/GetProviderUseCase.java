@@ -30,7 +30,7 @@ public class GetProviderUseCase extends UseCase<List<Provider>> {
 
             @Override
             public void onFailure(String message) {
-                GetProviderUseCase.super.onFailure(message);
+                BusProvider.getDefaultBus().post(new ErrorResponse());
             }
         });
     }
@@ -47,6 +47,11 @@ public class GetProviderUseCase extends UseCase<List<Provider>> {
         public List<Provider> getList() {
             return list;
         }
+    }
+
+
+    public static class ErrorResponse {
+
     }
     //endregion
 }

@@ -45,4 +45,9 @@ public class MainPresenter extends BasePresenter<MainView>  {
     public void onProviderRetrieved(GetProviderUseCase.SuccessResponse response){
         view.onProviderListRetrieved(response.getList());
     }
+
+    @Subscribe
+    public void onProviderListErrorRetrieved(GetProviderUseCase.ErrorResponse response){
+        view.onProviderListErrorRetrieved();
+    }
 }

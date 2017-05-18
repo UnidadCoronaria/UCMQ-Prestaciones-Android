@@ -8,11 +8,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -195,29 +198,54 @@ public class MedicamentFragment extends BaseFragment implements MedicamentView, 
 
     private void showQuantityDialog(final Medicament medicament){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog alertDialog = null;
         LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.view_supply, null);
         // Set up the input
         final TextView vTextView = (TextView) view.findViewById(R.id.view_supply_title);
         vTextView.setText(getString(R.string.supply_confirmation, medicament.getName()));
         final EditText input = (EditText) view.findViewById(R.id.view_supply_quantity);
+
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         builder.setView(view);
 
         // Set up the buttons
-        builder.setPositiveButton( getActivity().getString(R.string.button_accept), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                medicament.setAmmount(Double.valueOf(input.getText().toString()));
-                adapter.add(medicament);
-                vSupplyAutocomplete.setText("");
-                dialog.dismiss();
-            }
-        });
         builder.setNegativeButton(getActivity().getString(R.string.button_close) , new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+            }
+        });
+        alertDialog = builder.create();
+        final AlertDialog finalAlertDialog = alertDialog;
+        input.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                //finalAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(s.length() > 0);
+            }
+        });
+        builder.setPositiveButton(getString(R.string.button_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(input.getText() != null && !input.getText().toString().isEmpty()) {
+                    medicament.setAmmount(Double.valueOf(input.getText().toString()));
+                    adapter.add(medicament);
+                    vSupplyAutocomplete.setText("");
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(getActivity(), "Ingrese una cantidad para continuar", Toast.LENGTH_LONG).show();
+                    showQuantityDialog(medicament);
+                }
             }
         });
         builder.show();

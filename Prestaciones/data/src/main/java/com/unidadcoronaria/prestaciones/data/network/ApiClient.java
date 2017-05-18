@@ -53,7 +53,7 @@ public class ApiClient {
     public static String IMEI;
     private static final ApiClient INSTANCE = new ApiClient();
     //private static final String BASE_URL = "http://private-da46b-unidadcoronaria.apiary-mock.com";
-    private static final String BASE_URL = "http://200.68.80.42:60628/api/";
+    private static final String BASE_URL = "http://pdc.ucmq.com:60628/api/";
     private final Retrofit retrofit;
     private final Retrofit retrofitGoogleDirections;
     //endregion
@@ -63,17 +63,17 @@ public class ApiClient {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
         OkHttpClient client = new OkHttpClient();
-        client.setReadTimeout(20, TimeUnit.SECONDS);
-        client.setConnectTimeout(20, TimeUnit.SECONDS);
-        client.setWriteTimeout(20, TimeUnit.SECONDS);
+        client.setReadTimeout(10, TimeUnit.SECONDS);
+        client.setConnectTimeout(10, TimeUnit.SECONDS);
+        client.setWriteTimeout(10, TimeUnit.SECONDS);
         client.setRetryOnConnectionFailure(false);
         client.networkInterceptors().add(new Interceptor() {
             @Override
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
                 try {
                     Request newRequest = chain.request().newBuilder()
-                            .header("Authorization", "451236200698230")
-                            //.header("Authorization", IMEI)
+                           //  .header("Authorization", "355482066473886")
+                              .header("Authorization", IMEI)
                             .build();
                     Log.d("Request",newRequest.httpUrl().url().toString());
                     final Response response = chain.proceed(newRequest);
@@ -95,9 +95,9 @@ public class ApiClient {
                 .build();
 
         OkHttpClient clientDirections = new OkHttpClient();
-        client.setReadTimeout(60, TimeUnit.SECONDS);
-        client.setConnectTimeout(60, TimeUnit.SECONDS);
-        client.setWriteTimeout(60, TimeUnit.SECONDS);
+        client.setReadTimeout(20, TimeUnit.SECONDS);
+        client.setConnectTimeout(20, TimeUnit.SECONDS);
+        client.setWriteTimeout(20, TimeUnit.SECONDS);
 
         retrofitGoogleDirections = new Retrofit.Builder()
                 .baseUrl("https://maps.googleapis.com/maps/api/")
@@ -140,6 +140,7 @@ public class ApiClient {
         for (MobileObservationEntity entity : mobileObservationEntities) {
             MobileObservationDTO dto = new MobileObservationDTO();
             dto.setObservation(entity.getObservation());
+            dto.setState(entity.getState());
             dto.setTypeMobileObservationId(entity.getTypeMobileObservation().getTypeMobileObservationId());
             dtoList.add(dto);
         }

@@ -15,6 +15,7 @@ public class MobileObservationEntity extends BaseEntity {
     private String observation;
     private Date dateTime;
     private Date date;
+    private Boolean state;
 
     public Integer getMobileObservationId() {
         return mobileObservationId;
@@ -70,5 +71,13 @@ public class MobileObservationEntity extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 }

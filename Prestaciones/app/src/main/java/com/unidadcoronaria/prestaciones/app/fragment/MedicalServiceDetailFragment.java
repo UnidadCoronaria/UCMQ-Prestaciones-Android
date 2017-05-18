@@ -181,10 +181,10 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         presenter.onResume();
-        if(mGoogleMap != null){
+        if (mGoogleMap != null) {
             presenter.getMedicalServiceResource(medicalServiceId);
         }
     }
@@ -219,7 +219,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         if(medicalService.getMedicalServiceCallReason() != null && medicalService.getMedicalServiceCallReason().size() > 0){
             String symptom = "";
             for (MedicalServiceCallReason medicalServiceCallReason: medicalService.getMedicalServiceCallReason()){
-                symptom = medicalServiceCallReason.getCallReasonMedicalService().getName()+", ";
+                symptom += medicalServiceCallReason.getCallReasonMedicalService().getName()+", ";
             }
             symptom = symptom.substring(0,symptom.length() - 2);
             vSymptom.setText(symptom);
@@ -290,7 +290,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         if (mGoogleMap != null) {
-           presenter.getMedicalServiceResource(medicalServiceId);
+            presenter.getMedicalServiceResource(medicalServiceId);
         }
     }
 
@@ -329,11 +329,20 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
     @Override
     public void displayError(String message) {
-        vErrorContainer.setVisibility(View.VISIBLE);
-        vContainer.setVisibility(View.GONE);
-        vSheet.setVisibility(View.GONE);
+        if(getActivity().getIntent().getSerializableExtra(Constants.MEDICAL_SERVICE_OBJECT_KEY) != null){
+            medicalService = (MedicalServiceResource) getActivity().getIntent().getSerializableExtra(Constants.MEDICAL_SERVICE_OBJECT_KEY);
+        }
+        if(medicalService != null){
+            initView();
+            drawMap();
+        } else {
+            vErrorContainer.setVisibility(View.VISIBLE);
+            vContainer.setVisibility(View.GONE);
+            vSheet.setVisibility(View.GONE);
+        }
         swipeContainer.setRefreshing(false);
         swipeContainer.setVisibility(View.VISIBLE);
+
     }
 
     @Override

@@ -26,6 +26,7 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
     BottomNavigationView vNavigationView;
 
     private MainNavPresenter presenter;
+    private int currentTab;
 
     //region BaseActivity implementation
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +40,23 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.nav_medical_services:
-                                openMedicalServices();
-                                return true;
-                            case R.id.nav_start_watch:
-                                presenter.openInitWatch();
-                                return true;
-                            case R.id.nav_messages:
-                                presenter.openMessages();
-                                return true;
-                            default:
-                                return false;
+                        if(currentTab != item.getItemId()) {
+                            currentTab = item.getItemId();
+                            switch (item.getItemId()) {
+                                case R.id.nav_medical_services:
+                                    openMedicalServices();
+                                    return true;
+                                case R.id.nav_start_watch:
+                                    openGuardScreen();
+                                    return true;
+                                case R.id.nav_messages:
+                                    openMessagesScreen();
+                                    return true;
+                                default:
+                                    return false;
+                            }
                         }
+                        return false;
                     }
                 });
     }
@@ -69,7 +74,16 @@ public abstract class BaseNavActivity extends BaseActivity implements MainDrawer
 
 
     public void openMedicalServices(){
+        currentTab = R.id.nav_medical_services;
         presenter.openMedicalServices();
+    }
+
+    public void openMessagesScreen(){
+        presenter.openMessages();
+    }
+
+    public void openGuardScreen(){
+        presenter.openInitWatch();
     }
 
     @Override

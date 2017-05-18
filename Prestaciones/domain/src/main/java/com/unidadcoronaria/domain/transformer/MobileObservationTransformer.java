@@ -25,6 +25,7 @@ public class MobileObservationTransformer implements Transformer<MobileObservati
         mobileObservation.setObservation(object.getObservation());
         mobileObservation.setDate(object.getDate());
         mobileObservation.setDateTime(object.getDateTime());
+        mobileObservation.setState(object.getState());
         if(object.getMobile() != null) {
             mobileObservation.setMobile(mobileTransformer.transform(object.getMobile()));
         }
@@ -53,6 +54,7 @@ public class MobileObservationTransformer implements Transformer<MobileObservati
         mobileObservation.setObservation(object.getObservation());
         mobileObservation.setDate(object.getDate());
         mobileObservation.setDateTime(object.getDateTime());
+        mobileObservation.setState(object.getState());
         if(object.getMobile() != null) {
             mobileObservation.setMobile(mobileTransformer.transformToEntity(object.getMobile()));
         }

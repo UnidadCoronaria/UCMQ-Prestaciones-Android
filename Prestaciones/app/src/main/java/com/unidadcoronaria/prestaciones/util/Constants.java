@@ -6,5 +6,7 @@ package com.unidadcoronaria.prestaciones.util;
 
 public class Constants {
 
+    public static final String NOTIFICATION_TYPE = "notification_type";
     public static final String MEDICAL_SERVICE_KEY = "medicalServiceId";
+    public static final String MEDICAL_SERVICE_OBJECT_KEY = "medicalService";
 }

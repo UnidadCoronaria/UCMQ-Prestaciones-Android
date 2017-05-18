@@ -11,4 +11,6 @@ import java.util.List;
 public interface MainView extends View {
 
     void onProviderListRetrieved(List<Provider> providerList);
+
+    void onProviderListErrorRetrieved();
 }

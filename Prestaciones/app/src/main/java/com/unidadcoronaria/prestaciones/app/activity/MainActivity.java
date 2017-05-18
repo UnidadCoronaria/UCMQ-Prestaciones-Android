@@ -24,6 +24,7 @@ import com.unidadcoronaria.prestaciones.app.activity.event.OnUserChange;
 import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
 import com.unidadcoronaria.prestaciones.app.fragment.MedicalServiceListFragment;
 import com.unidadcoronaria.prestaciones.app.presenter.MainPresenter;
+import com.unidadcoronaria.prestaciones.util.Constants;
 import com.unidadcoronaria.prestaciones.util.SessionHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,17 +39,40 @@ public class MainActivity extends BaseNavActivity implements MainView {
     private MainPresenter presenter;
     private AppCompatSpinner spinner;
     private List<Provider> providerList = new ArrayList<>();
+    private String notificationType;
+    private MedicalServiceListFragment fragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         presenter = new MainPresenter(this, this);
+        notificationType = getActivity().getIntent().getStringExtra(Constants.NOTIFICATION_TYPE);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle){
+        super.onSaveInstanceState(bundle);
+        if(fragment.isAdded()) {
+            getSupportFragmentManager().putFragment(bundle, "myfragment", fragment);
+        }
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle bundle){
+        super.onRestoreInstanceState(bundle);
+        fragment = (MedicalServiceListFragment) getSupportFragmentManager().getFragment(bundle,"myfragment");
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_base_fragment, fragment).commit();
     }
 
     @Override
     public void onResume(){
         super.onResume();
         presenter.onResume();
+        if(notificationType != null){
+            openMessagesScreen();
+            notificationType = null;
+        }
     }
 
 
@@ -60,7 +84,8 @@ public class MainActivity extends BaseNavActivity implements MainView {
 
     @Override
     protected BaseFragment getFragment() {
-        return  MedicalServiceListFragment.newInstance();
+        fragment = (MedicalServiceListFragment) MedicalServiceListFragment.newInstance();
+        return fragment;
     }
 
 
@@ -177,8 +202,11 @@ public class MainActivity extends BaseNavActivity implements MainView {
             changeUser(false);
             Log.i("MainActivity", "Usuario invalido");
         }
+    }
 
-
+    @Override
+    public void onProviderListErrorRetrieved() {
+        Log.e("MainActivity", "Error gettings provider list");
     }
 }
 
