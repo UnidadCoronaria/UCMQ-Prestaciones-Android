@@ -18,11 +18,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.unidadcoronaria.prestaciones.BuildConfig;
 import com.unidadcoronaria.prestaciones.R;
 import com.unidadcoronaria.prestaciones.app.fragment.BaseFragment;
+import com.unidadcoronaria.prestaciones.data.network.ApiClient;
 import com.unidadcoronaria.prestaciones.util.LocationHelper;
 import com.unidadcoronaria.prestaciones.util.location.LocationService;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,12 +48,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     Toolbar vToolbar;
     private LocationService mLocationService;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     //region Lifecycle implementation
     @Override
     @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         ButterKnife.bind(this);
         configureToolbar(savedInstanceState);
         if (savedInstanceState == null && getFragment() != null) {
@@ -66,6 +77,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
         if(locationEnabled()) {
             mLocationService.onResume();
         }
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -74,6 +88,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
         if(locationEnabled()) {
             mLocationService.onPause();
         }
+        if(EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Subscribe
+    public void onConnectionError(ApiClient.ConnectionError connectionError) throws  Exception{
+        if(!BuildConfig.DEBUG) {
+            Bundle bundle = new Bundle();
+            bundle.putString("IMEI", ApiClient.IMEI);
+            mFirebaseAnalytics.logEvent("Connection_Error", bundle);
+           // Crashlytics.logException(new Exception("ConnectionError"));
+        }
+        //Toast.makeText(this, "Hubo un error en la configuración, por favor vuelva a iniciar la aplicación", Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -2,9 +2,10 @@ package com.unidadcoronaria.prestaciones.data.network.rest;
 
 import com.unidadcoronaria.prestaciones.data.entity.directions.RouteResponseEntity;
 
-import retrofit.Call;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
 
 /**
  * @author Agustin.Bala

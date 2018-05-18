@@ -151,12 +151,13 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 // React to state change
-                if(newState == BottomSheetBehavior.STATE_EXPANDED){
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     vArrow.setImageResource(R.drawable.ic_arrow_down);
                 } else {
                     vArrow.setImageResource(R.drawable.ic_arrow_up);
                 }
             }
+
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 // React to dragging events
@@ -190,7 +191,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         presenter.onPause();
     }
@@ -202,56 +203,57 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
 
     private void initView() {
-        vSheet.setVisibility(View.VISIBLE);
-        vErrorContainer.setVisibility(View.GONE);
-        vContainer.setVisibility(View.VISIBLE);
-        swipeContainer.setVisibility(View.GONE);
-        vNumber.setText(medicalService.getMedicalService().getNumber().toString());
-        vInfo.setText(getString(R.string.medical_service_detail_info, medicalService.getMedicalService().getSex(), medicalService.getMedicalService().getAge()));
-        vName.setText(medicalService.getMedicalService().getName());
-        vPlan.setText(medicalService.getPlanName());
-        if(medicalService.getMedicalService().getNote() != null && !medicalService.getMedicalService().getNote().isEmpty()) {
-            vNote.setText(medicalService.getMedicalService().getNote());
-            vNoteContainer.setVisibility(View.VISIBLE);
-        } else {
-            vNoteContainer.setVisibility(View.GONE);
-        }
-        if(medicalService.getMedicalServiceCallReason() != null && medicalService.getMedicalServiceCallReason().size() > 0){
-            String symptom = "";
-            for (MedicalServiceCallReason medicalServiceCallReason: medicalService.getMedicalServiceCallReason()){
-                symptom += medicalServiceCallReason.getCallReasonMedicalService().getName()+", ";
+        try {
+            vSheet.setVisibility(View.VISIBLE);
+            vErrorContainer.setVisibility(View.GONE);
+            vContainer.setVisibility(View.VISIBLE);
+            swipeContainer.setVisibility(View.GONE);
+            vNumber.setText(medicalService.getMedicalService().getNumber().toString());
+            vInfo.setText(getString(R.string.medical_service_detail_info, medicalService.getMedicalService().getSex(), medicalService.getMedicalService().getAge()));
+            vName.setText(medicalService.getMedicalService().getName());
+            vPlan.setText(medicalService.getPlanName());
+            if (medicalService.getMedicalService().getNote() != null && !medicalService.getMedicalService().getNote().isEmpty()) {
+                vNote.setText(medicalService.getMedicalService().getNote());
+                vNoteContainer.setVisibility(View.VISIBLE);
+            } else {
+                vNoteContainer.setVisibility(View.GONE);
             }
-            symptom = symptom.substring(0,symptom.length() - 2);
-            vSymptom.setText(symptom);
-            vSymptomContainer.setVisibility(View.VISIBLE);
-        } else {
-            vSymptomContainer.setVisibility(View.GONE);
-        }
-        vAddress.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet() + " " + medicalService.getMedicalService().getAddressMedicalService().getNumber()+" "+medicalService.getMedicalService().getAddressMedicalService().getInformation());
-        vAddress2.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet1()+ " y "+medicalService.getMedicalService().getAddressMedicalService().getStreet2() + " - "+ medicalService.getMedicalService().getAddressMedicalService().getTerritory().getName());
-        vObservations.setVisibility(View.GONE);
-        vColour.setText(medicalService.getMedicalService().getColour());
-        checkButtonsStatus();
-        if(!isAlreadyExpanded) {
-            isAlreadyExpanded = true;
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
-        vArrow.setImageResource(R.drawable.ic_arrow_up);
-        if(medicalService.getMedicalService().getCopayment() == 'T'){
-            vCopayment.setText(medicalService.getMedicalService().getCopaymentAmount().toString());
-        } else{
-            vCopayment.setText("0");
-        }
-        if(medicalService.getMedicalService().getInternmentProtocol() == 'T'){
-            vInternement.setText(getString(R.string.yes));
-        } else{
-            vInternement.setText(getString(R.string.no));
-        }
-        if(medicalService.getMedicalService().getEcgProtocol() == 'T'){
-            vECG.setText(getString(R.string.yes));
-        } else{
-            vECG.setText(getString(R.string.no));
-        }
+            if (medicalService.getMedicalServiceCallReason() != null && medicalService.getMedicalServiceCallReason().size() > 0) {
+                String symptom = "";
+                for (MedicalServiceCallReason medicalServiceCallReason : medicalService.getMedicalServiceCallReason()) {
+                    symptom += medicalServiceCallReason.getCallReasonMedicalService().getName() + ", ";
+                }
+                symptom = symptom.substring(0, symptom.length() - 2);
+                vSymptom.setText(symptom);
+                vSymptomContainer.setVisibility(View.VISIBLE);
+            } else {
+                vSymptomContainer.setVisibility(View.GONE);
+            }
+            vAddress.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet() + " " + medicalService.getMedicalService().getAddressMedicalService().getNumber() + " " + medicalService.getMedicalService().getAddressMedicalService().getInformation());
+            vAddress2.setText(medicalService.getMedicalService().getAddressMedicalService().getStreet1() + " y " + medicalService.getMedicalService().getAddressMedicalService().getStreet2() + " - " + medicalService.getMedicalService().getAddressMedicalService().getTerritory().getName());
+            vObservations.setVisibility(View.GONE);
+            vColour.setText(medicalService.getMedicalService().getColour());
+            checkButtonsStatus();
+            if (!isAlreadyExpanded) {
+                isAlreadyExpanded = true;
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+            vArrow.setImageResource(R.drawable.ic_arrow_up);
+            if (medicalService.getMedicalService().getCopayment() == 'T') {
+                vCopayment.setText(medicalService.getMedicalService().getCopaymentAmount().toString());
+            } else {
+                vCopayment.setText("0");
+            }
+            if (medicalService.getMedicalService().getInternmentProtocol() == 'T') {
+                vInternement.setText(getString(R.string.yes));
+            } else {
+                vInternement.setText(getString(R.string.no));
+            }
+            if (medicalService.getMedicalService().getEcgProtocol() == 'T') {
+                vECG.setText(getString(R.string.yes));
+            } else {
+                vECG.setText(getString(R.string.no));
+            }
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -260,16 +262,22 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
                     vArrow.setImageResource(R.drawable.ic_arrow_down);
                 }
             }, 3000);
+        } catch (Exception e) {
+            vErrorContainer.setVisibility(View.VISIBLE);
+            vContainer.setVisibility(View.GONE);
+            vSheet.setVisibility(View.GONE);
+        }
         swipeContainer.setRefreshing(false);
+
 
     }
 
     private void checkButtonsStatus() {
-        if(medicalService.getAuthorizedStates() != null && medicalService.getAuthorizedStates().size() > 0){
+        if (medicalService.getAuthorizedStates() != null && medicalService.getAuthorizedStates().size() > 0) {
             setFirstButtonClick(medicalService.getAuthorizedStates().get(0));
-            if( medicalService.getAuthorizedStates().size() > 1) {
+            if (medicalService.getAuthorizedStates().size() > 1) {
                 setSecondButtonClick(medicalService.getAuthorizedStates().get(1));
-                if(medicalService.getAuthorizedStates().size() > 2){
+                if (medicalService.getAuthorizedStates().size() > 2) {
                     vThirdButton.setVisibility(View.VISIBLE);
                     setThirdButtonClick(medicalService.getAuthorizedStates().get(2));
                 } else {
@@ -302,22 +310,22 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         drawMap();
     }
 
-    private void drawMap(){
+    private void drawMap() {
         origin = new LatLng(Double.parseDouble(LocationHelper.getLatitude()), Double.parseDouble(LocationHelper.getLongitude()));
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 14));
-        if(markerOrigin != null){
+        if (markerOrigin != null) {
             markerOrigin.remove();
         }
-        if(destination != null){
+        if (destination != null) {
             markerDestination.remove();
         }
-        if(!LocationHelper.getLatitude().isEmpty() && !LocationHelper.getLongitude().isEmpty()){
+        if (!LocationHelper.getLatitude().isEmpty() && !LocationHelper.getLongitude().isEmpty()) {
             markerOrigin = mGoogleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(Double.valueOf(LocationHelper.getLatitude()), Double.valueOf(LocationHelper.getLongitude()))));
         }
         destination = new LatLng(medicalService.getMedicalService().getAddressMedicalService().getLatitude(), medicalService.getMedicalService().getAddressMedicalService().getLongitude());
         markerDestination = mGoogleMap.addMarker(new MarkerOptions()
-                .title(medicalService.getMedicalService().getAddressMedicalService().getStreet() + " " + medicalService.getMedicalService().getAddressMedicalService().getNumber() + " - "+medicalService.getMedicalService().getAddressMedicalService().getTerritory().getName())
+                .title(medicalService.getMedicalService().getAddressMedicalService().getStreet() + " " + medicalService.getMedicalService().getAddressMedicalService().getNumber() + " - " + medicalService.getMedicalService().getAddressMedicalService().getTerritory().getName())
                 .position(destination));
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -329,10 +337,10 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
     @Override
     public void displayError(String message) {
-        if(getActivity().getIntent().getSerializableExtra(Constants.MEDICAL_SERVICE_OBJECT_KEY) != null){
+        if (getActivity().getIntent().getSerializableExtra(Constants.MEDICAL_SERVICE_OBJECT_KEY) != null) {
             medicalService = (MedicalServiceResource) getActivity().getIntent().getSerializableExtra(Constants.MEDICAL_SERVICE_OBJECT_KEY);
         }
-        if(medicalService != null){
+        if (medicalService != null) {
             initView();
             drawMap();
         } else {
@@ -357,7 +365,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
 
     @Override
     public void drawDirections(Route route) {
-        if(polyline != null){
+        if (polyline != null) {
             polyline.remove();
         }
         PolylineOptions rectOptions = new PolylineOptions().width(5).color(ContextCompat.getColor(getActivity(), R.color.colorPrimary)).geodesic(true);
@@ -379,8 +387,8 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     }
 
     @OnClick(R.id.fragment_medical_detail_arrow)
-    public void onArrowClick(View view){
-        if(behavior.getState()  == BottomSheetBehavior.STATE_EXPANDED){
+    public void onArrowClick(View view) {
+        if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             vArrow.setImageResource(R.drawable.ic_arrow_down);
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         } else {
@@ -395,7 +403,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         vSecondButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(state == 6) {
+                if (state == 6) {
                     startActivity(DiagnosticActivity.getStartIntent(getContext(), medicalService));
                 } else {
                     presenter.updateState(state, medicalService);
@@ -409,7 +417,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         vFirstButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(state == 6) {
+                if (state == 6) {
                     startActivity(DiagnosticActivity.getStartIntent(getContext(), medicalService));
                 } else {
                     presenter.updateState(state, medicalService);
@@ -423,7 +431,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
         vThirdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(state == 6) {
+                if (state == 6) {
                     startActivity(DiagnosticActivity.getStartIntent(getContext(), medicalService));
                 } else {
                     presenter.updateState(state, medicalService);

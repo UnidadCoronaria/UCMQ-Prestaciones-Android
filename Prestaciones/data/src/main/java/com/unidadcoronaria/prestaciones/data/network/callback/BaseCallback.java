@@ -1,8 +1,9 @@
 package com.unidadcoronaria.prestaciones.data.network.callback;
 
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * @author Agustin.Bala
@@ -23,8 +24,8 @@ public class BaseCallback<E> implements Callback<E> {
     //region Callback Implementation
     @SuppressWarnings("unchecked")
     @Override
-    public void onResponse(Response<E> response, Retrofit retrofit) {
-        if (response.isSuccess()) {
+    public void onResponse(Call<E> call, Response<E> response) {
+        if (response.isSuccessful()) {
             validateResponse(response);
         } else {
             // TODO parse error
@@ -33,7 +34,7 @@ public class BaseCallback<E> implements Callback<E> {
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call<E> call, Throwable t) {
         callBack.onFailure(t.getMessage());
     }
     //endregion

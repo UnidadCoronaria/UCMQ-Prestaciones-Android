@@ -79,8 +79,16 @@ public class SplashActivity extends BaseActivity {
 
 
     private void saveIMEI() {
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        ApiClient.IMEI = telephonyManager.getDeviceId().toString();
+        if(SharedPreferencesHelper.getString(App.getInstance(), "IMEI_VALUE").isEmpty()) {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            ApiClient.IMEI = telephonyManager.getDeviceId().toString();
+            if (ApiClient.IMEI != null) {
+
+                SharedPreferencesHelper.putString(App.getInstance(), "IMEI_VALUE", ApiClient.IMEI);
+            }
+        } else {
+            ApiClient.IMEI = SharedPreferencesHelper.getString(App.getInstance(), "IMEI_VALUE");
+        }
         SharedPreferencesHelper.putBoolean(App.getInstance(), "IMEI", true);
         if (SharedPreferencesHelper.getBoolean(App.getInstance(), "SPLASH_FINISH")) {
             SharedPreferencesHelper.putBoolean(App.getInstance(), "SPLASH_FINISH", false);

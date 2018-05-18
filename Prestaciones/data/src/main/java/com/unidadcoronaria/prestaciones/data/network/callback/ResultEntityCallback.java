@@ -1,7 +1,7 @@
 package com.unidadcoronaria.prestaciones.data.network.callback;
 
 
-import retrofit.Response;
+import retrofit2.Response;
 
 /**
  * @author Agustin.Bala

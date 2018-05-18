@@ -4,10 +4,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.unidadcoronaria.prestaciones.data.dto.CloseMedicalServiceResourceDTO;
 import com.unidadcoronaria.prestaciones.data.dto.DeviceMessageDTO;
 import com.unidadcoronaria.prestaciones.data.dto.MedicalServiceMedicamentDTO;
@@ -25,6 +21,7 @@ import com.unidadcoronaria.prestaciones.data.network.callback.BaseCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.EmptyResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.ResultEntityCallback;
 import com.unidadcoronaria.prestaciones.data.network.callback.SuccessFailureCallBack;
+import com.unidadcoronaria.prestaciones.data.network.callback.UpdateMedicalSerivceCallback;
 import com.unidadcoronaria.prestaciones.data.network.rest.DeviceMessageService;
 import com.unidadcoronaria.prestaciones.data.network.rest.DiagnosticService;
 import com.unidadcoronaria.prestaciones.data.network.rest.GuardService;
@@ -35,13 +32,20 @@ import com.unidadcoronaria.prestaciones.data.network.rest.MobileObservationServi
 import com.unidadcoronaria.prestaciones.data.network.rest.NotificationService;
 import com.unidadcoronaria.prestaciones.data.network.rest.ProviderService;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author Agustin.Bala
@@ -50,43 +54,47 @@ import retrofit.Retrofit;
 public class ApiClient {
 
     //region Properties
-    public static String IMEI;
+    public static String IMEI = "";
     private static final ApiClient INSTANCE = new ApiClient();
     //private static final String BASE_URL = "http://private-da46b-unidadcoronaria.apiary-mock.com";
-    private static final String BASE_URL = "http://pdc.ucmq.com:60628/api/";
+    private static final String BASE_URL = "http://ayudamedica.sygladns.com.ar:7777/";
+    //private static final String BASE_URL = "http://pdc.ucmq.com:60628/api/";
     private final Retrofit retrofit;
     private final Retrofit retrofitGoogleDirections;
     //endregion
 
     //region Constructor
     private ApiClient() {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-
-        OkHttpClient client = new OkHttpClient();
-        client.setReadTimeout(10, TimeUnit.SECONDS);
-        client.setConnectTimeout(10, TimeUnit.SECONDS);
-        client.setWriteTimeout(10, TimeUnit.SECONDS);
-        client.setRetryOnConnectionFailure(false);
-        client.networkInterceptors().add(new Interceptor() {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").setLenient().create();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(false)
+        .addNetworkInterceptor(new Interceptor() {
             @Override
-            public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
+            public Response intercept(Chain chain) throws IOException {
                 try {
                     Request newRequest = chain.request().newBuilder()
-                           //  .header("Authorization", "355482066473886")
-                              .header("Authorization", IMEI)
+                            //  .header("Authorization", "352584062478703")
+                            .header("Authorization", IMEI)
                             .build();
-                    Log.d("Request",newRequest.httpUrl().url().toString());
+                    Log.d("Request ",newRequest.url().toString());
                     final Response response = chain.proceed(newRequest);
-                    Log.d("Request response",newRequest.httpUrl().url().toString());
+                    Log.d("Request response ",newRequest.url().toString());
+                    if(newRequest.body() != null)
+                        Log.d("Request response Body",newRequest.body().toString());
+
                     return response;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     if (e.getMessage() != null) {
                         Log.e("Request Error", e.getMessage());
                     }
                     throw e;
                 }
             }
-        });
+        }).addInterceptor(interceptor).build();
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -94,16 +102,17 @@ public class ApiClient {
                 .client(client)
                 .build();
 
-        OkHttpClient clientDirections = new OkHttpClient();
-        client.setReadTimeout(20, TimeUnit.SECONDS);
-        client.setConnectTimeout(20, TimeUnit.SECONDS);
-        client.setWriteTimeout(20, TimeUnit.SECONDS);
-
+        OkHttpClient clientDirections =  new OkHttpClient.Builder().readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS).writeTimeout(20, TimeUnit.SECONDS).build();
         retrofitGoogleDirections = new Retrofit.Builder()
                 .baseUrl("https://maps.googleapis.com/maps/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(clientDirections)
                 .build();
+    }
+
+    public static class ConnectionError {
+
     }
     //endregion
 
@@ -161,7 +170,7 @@ public class ApiClient {
         medicalServiceResourceDTO.setState(state);
         medicalServiceResourceDTO.setLatitude(lat);
         medicalServiceResourceDTO.setLongitude(lng);
-        retrofit.create(MedicalServiceService.class).put(medicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
+        retrofit.create(MedicalServiceService.class).put(medicalServiceResourceDTO).enqueue(new UpdateMedicalSerivceCallback<MedicalServiceResourceEntity>(callback));
     }
 
     public void closeMedicalServiceResource(final SuccessFailureCallBack<MedicalServiceResourceEntity> callback, Integer medicalServiceId, List<MedicamentEntity> listMedicamentEntities, List<DiagnosticEntity> diagnosticEntities, Double lat, Double lng, char ecg, char copaymentPaid) {
@@ -188,7 +197,7 @@ public class ApiClient {
         closeMedicalServiceResourceDTO.setListDiagnosticId(diagnostics);
         closeMedicalServiceResourceDTO.setEcg(ecg);
         closeMedicalServiceResourceDTO.setCopaymentPaid(copaymentPaid);
-        retrofit.create(MedicalServiceService.class).close(closeMedicalServiceResourceDTO).enqueue(new ResultEntityCallback<MedicalServiceResourceEntity>(callback));
+        retrofit.create(MedicalServiceService.class).close(closeMedicalServiceResourceDTO).enqueue(new UpdateMedicalSerivceCallback<MedicalServiceResourceEntity>(callback));
     }
 
     //region Pending check
@@ -201,7 +210,10 @@ public class ApiClient {
     }
 
     public void getRoute(final SuccessFailureCallBack<RouteResponseEntity> callback, String origin, String destination) {
-        retrofitGoogleDirections.create(MapService.class).getRoute(origin, destination,"AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q", "metric").enqueue(new ResultEntityCallback<RouteResponseEntity>(callback));
+        //Coronaria
+        //retrofitGoogleDirections.create(MapService.class).getRoute(origin, destination,"AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q", "metric").enqueue(new ResultEntityCallback<RouteResponseEntity>(callback));
+        // Ayuda
+        retrofitGoogleDirections.create(MapService.class).getRoute(origin, destination,"AIzaSyAZCfodSDC_AvVy_lfCPgfdAT8yTTe1BLc", "metric").enqueue(new ResultEntityCallback<RouteResponseEntity>(callback));
     }
 
     public void getDiagnostic(final SuccessFailureCallBack<List<DiagnosticEntity>> callback) {

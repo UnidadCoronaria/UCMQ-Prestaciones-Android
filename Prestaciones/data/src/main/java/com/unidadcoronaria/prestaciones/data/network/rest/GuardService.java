@@ -6,11 +6,10 @@ import com.unidadcoronaria.prestaciones.data.entity.MobileObservationEntity;
 
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Path;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * @author Agustin.Bala

@@ -41,9 +41,9 @@ public class SplashPresenter extends BasePresenter<SplashView>{
                     total = 0;
                     SharedPreferencesHelper.putBoolean(App.getInstance(), "SPLASH_FINISH", true);
                     if(SharedPreferencesHelper.getBoolean(App.getInstance(), "IMEI")) {
-                       view.callNextActivity();
-                       SharedPreferencesHelper.putBoolean(App.getInstance(), "SPLASH_FINISH", false);
-                       SharedPreferencesHelper.putBoolean(App.getInstance(), "IMEI", false);
+                        SharedPreferencesHelper.putBoolean(App.getInstance(), "SPLASH_FINISH", false);
+                        SharedPreferencesHelper.putBoolean(App.getInstance(), "IMEI", false);
+                        view.callNextActivity();
                     }
                 }
             }.start();

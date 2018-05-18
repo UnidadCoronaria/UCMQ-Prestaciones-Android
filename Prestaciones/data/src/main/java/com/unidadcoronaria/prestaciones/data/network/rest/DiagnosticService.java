@@ -5,8 +5,8 @@ import com.unidadcoronaria.prestaciones.data.entity.MedicamentEntity;
 
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.http.GET;
+import retrofit2.Call;
+import retrofit2.http.GET;
 
 /**
  * @author Agustin.Bala
