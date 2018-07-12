@@ -399,6 +399,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     }
 
     public void setSecondButtonClick(final Integer state) {
+        vSecondButton.setVisibility(View.VISIBLE);
         vSecondButton.setText(MedicalServiceStatusHelper.getStatusName(state));
         vSecondButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -413,6 +414,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     }
 
     public void setFirstButtonClick(final Integer state) {
+        vFirstButton.setVisibility(View.VISIBLE);
         vFirstButton.setText(MedicalServiceStatusHelper.getStatusName(state));
         vFirstButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -427,6 +429,7 @@ public class MedicalServiceDetailFragment extends BaseFragment implements OnMapR
     }
 
     private void setThirdButtonClick(final Integer state) {
+        vThirdButton.setVisibility(View.VISIBLE);
         vThirdButton.setText(MedicalServiceStatusHelper.getStatusName(state));
         vThirdButton.setOnClickListener(new View.OnClickListener() {
             @Override

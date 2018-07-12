@@ -42,7 +42,7 @@ import butterknife.OnClick;
 
 /**
  * @author Agustin.Bala
- * @since  0.0.1
+ * @since 0.0.1
  */
 public class DiagnosticFragment extends BaseFragment implements DiagnosticView {
 
@@ -115,7 +115,7 @@ public class DiagnosticFragment extends BaseFragment implements DiagnosticView {
     @Override
     public void onListDiagnosticRetrieved(List<Diagnostic> diagnostics) {
         final ArrayAdapter<Diagnostic> filterAdapter = new DiagnosticFilterAdapter
-                (getContext(),android.R.layout.select_dialog_item, diagnostics);
+                (getContext(), android.R.layout.select_dialog_item, diagnostics);
         vSupplyAutocomplete.setThreshold(3);
         vSupplyAutocomplete.setAdapter(filterAdapter);
         vSupplyAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -145,7 +145,7 @@ public class DiagnosticFragment extends BaseFragment implements DiagnosticView {
 
     @Override
     public void displayError(String message) {
-       // Nothing to do
+        // Nothing to do
         swipeContainer.setRefreshing(false);
     }
 
@@ -160,13 +160,18 @@ public class DiagnosticFragment extends BaseFragment implements DiagnosticView {
     }
 
     @OnClick(R.id.fragment_diagnostic_accept_button)
-    protected void onAcceptButtonClick(View view){
-        startActivity(MedicamentActivity.getStartIntent(getContext(), medicalService, new ArrayList<>(adapter.getList())));
-        getActivity().finish();
+    protected void onAcceptButtonClick(View view) {
+        if (adapter.getList().isEmpty()) {
+            Toast.makeText(getActivity(), "Por favor, seleccione al menos un diagnostico.", Toast.LENGTH_LONG).show();
+        } else {
+            startActivity(MedicamentActivity.getStartIntent(getContext(), medicalService, new ArrayList<>(adapter.getList())));
+            getActivity().finish();
+
+        }
     }
 
     @OnClick(R.id.fragment_diagnostic_cancel_button)
-    protected void onCancelButtonClick(View view){
+    protected void onCancelButtonClick(View view) {
         getActivity().finish();
     }
 

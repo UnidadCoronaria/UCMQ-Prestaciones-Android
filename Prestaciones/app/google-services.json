@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "732185548513",
-    "firebase_url": "https://ucmq-prestaciones.firebaseio.com",
-    "project_id": "ucmq-prestaciones",
-    "storage_bucket": "ucmq-prestaciones.appspot.com"
+    "project_number": "165282710899",
+    "firebase_url": "https://gpsappayuda.firebaseio.com",
+    "project_id": "gpsappayuda",
+    "storage_bucket": "gpsappayuda.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:732185548513:android:923d7e886826a6cb",
+        "mobilesdk_app_id": "1:165282710899:android:ee0232de0c682338",
         "android_client_info": {
           "package_name": "com.unidadcoronaria.prestaciones"
         }
       },
       "oauth_client": [
         {
-          "client_id": "732185548513-7bjnftp329pjd8ckur0ei0q3avj2ernp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.unidadcoronaria.prestaciones",
-            "certificate_hash": "4ACC0A32FC07EC27128BC6B1CA0F0BFE9BABD989"
-          }
-        },
-        {
-          "client_id": "732185548513-t5kag5ivea4aihvdhrf5dv3u72cef9j9.apps.googleusercontent.com",
+          "client_id": "165282710899-26ummtdcsb28hb8jtnpev6b2hanrkvcv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCWMv2vGwkkv85_6ZnrBdHloaUBBpats0Q"
+          "current_key": "AIzaSyBpWP2h30mBUSlnsJ-1r-aBTlBToiKqGsc"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "732185548513-t5kag5ivea4aihvdhrf5dv3u72cef9j9.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
